@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+:root {
+  /* --main-color: #7AC751; */
+  --main-color: #7600c4;
+  --box-shd: 3px 3px 5px #dedede, -3px -3px 5px #dedede, -3px 3px 5px #dedede, 3px -3px 5px #dedede;
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+  background-color: #faebd7;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(10deg, #7600c4, #480079);
+  border-radius: 10px;
+  border: 3px solid #faebd7;
+}
