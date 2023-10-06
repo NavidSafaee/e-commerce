@@ -3,7 +3,6 @@ const Product = require('../models/productModel');
 
 async function getCart(userId) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
-
     if (!cart) {
         const error = new Error('Cart not found!');
         error.statusCode = 404;
@@ -46,6 +45,7 @@ async function addToCart(userId, productId) {
         }
     }
     await cart.save();
+    return cart;
 }
 
 

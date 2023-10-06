@@ -10,7 +10,7 @@ const signupValidator = [
     body('email', 'Please enter a valid email')
         .isEmail()
         .normalizeEmail()
-        .custom(async (value, { req }) => {
+        .custom(async (value) => {
             const user = await User.findOne({ email: value });
             if (user) {
                 throw new Error('User with this email already exists');
@@ -21,6 +21,24 @@ const signupValidator = [
     body('password', 'The password must be at least 5 characters')
         .trim()
         .isLength({ min: 5 }),
+
+    body('phoneNumber', 'Please enter a valid phone number')
+        .isMobilePhone()
+        .isLength({ min: 11, max: 11 })
+        .custom((value) => {
+            if (!value.startsWith('09')) {
+                throw new Error('phone number should start with 09')
+            }
+            return true;
+        }),
+
+    body('confirmPassword')
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Passwords have to match');
+            }
+            return true; 
+        })
 ];
 
 

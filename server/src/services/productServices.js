@@ -15,17 +15,17 @@ async function getAllProducts(query) {
         products = await Product.find().skip((currentPage - 1) * limit).limit(limit);
     }
 
-    if (!products) {
-        throw new Error();
-    }
     const totalItems = await Product.find().countDocuments();
-
 
     return {
         products,
         lastPage: Math.ceil(totalItems / limit),
         totalItems
     }
+}
+
+async function getProduct(productId) {
+    return await Product.findById(productId);
 }
 
 // will be removed
@@ -43,7 +43,6 @@ async function createProduct(reqBody) {
     if (discount) {
         date = new Date();
         date.setDate(date.getDate() + 190);
-
     }
     
     const product = new Product({
@@ -60,6 +59,7 @@ async function createProduct(reqBody) {
     calcDiscountedPrice(product);
 
     await product.save();
+    return product;
 }
 
 function calcDiscountedPrice(product) {
@@ -71,5 +71,6 @@ function calcDiscountedPrice(product) {
 
 module.exports = {
     getAllProducts,
+    getProduct,
     createProduct
 }

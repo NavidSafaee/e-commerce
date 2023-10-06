@@ -14,10 +14,14 @@ async function httpGetCart(req, res, next) {
 
 async function httpAddToCart(req, res, next) {
     try {
-        await addToCart(req.userId, req.body.productId);
-        res.status(200).json({
-            message: 'added to cart successfully'
-        });
+        const productId = req.body.productId;
+        if (!productId) {
+            const error = new Error('product id must be provided');
+            error.statusCode = 400;
+            throw error;
+        }
+        const response = await addToCart(req.userId, productId);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }

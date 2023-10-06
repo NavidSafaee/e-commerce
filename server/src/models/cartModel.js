@@ -4,7 +4,7 @@ const cartSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true  
+        required: true
     },
     items: [
         {
@@ -15,7 +15,7 @@ const cartSchema = new Schema({
             },
             quantity: {
                 type: Number,
-                  required: true
+                required: true
             }
         }
     ],

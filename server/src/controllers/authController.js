@@ -9,8 +9,8 @@ async function httpSignup(req, res, next) {
     try {
         validationCheck(req);
 
-        await signup(req.body);
-        res.status(201).json({ message: 'user created successfully' });
+        const response = await signup(req.body);
+        res.status(201).json(response);
     } catch (error) {
         next(error);
     }

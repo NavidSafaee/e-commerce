@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
+const createJWT = require('../utils/jwt');
 const User = require('../models/userModel');
 
 async function signup(reqBody) {
     const {
         username,
         email,
+        phoneNumber,
         password
     } = reqBody;
 
@@ -14,10 +15,12 @@ async function signup(reqBody) {
     const user = new User({
         username,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        phoneNumber
     });
 
     await user.save();
+    return {username, email, phoneNumber};
 }
 
 async function login(reqBody) {
@@ -31,11 +34,7 @@ async function login(reqBody) {
     if (user) {
         const doMatch = await bcrypt.compare(password, user.password);
         if (doMatch) {
-            const token = jwt.sign(
-                { userId: user._id.toString(), email: user.email },
-                process.env.JWT_SECRET,
-                { expiresIn: '2h' }
-            )
+            const token = createJWT(user);
             return {
                 token
             }

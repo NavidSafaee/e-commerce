@@ -2,15 +2,17 @@ const express = require('express');
 
 const {
     httpGetAllProducts,
-    httpCreateProduct
+    httpCreateProduct,
+    httpGetProduct
 } = require('../controllers/productController');
 
 const router = express.Router();
 
-router.get('/products', httpGetAllProducts);
+router.get('/', httpGetAllProducts);
+router.get('/:productId', httpGetProduct);
 
-// api test
-router.post('/product', httpCreateProduct);
+// will be removed
+router.post('/', httpCreateProduct);
 
 
 module.exports = router;
