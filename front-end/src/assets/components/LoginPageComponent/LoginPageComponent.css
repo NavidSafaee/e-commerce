@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
-.login-signup-page-container
+.login-page-container
 {
   position: absolute;
   width: 100vw;
@@ -12,7 +12,7 @@
   flex-wrap: wrap;
   overflow: hidden;
 }
-.login-signup-page-container::before 
+.login-page-container::before 
 {
   content: '';
   position: absolute;
@@ -32,7 +32,7 @@
     transform: translateY(100%);
   }
 }
-.login-signup-page-container .bg-square 
+.login-page-container .bg-square 
 {
   position: relative;
   display: block;
@@ -43,13 +43,13 @@
   border-radius: 5px;
   transition: 1.5s;
 }
-.login-signup-page-container .bg-square:hover 
+.login-page-container .bg-square:hover 
 {
   background: var(--main-color);
   transition: 0s;
 }
 
-.login-signup-page-container .login
+.login-page-container .login
 {
   position: absolute;
   width: 400px;
@@ -64,10 +64,10 @@
   border-radius: 4px;
   box-shadow: 0 15px 35px rgba(0,0,0,.9);
 }
-.login-signup-page-container .login img {
+.login-page-container .login img {
     transform: scale(1.3);
 }
-.login-signup-page-container .login .content 
+.login-page-container .login .content 
 {
   position: relative;
   width: 100%;
@@ -77,7 +77,7 @@
   flex-direction: column;
   gap: 40px;
 }
-.login-signup-page-container .login .content h2 
+.login-page-container .login .content .form-title 
 {
   font-size: 2em;
   color: #0f0;
@@ -85,19 +85,19 @@
   letter-spacing: 3px;
   text-transform: uppercase;
 }
-.login-signup-page-container .login .content .form 
+.login-page-container .login .content .form 
 {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
-.login-signup-page-container .login .content .form .inputBox
+.login-page-container .login .content .form .inputBox
 {
   position: relative;
   width: 100%;
 }
-.login-signup-page-container .login .content .form .inputBox input 
+.login-page-container .login .content .form .inputBox input 
 {
   position: relative;
   width: 100%;
@@ -110,10 +110,13 @@
   font-weight: 500;
   font-size: 1em;
 }
-.login-signup-page-container .login .content .form .inputBox input:focus {
+.login-page-container .login .content .form .inputBox input:focus {
     background-color: #2b15a4;
 }
-.login-signup-page-container .login .content .form .inputBox i 
+.login-page-container .login .content .form .inputBox input[type="submit"]:focus {
+  background-color: #0f0;
+}
+.login-page-container .login .content .form .inputBox i 
 {
   position: absolute;
   left: 0;
@@ -163,7 +166,7 @@ input[type="submit"]:active
 }
 @media (max-width: 900px)
 {
-  .login-signup-page-container .bg-square 
+  .login-page-container .bg-square 
   {
     width: calc(10vw - 2px);
     height: calc(10vw - 2px);
@@ -171,7 +174,7 @@ input[type="submit"]:active
 }
 @media (max-width: 600px)
 {
-  .login-signup-page-container .bg-square 
+  .login-page-container .bg-square 
   {
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);

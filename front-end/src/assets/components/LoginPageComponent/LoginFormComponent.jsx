@@ -1,4 +1,5 @@
-import "./LoginPageSection.css"
+import { Link } from "react-router-dom"
+import "./LoginPageComponent.css"
 
 function LoginPageComponent() {
 
@@ -6,20 +7,19 @@ function LoginPageComponent() {
 
     return (
         <>
-            <section className="login-signup-page-container">
+            <section className="login-page-container">
 
                 {
                     squaresArray.map((sq, i) => (
                         <span key={i} className="bg-square"></span>
                     ))
                 }
-
                 <div className="login">
 
                     <img src="./../../../../public/general_images/logo.png" alt="" />
                     <div className="content">
 
-                        <h2>Login</h2>
+                        <h2 className="form-title">Login</h2>
 
                         <div className="form">
 
@@ -35,7 +35,7 @@ function LoginPageComponent() {
 
                             </div>
 
-                            <div className="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>
+                            <div className="links"> <a href="#">Forgot Password</a> <Link to={"/sign-up"}>Signup</Link>
 
                             </div>
 
