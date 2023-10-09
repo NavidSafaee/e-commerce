@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 
 const productRoutes = require('./routes/productRoutes');
@@ -11,7 +12,11 @@ const { errorHandler } = require('./controllers/errorController');
 const app = express();
 
 
-
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: 'GET, POST, PUT, DELETE, PATCH',
+    allowedHeaders: 'Content-type, Authorization'
+}));
 app.use(express.json());
 
 app.use('/users', userRoutes);

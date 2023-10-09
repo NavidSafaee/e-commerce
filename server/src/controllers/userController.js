@@ -9,7 +9,6 @@ async function httpGetUser(req, res, next) {
     }
 }
 
-
 module.exports = {
     httpGetUser
 }
