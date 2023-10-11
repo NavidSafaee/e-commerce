@@ -1,8 +1,8 @@
 const User = require('../models/userModel');
 
 async function getUser(userId) {
-    const user = await User.findById(userId);
-    return user;
+    let user = await User.findById(userId);
+    return user.toJSON();
 }
 
 

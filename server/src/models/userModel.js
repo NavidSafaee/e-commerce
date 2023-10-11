@@ -19,4 +19,10 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.methods.toJSON = function () {
+    var userObj = this.toObject();
+    delete userObj.password;
+    return userObj;
+}
+
 module.exports = model('User', userSchema);
