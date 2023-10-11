@@ -18,9 +18,9 @@ async function signup(reqBody) {
         password: hashedPassword,
         phoneNumber
     });
-
     await user.save();
-    return {username, email, phoneNumber};
+    
+    return user.toJSON();
 }
 
 async function login(reqBody) {
