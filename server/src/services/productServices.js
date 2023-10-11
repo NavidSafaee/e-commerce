@@ -24,8 +24,15 @@ async function getAllProducts(query) {
     }
 }
 
-async function getProduct(productId) {
-    return await Product.findById(productId);
+async function getProductById(productId) {
+    const product = await Product.findById(productId);
+    if (!product) {
+        const error = new Error('Product Not Found');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    return product;
 }
 
 // will be removed
@@ -71,6 +78,6 @@ function calcDiscountedPrice(product) {
 
 module.exports = {
     getAllProducts,
-    getProduct,
+    getProductById,
     createProduct
 }

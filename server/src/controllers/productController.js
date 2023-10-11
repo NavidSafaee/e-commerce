@@ -1,6 +1,6 @@
 const { 
     getAllProducts,
-    getProduct,
+    getProductById,
     createProduct
  } = require('../services/productServices');
 
@@ -15,15 +15,10 @@ async function httpGetAllProducts(req, res, next) {
     }
 }
 
-async function httpGetProduct(req, res, next) {
+async function httpGetProductById(req, res, next) {
     try {
         const productId = req.params.productId;
-        const response = await getProduct(productId);
-        if (!response) {
-            const error = new Error('Product Not Found');
-            error.statusCode = 404;
-            throw error;
-        }
+        const response = await getProductById(productId);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -40,5 +35,5 @@ async function httpCreateProduct(req, res, next) {
 module.exports = {
     httpGetAllProducts,
     httpCreateProduct,
-    httpGetProduct
+    httpGetProductById
 }
