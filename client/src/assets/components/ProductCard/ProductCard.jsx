@@ -3,9 +3,10 @@ import { LuStar } from 'react-icons/lu'
 import { FiEye } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { BsCartPlus } from 'react-icons/bs'
+import baseURL from '../../baseURL'
 
 // eslint-disable-next-line react/prop-types
-function ProductCard({ title, img, rate, category, old_price, current_price, status }) {
+function ProductCard({ title, img, rate, category, status, discount, price, newPrice }) {
   let coloredStars = Array.from(Array(rate).keys())
   let greyStars = Array.from(Array(5 - rate).keys())
 
@@ -18,7 +19,7 @@ function ProductCard({ title, img, rate, category, old_price, current_price, sta
         (status === "Sale") && <span className='status sale'>Sale</span>
       }
       <div className="img-wrapper">
-        <img src={`../../../../public/general_images/trends/${img}`} alt="img" />
+        <img src={`${baseURL}/public/${img}`} alt="img" />
         <div className="icon-wrapper"><AiOutlineHeart className='action-icon heart-icon' /></div>
         <div className="icon-wrapper"><FiEye className='action-icon eye-icon' /></div>
         <div className="icon-wrapper"><BsCartPlus className='action-icon cart-icon' /></div>
@@ -31,8 +32,8 @@ function ProductCard({ title, img, rate, category, old_price, current_price, sta
       </div>
       <div className="end-row">
         <div className="price-part">
-          <span className='current-price'>${current_price}</span>
-          <span className="old-price">${old_price}</span>
+          <span className='current-price'>${(newPrice !== undefined) ? newPrice : price}</span>
+          {discount !== undefined && <span className="old-price">${price}</span>}
         </div>
         {rate !== null && <div className="rate-box">
           {
