@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
-app.use(authRoutes);
+app.use('/auth', authRoutes);
 app.use(errorHandler);
 
 // static serve
