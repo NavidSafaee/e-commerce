@@ -1,14 +1,23 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./ProductsSection.scss"
-import productsList from "./ProductsList.json"
+// import productsList from "./ProductsList.json"
 import ProductCard from "../ProductCard/ProductCard"
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi'
 
 function ProductsSection() {
     const [focusItem, setFocusItem] = useState("All Products")
     const [pageNum, setPageNum] = useState(1)
+    const [allProducts, setAllProducts] = useState([])
 
     const filterItems = ["All Products", "Best Sellers", "New Arrivals", "Todays Deals"]
+
+    useEffect(() => {
+        fetch("http://localhost:8080/products", {
+            method: "GET"
+        })
+            .then(res => res.json())
+            .then(data => { setAllProducts(data.products) })
+    }, [])
 
     return (
         <section className="products-section">
@@ -28,23 +37,24 @@ function ProductsSection() {
             </div>
             <div className="products-container">
                 {
-                    productsList.products.map(pro => (
+                    allProducts?.map(item => (
                         <ProductCard
-                            key={pro.id}
-                            title={pro.title}
-                            category={pro.category}
-                            rate={pro.rate}
-                            img={pro.imgFileName}
-                            old_price={pro.old_price}
-                            current_price={pro.current_price}
-                            status={pro.status}
+                            key={item._id}
+                            title={item.title}
+                            category={item.category}
+                            rate={item.rate}
+                            price={item.price}
+                            newPrice={item.newPrice}
+                            status={item.status}
+                            img={item.imageUrl}
+                            discount={item.discount}
                         />
                     ))
                 }
             </div>
             <div className="pagination-wrapper">
                 <div className="pagination-box">
-                    <span className="pagination-btn prev-btn" onClick={() => setPageNum(pre => pre = pre-1)}><BiSolidLeftArrow /></span>
+                    <span className="pagination-btn prev-btn" onClick={() => setPageNum(pre => pre = pre - 1)}><BiSolidLeftArrow /></span>
                     <div className="pages-numbers">
                         <span className={`number ${(pageNum == 1) && "current-page"}`} onClick={() => setPageNum(1)}>1</span>
                         <span className={`number ${(pageNum == 2) && "current-page"}`} onClick={() => setPageNum(2)}>2</span>
@@ -52,7 +62,7 @@ function ProductsSection() {
                         <span className={`number ${(pageNum == 4) && "current-page"}`} onClick={() => setPageNum(4)}>4</span>
                         <span className={`number ${(pageNum == 5) && "current-page"}`} onClick={() => setPageNum(5)}>5</span>
                     </div>
-                    <span className="pagination-btn next-btn" onClick={() => setPageNum(pre => pre = pre+1)}><BiSolidRightArrow /></span>
+                    <span className="pagination-btn next-btn" onClick={() => setPageNum(pre => pre = pre + 1)}><BiSolidRightArrow /></span>
                 </div>
             </div>
         </section>

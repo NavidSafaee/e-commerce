@@ -1,3 +1,4 @@
+import ConsultationPage from "./pages/ConsultationPage"
 import LoginPage from "./pages/LoginPage"
 import MainPage from "./pages/MainPage"
 import NotFoundPage from "./pages/NotFoundPage"
@@ -9,6 +10,7 @@ const routes = [
     {path: "/login", element: <LoginPage />},
     {path: "/sign-up", element: <SignupPage />},
     {path: "/products/:productID", element: <ProductPage />},
+    {path: "/consultation", element: <ConsultationPage />},
     {path: "*", element: <NotFoundPage />}
 ]
 

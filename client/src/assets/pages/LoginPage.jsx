@@ -11,7 +11,6 @@ function LoginPage() {
     setTimeout(() => {
       setIsLoaded(true)
     }, 3000)
-    console.log("Login page")
   }, [])
 
   return (
