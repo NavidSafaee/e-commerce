@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import ProductPageComponent from "../ProductPageComponent/ProductPageComponent"
+import ProductPageComponent from "../components/ProductPageComponent/ProductPageComponent"
 import Footer from "../components/Footer/Footer"
 import Navbar from "../components/Navbar/Navbar"
 import TopBar from "../components/TopBar/TopBar"
@@ -11,8 +11,7 @@ function ProductPage() {
     
     const [isLoaded, setIsLoaded] = useState(false)
 
-    // const parameter = useParams()
-    // const productId = parameter.productID
+    // const {productID} = useParams()
 
     useEffect(() => {
         setTimeout(() => {
