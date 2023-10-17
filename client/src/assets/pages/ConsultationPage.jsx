@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar/Navbar"
 import TopBar from "../components/TopBar/TopBar"
 import TopStrip from "../components/TopStrip/TopStrip"
 import PreLoader from "../components/PreLoader/PreLoader"
-// import PreLoader from "../components/PreLoader/PreLoader"
 
 function ConsultationPage() {
 

@@ -5,7 +5,7 @@ function ConsultationPageComponent() {
         <>
             <section className={ConsultStyle.questionSection}>
                 <div className={ConsultStyle.left_container}>
-                    <h1 className={ConsultStyle.pageTitle}>do you have a <br />problem?</h1>
+                    <h1 className={ConsultStyle.pageTitle}>Do you have a <br />problem?</h1>
                     <form action="#" className={ConsultStyle.form}>
                         <div className={ConsultStyle.input_container}>
                             <label htmlFor="name-input" className={ConsultStyle.input_label}>name</label>

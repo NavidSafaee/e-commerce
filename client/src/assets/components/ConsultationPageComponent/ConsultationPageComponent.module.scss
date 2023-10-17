@@ -1,6 +1,7 @@
 .questionSection {
     width: 100%;
-    height: 100vh;
+    // height: 100vh;
+    padding-bottom: 30px;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -73,7 +74,7 @@
                 width: 430px;
                 border: none;
                 height: 180px;
-                
+
                 &>.input_label {
                     text-align: start;
                     color: var(--main-color);
@@ -81,6 +82,7 @@
                     font-size: 21px;
                     font-weight: 600;
                 }
+
                 .textArea {
                     background-color: #F2F2F2;
                     border: 3px solid #2577E5;
@@ -91,6 +93,7 @@
                     padding: 10px;
                 }
             }
+
             .submit_input {
                 align-self: center;
                 font-weight: 200;
@@ -107,129 +110,149 @@
         }
     }
 
-}
+    .right_container {
+        width: 54%;
 
-.right_container {
-    width: 54%;
-}
+        .image_container {
+            position: relative;
 
-.image_container {
-    position: relative;
+            .image {
+                opacity: 0.9;
+            }
+        }
+    }
 }
-
-// img {
-//     position: absolute;
-//     top: 15px;
-//     right: 20px;
-//     height: auto;
-//     opacity: 0.9;
-// }
 
 @media screen and (max-width: 1250px) {
-    .right-container {
-        width: 50%;
-    }
+    .questionSection {
+        .right_container {
+            width: 50%;
 
-    .left-container {
-        width: 50%;
-    }
+            .image_container {
+                width: 100%;
 
-    .image-container {
-        width: 100%;
-    }
+                .image {
+                    width: 100%;
+                }
+            }
+        }
 
-    img {
-        width: 100%;
-        padding: 10% 0;
+        .left_container {
+            width: 50%;
+        }
     }
 }
 
 @media screen and (max-width: 1050px) {
-    .right-container {
-        width: 45%;
-    }
+    .questionSection {
+        .right_container {
+            width: 45%;
 
-    .left-container {
-        width: 55%;
-    }
+            .image_container {
+                width: 100%;
+            }
+        }
 
-    .image-container {
-        width: 100%;
-    }
-
-    img {
-        width: 100%;
-        padding: 20% 0;
+        .left_container {
+            width: 55%;
+        }
     }
 }
 
 @media screen and (max-width: 900px) {
-    .right-container {
-        display: none;
-    }
+    .questionSection {
+        .right_container {
+            display: none;
+        }
 
-    .left-container {
-        width: 100%;
+        .left_container {
+            width: 100vw;
+        }
     }
 }
 
 @media screen and (max-width: 600px) {
-    .input-container {
-        height: 40px;
-        width: 330px;
-        align-self: center;
+    .questionSection {
+        .left_container {
+            .form {
+                .input_container {
+                    height: 40px;
+                    width: 330px;
+                    align-self: center;
+
+                    .input {
+                        width: 250px;
+                        height: 36px;
+                    }
+
+                    .input_label {
+                        width: 100px;
+                        font-size: 18px;
+                        height: 36px;
+                    }
+                }
+
+                .textarea_container {
+                    width: 330px;
+
+                    .textArea {
+                        width: 324px;
+                    }
+                }
+            }
+        }
     }
 
-    .input {
-        width: 250px;
-        height: 36px;
-    }
 
-    .input-label {
-        width: 80px;
-    }
 
-    .textarea-container {
-        width: 330px;
-    }
-
-    .textArea {
-        width: 324px;
-    }
 }
 
 @media screen and (max-width: 450px) {
-    .input-container {
-        height: 36px;
-        width: 280px;
-        align-self: center;
-    }
+    .questionSection {
+        .left_container {
+            .pageTitle {
+                font-size: 32px;
+            }
 
-    .pageTitle {
-        font-size: 24px;
-    }
+            .form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
 
-    .input {
-        width: 220px;
-        height: 32px;
-    }
+                .input_container {
+                    height: 36px;
+                    width: 100%;
+                    align-self: center;
 
-    .input-label {
-        width: 60px;
-        font-size: 18px;
-    }
+                    .input {
+                        width: 240px;
+                        height: 32px;
+                    }
 
-    .textarea-container {
-        width: 280px;
-    }
+                    .input_label {
+                        width: 90px;
+                        font-size: 14px;
+                        height: 32px;
+                    }
+                }
 
-    .textArea {
-        width: 274px;
-    }
+                .textarea_container {
+                    width: 100%;
+                    padding: 0 20px;
 
-    .submit-input {
-        width: 150px;
-        height: 37px;
-        font-size: 16px;
+                    .textArea {
+                        width: 100%;
+                    }
+                }
+
+                .submit_input {
+                    width: 150px;
+                    height: 37px;
+                    font-size: 16px;
+                }
+            }
+        }
     }
 }
