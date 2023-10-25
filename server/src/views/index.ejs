@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="css/main.css"> -->
+    <title>Reset Password</title>
+    <style>
+        *{padding:0;margin:0;box-sizing:border-box;color:#e8e6e3;font-family:sans-serif}body{background-color:#181a1b}a{text-decoration:none}.main-container{margin:20px auto;background-color:#292929;height:auto;width:600px;border:1.5px solid gray;box-shadow:5px 10px 15px #888;border-radius:5px}tr{text-align:center}td{text-align:center}.logo-row .logo-column{padding:40px 0 15px 0}.logo-row .logo-column img{height:70px}.logo-row .logo-column p{font-size:15px;color:#4c814a}.h1-row{display:block;margin:25px 10px}.line{display:block;width:350px;margin:20px auto;border-bottom:1px solid #4c814a}.main-content{margin:30px 40px}.main-content .hello-content{padding:10px 0 25px 30px;font-size:18px;font-weight:bold;text-align:start}.main-content .content{font-size:20px;text-align:justify}.main-content strong{color:#4c814a}.main-content .btn-content #reset-passBtn{margin:35px auto;display:block;width:250px;height:50px;border:2px solid gray;border-radius:5px;padding:10px;font-size:25px;font-family:serif;color:#fff;font-weight:bold}.main-content .btn-content #reset-passBtn:hover{background-color:#4c814a;transition:all .7s;color:#fff}.main-content .ignore-content .ignore-text{text-align:justify;font-size:20px}.main-content .ignore-content .help{color:#4c814a}.footer-row p{margin:40px auto 15px auto}@media screen and (max-width: 650px){.hello-content{font-size:large}.content{font-size:40px}.main-container{width:490px}.h1-row{margin:25px 18px}}@media screen and (max-width: 500px){img{height:40px}.line{width:50px}.hello-content{padding:5px 0 25px 30px;font-size:large}.content{font-size:40px}.main-container{width:350px;border:none}}@media screen and (max-width: 300px){img{height:40px}.line{width:50px}.hello-content{padding:5px 0 25px 30px;font-size:large}.content{font-size:40px}.main-container{width:100%;border:none}.reset-passBtn{font-size:16px;width:200px}}/*# sourceMappingURL=main.css.map */
+    </style>
+</head>
+
+<body>
+    <table class="main-container">
+        <tr class="logo-row">
+            <td class="logo-column">
+                <a href="#" class="image-link">
+                    <img src="cid:logo" alt="logo">
+                    <p class="logo-name">Soft Land</p>
+                </a>
+            </td>
+        </tr>
+        <tr class="h1-row">
+            <td class="h1-column">
+                <h1>You have requested to reset your Password</h1>
+            </td>
+        </tr>
+        <tr class="line-row">
+            <td class="line-column">
+                <span class="line"></span>
+            </td>
+        </tr>
+        <tr class="row">
+            <td class="column">
+                <table class="main-content">
+                    <tr>
+                        <td class="hello-content">Hello <%= username %></td>
+                    </tr>
+                    <tr>
+                        <td class="content">You recently requested to reset your password for your <a href="#"
+                                class="website"><strong>Soft Land</strong></a> account. Use the
+                            button below to reset it. This password reset is only valid for the next 24 hours.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="btn-content">
+
+                            <a href="http://localhost:3000/reset-password/<%= token %>" id="reset-passBtn">Reset your password</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ignore-content">
+                            <p class="ignore-text">
+                                If you did not request a password reset, please ignore this email or contact <a href="#"
+                                    class="help">support</a> if you have questions.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr class="footer-row">
+            <td class="column">
+                <p class="footer-content">
+                    <strong>
+                        2023 www.oursite.com
+                    </strong>
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
