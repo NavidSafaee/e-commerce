@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
+const RevokedToken = require('../models/revokedTokenModel');
 
-function isAuth(req, res, next) {
-    let decodedToken;
-    
+async function isAuth(req, res, next) {
     try {
         const authHeader = req.get('Authorization');
 
@@ -11,15 +10,21 @@ function isAuth(req, res, next) {
         }
 
         const token = authHeader.split(' ')[1];
-        decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        
+
+        const revokedToken = await RevokedToken.findOne({ token });
+        if (revokedToken) {
+            throw new Error("token revoked");
+        }
+
+        const { sub } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+        req.userId = sub;
+        next();
+
     } catch (error) {
         error.statusCode = 401;
-        throw error;
+        return next(error);
     }
-
-    req.userId = decodedToken.userId;
-    next();
 }
 
 module.exports = isAuth;

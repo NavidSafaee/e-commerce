@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-
+const helmet = require('helmet');
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -11,7 +11,10 @@ const { errorHandler } = require('./controllers/errorController');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', './src/views');
 
+app.use(helmet());
 app.use(cors({
     origin: '*',
     methods: 'GET, POST, PUT, DELETE, PATCH',

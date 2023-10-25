@@ -51,8 +51,35 @@ const loginValidator = [
         .isLength({ min: 5 })
 ];
 
+const forgotPasswordValidator = [
+    body('email', 'Please enter a valid email')
+    .isEmail()
+    .normalizeEmail(),
+];
+
+const resetPasswordValidator = [
+    body('token', 'reset password token must be provided')
+    .trim()
+    .not()
+    .isEmpty(),
+
+    body('password', 'The password must be at least 5 characters')
+    .trim()
+    .isLength({ min: 5 }),
+    
+    body('confirmPassword')
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Passwords have to match');
+            }
+            return true; 
+        })
+];
+
 
 module.exports = {
     signupValidator,
-    loginValidator
+    loginValidator,
+    forgotPasswordValidator,
+    resetPasswordValidator
 }
