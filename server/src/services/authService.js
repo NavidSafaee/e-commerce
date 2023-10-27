@@ -8,7 +8,7 @@ const ejs = require('ejs');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
-    // secure: true,
+    secure: true,
     auth: {
         user: 'softlaand@gmail.com',
         pass: process.env.GMAIL_APP_PASSWORD
@@ -39,10 +39,12 @@ async function signup(reqBody) {
         phoneNumber
     });
     await user.save();
-
-    const token = generateAccessToken(user._id.toString());
+    const accessToken = generateAccessToken(user._id.toString());
+    const refreshToken = await generateRefreshToken(user._id.toString());
+    
     return {
-        token,
+        accessToken,
+        refreshToken,
         user: user.toJSON()
     }
 }
@@ -58,13 +60,15 @@ async function login(reqBody) {
     if (user) {
         const doMatch = await bcrypt.compare(password, user.password);
         if (doMatch) {
-            const token = generateAccessToken(user._id.toString());
+            const accessToken = generateAccessToken(user._id.toString());
+            const refreshToken = await generateRefreshToken(user._id.toString());
             return {
-                token
+                accessToken,
+                refreshToken
             }
         }
     }
-    
+
     const error = new Error('wrong email or password');
     error.statusCode = 401;
     throw error;
@@ -87,7 +91,7 @@ async function emailPasswordResetLink(email) {
     console.log(token);
 
     const encodedToken = Buffer.from(token, 'utf-8').toString('base64');
-    const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'index.ejs'));
+    const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'email.ejs'));
     const renderedHtml = ejs.render(String(htmlFile), { username: user.username, token: encodedToken });
 
     transporter.sendMail({
@@ -130,19 +134,46 @@ async function verifyResetPasswordToken(token) {
     }
 }
 
+async function refreshToken(refreshToken) {
+
+    const { sub: userId } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const user = await User.findOne({  _id: userId, 'refreshTokens.token': refreshToken });
+
+
+    if (!user) {
+        const user = await User.findById(userId);
+        user.refreshTokens = [];
+        await user.save();
+
+        const error = new Error('refresh token revoked');
+        error.statusCode = 401;
+        throw error;
+    } else {
+        user.refreshTokens = user.refreshTokens.filter(tokenObj => tokenObj.token !== refreshToken);
+
+        await user.save();
+    
+        const newAccessToken = generateAccessToken(userId);
+        const newRefreshToken = await generateRefreshToken(userId);
+    
+        return {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken
+        }
+    }
+}
+
 
 async function revokeToken(token) {
-    try {
-        const { exp } = jwt.decode(token);
 
-        const revokedToken = new RevokedToken({
-            token,
-        });
+    const { exp } = jwt.decode(token);
 
-        await revokedToken.save();
-    } catch (error) {
-        throw (error);
-    }
+    const revokedToken = new RevokedToken({
+        token,
+    });
+
+    await revokedToken.save();
+
 }
 
 
@@ -152,5 +183,6 @@ module.exports = {
     logout,
     emailPasswordResetLink,
     verifyResetPasswordToken,
-    resetPassword
+    resetPassword,
+    refreshToken
 }

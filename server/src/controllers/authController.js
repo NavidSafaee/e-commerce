@@ -7,6 +7,7 @@ const {
     emailPasswordResetLink,
     resetPassword,
     verifyResetPasswordToken,
+    refreshToken
 } = require('../services/authService');
 
 async function httpSignup(req, res, next) {
@@ -15,6 +16,7 @@ async function httpSignup(req, res, next) {
 
         const response = await signup(req.body);
         res.status(201).json(response);
+
     } catch (error) {
         next(error);
     }
@@ -36,7 +38,8 @@ async function httpLogout(req, res, next) {
     try {
         const token = req.get('Authorization').split(' ')[1];
         await logout(token);
-        res.status(201).json({message: 'revoked successfully'});
+        res.status(201).json({ message: 'revoked successfully' });
+
     } catch (error) {
         next(error);
     }
@@ -47,6 +50,7 @@ async function httpEmailPasswordResetLink(req, res, next) {
         validationCheck(req);
         await emailPasswordResetLink(req.body.email);
         res.sendStatus(204);
+
     } catch (error) {
         next(error);
     }
@@ -63,6 +67,7 @@ async function httpVerifyResetPasswordToken(req, res, next) {
         const userId = await verifyResetPasswordToken(token);
         res.sendStatus(204);
         return userId;
+
     } catch (error) {
         next(error);
     }
@@ -77,6 +82,24 @@ async function httpResetPassword(req, res, next) {
         await resetPassword(userId, req.body);
 
         res.sendStatus(204);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function httpRefreshToken(req, res, next) {
+    try {
+        const token = req.body.refreshToken;
+        if (!token) {
+            const error = new Error('refresh token must be provided');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const tokensObj = await refreshToken(token);
+        res.status(200).json(tokensObj);
+
     } catch (error) {
         next(error);
     }
@@ -99,5 +122,6 @@ module.exports = {
     httpEmailPasswordResetLink,
     httpLogout,
     httpVerifyResetPasswordToken,
-    httpResetPassword
+    httpResetPassword,
+    httpRefreshToken
 }

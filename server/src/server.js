@@ -2,6 +2,7 @@ const http = require('http');
 
 require('dotenv').config();
 const { mongoConnect } = require('./utils/database');
+const refreshTokenCleanUp = require('./utils/refreshTokenCleanup');
 
 const app = require('./app');
 
@@ -11,6 +12,7 @@ const server = http.createServer(app);
 
 (async function startServer() {
     await mongoConnect(process.env.MONGO_URL);
+    refreshTokenCleanUp();
     server.listen(PORT, () => {
         console.log(`listening on ${PORT}...`);
     })

@@ -8,7 +8,8 @@ const {
     httpLogout,
     httpEmailPasswordResetLink,
     httpVerifyResetPasswordToken,
-    httpResetPassword
+    httpResetPassword,
+    httpRefreshToken
 } = require('../controllers/authController');
 
 const {
@@ -26,6 +27,7 @@ router.post('/logout', isAuth, httpLogout);
 router.post('/forgot-password', forgotPasswordValidator, httpEmailPasswordResetLink);
 router.post('/reset-password/verify-reset-password-token', httpVerifyResetPasswordToken);
 router.patch('/reset-password', resetPasswordValidator, httpResetPassword);
+router.post('/refresh-token', httpRefreshToken);
 
 
 module.exports = router;

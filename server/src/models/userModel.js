@@ -16,12 +16,23 @@ const userSchema = new Schema({
     phoneNumber: {
         type: String,
         required: true
-    }
+    },
+    refreshTokens: [{
+        token: {
+            type: String,
+            required: true
+        },
+        expirationDate: {
+            type: Date,
+            required: true,
+        }
+    }]
 });
 
 userSchema.methods.toJSON = function () {
     var userObj = this.toObject();
     delete userObj.password;
+    delete userObj.refreshTokens;
     return userObj;
 }
 
