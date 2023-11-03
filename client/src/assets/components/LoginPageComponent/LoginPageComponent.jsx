@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import "./LoginPageSection.css"
 
 function LoginPageComponent() {
@@ -35,13 +36,13 @@ function LoginPageComponent() {
 
                             </div>
 
-                            <div className="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>
+                            <div className="links"> <a href="#">Forgot Password</a> <Link to="/sign-up">Signup</Link>
 
                             </div>
 
                             <div className="inputBox">
 
-                                <input type="submit" value="Login" />
+                                <button className="form-btn">Login</button>
 
                             </div>
 

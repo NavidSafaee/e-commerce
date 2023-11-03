@@ -9,7 +9,7 @@ function SignupPage() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoaded(true)
-    }, 3000)
+    }, 1000)
   }, [])
 
   return (
