@@ -12,13 +12,13 @@
   flex-wrap: wrap;
   overflow: hidden;
 }
-.signup-page-container::before 
+/* .signup-page-container::before 
 {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(#fff,#30ce00,#fff);
+  background: linear-gradient(#fff,#a4b3d4b7,#fff);
   animation: animate 5s linear infinite;
 }
 @keyframes animate 
@@ -31,7 +31,7 @@
   {
     transform: translateY(-100%);
   }
-}
+} */
 .signup-page-container .bg-square 
 {
   position: relative;
@@ -55,7 +55,7 @@
   position: absolute;
   width: 400px;
   background: #11005b;  
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,7 +68,7 @@
 .signup-page-container .sign-up img {
     transform: scale(1.3);
 }
-.signup-page-container .sign-up .content 
+.signup-page-container .sign-up .form-container 
 {
   position: relative;
   width: 100%;
@@ -78,7 +78,7 @@
   flex-direction: column;
   gap: 40px;
 }
-.signup-page-container .sign-up .content .form-title 
+.signup-page-container .sign-up .form-container .form-title 
 {
   font-size: 2em;
   color: #0f0;
@@ -86,19 +86,19 @@
   letter-spacing: 3px;
   text-transform: uppercase;
 }
-.signup-page-container .sign-up .content .form 
+.signup-page-container .sign-up .form-container .form 
 {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
-.signup-page-container .sign-up .content .form .inputBox
+.signup-page-container .sign-up .form-container .form .inputBox
 {
   position: relative;
   width: 100%;
 }
-.signup-page-container .sign-up .content .form .inputBox input 
+.signup-page-container .sign-up .form-container .form .inputBox input 
 {
   position: relative;
   width: 100%;
@@ -111,13 +111,13 @@
   font-weight: 500;
   font-size: 1em;
 }
-.signup-page-container .sign-up .content .form .inputBox input:focus {
+.signup-page-container .sign-up .form-container .form .inputBox input:focus {
     background-color: #2b15a4;
 }
-.signup-page-container .sign-up .content .form .inputBox input[type="submit"]:focus {
+.signup-page-container .sign-up .form-container .form .inputBox input[type="submit"]:focus {
   background-color: #0f0;
 }
-.signup-page-container .sign-up .content .form .inputBox i 
+.signup-page-container .sign-up .form-container .form .inputBox i 
 {
   position: absolute;
   left: 0;
@@ -127,28 +127,28 @@
   transition: 0.5s;
   pointer-events: none;
 }
-.sign-up .content .form .inputBox input:focus ~ i,
-.sign-up .content .form .inputBox input:valid ~ i
+.sign-up .form-container .form .inputBox input:valid ~ i,
+.sign-up .form-container .form .inputBox input:focus ~ i
 {
   transform: translateY(-7.5px);
   font-size: 0.8em;
   color: #fff;
 }
-.sign-up .content .form .links 
+.sign-up .form-container .form .links 
 {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
-.sign-up .content .form .links .login-link
+.sign-up .form-container .form .links .login-link
 {
   color: #fff;
   text-decoration: none;
   color: #0f0;
   font-weight: 600;
 }
-.sign-up .content .form .inputBox .form-btn
+.sign-up .form-container .form .inputBox .form-btn
 {
   padding: 10px;
   border: none;
@@ -176,4 +176,40 @@
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);
   }
+}
+
+.otp-modal-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #00000057;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.otp-modal-bg .otp-modal {
+  width: 400px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.otp-modal-bg .otp-modal .otp-input {
+  outline: none;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: 10px;
+  text-align: center;
+  padding: 7px;
+  border-radius: 5px;
 }
