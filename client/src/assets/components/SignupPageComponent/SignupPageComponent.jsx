@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './SignupPageComponent.css';
 import { useEffect, useState } from 'react';
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex';
+import baseURL from '../../baseURL';
 
 function SignupPageComponent() {
     // const squaresArray = Array.from(Array(260).keys())
@@ -20,14 +21,13 @@ function SignupPageComponent() {
         if (EmailChecker(inp) | PhoneChecker(inp)) {
             if (EmailChecker(inp)) {
                 setUserEmail(inp)
-                setUserPhone(null)
+                setUserPhone(undefined)
             } else if (PhoneChecker(inp)) {
                 setUserPhone(inp)
-                setUserEmail(null)
+                setUserEmail(undefined)
             }
             return true
         } else {
-            alert("")
             return false
         }
     }
@@ -39,13 +39,27 @@ function SignupPageComponent() {
     }
 
     const FormSender = () => {
-        console.log(username, emailOrPhone, userEmail, userPhone, userPass, userConfirmPass)
+        let formInfo = {
+            username,
+            password: userPass,
+            email: userEmail,
+            phoneNumber: userPhone,
+            confirmPassword: userConfirmPass
+        }
+        fetch(`${baseURL}/auth/contact-verification`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(formInfo)
+        }).then(res => {
+            if (res.status === 204) {
+                setShowModal(true)
+            }
+        })
     }
 
     useEffect(() => {
         if (formFlag) {
             FormSender()
-            setShowModal(true)
         }
     }, [formFlag])
 
@@ -115,7 +129,7 @@ function SignupPageComponent() {
 
                             <div className="inputBox">
 
-                                <button className='form-btn' onClick={() => FormChecker(emailOrPhone)}>sign up</button>
+                                <button className='form-btn' onClick={() => FormChecker(emailOrPhone)}>continue</button>
 
                             </div>
 
@@ -128,7 +142,7 @@ function SignupPageComponent() {
                 {showModal && <div className="otp-modal-bg">
                     <div className="otp-modal">
                         <span>Enter your code</span>
-                        <input className='otp-input' type="text" value={userOTP} onChange={e => setuUserOTP(e.target.value)}/>
+                        <input className='otp-input' type="text" value={userOTP} onChange={e => setuUserOTP(e.target.value)} />
                     </div>
                 </div>}
 
