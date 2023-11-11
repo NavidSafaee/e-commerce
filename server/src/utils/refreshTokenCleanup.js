@@ -15,7 +15,7 @@ function scheduleTokenCleanup() {
 async function cleanupExpiredTokens() {
     try {
         await User.updateMany({
-            'refreshTokens.expirationDate': { $lte: new Date() }
+            'tokens.refreshTokenExpiration': { $lte: new Date() }
         }, {
             $pull: { refreshTokens: { expirationDate: { $lte: new Date() } } }
         });

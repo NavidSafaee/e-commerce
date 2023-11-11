@@ -4,25 +4,23 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
+    },   
     password: {
         type: String,
         required: true
     },
-    phoneNumber: {
-        type: String,
-        required: true
-    },
-    refreshTokens: [{
-        token: {
+    email: String,
+    phoneNumber: String,
+    tokens: [{
+        accessToken: {
             type: String,
             required: true
         },
-        expirationDate: {
+        refreshToken: {
+            type: String,
+            required: true
+        },
+        refreshTokenExpiration: {
             type: Date,
             required: true,
         }

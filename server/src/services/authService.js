@@ -2,9 +2,19 @@ const fs = require('fs');
 const path = require('path');
 
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
+const {
+    generateTokens,
+    generateAccessToken,
+    generateRefreshToken,
+    generateResetPasswordToken
+} = require('../utils/jwt');
+const User = require('../models/userModel');
+const OTP = require('../models/OTPModel');
+const RevokedToken = require('../models/revokedTokenModel');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -15,21 +25,26 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const {
-    generateAccessToken,
-    generateRefreshToken,
-    generateResetPasswordToken
-} = require('../utils/jwt');
-const User = require('../models/userModel');
-const RevokedToken = require('../models/revokedTokenModel');
 
 async function signup(reqBody) {
     const {
         username,
         email,
         phoneNumber,
-        password
+        password,
+        OTP: otp
     } = reqBody;
+
+    const hashedOTP = await bcrypt.hash(otp, 12);
+    const contactInfo = email || phoneNumber;
+
+    const OTPDoc = await OTP.findOne({ contactInfo });
+
+    if (!OTPDoc || !(await bcrypt.compare(otp, OTPDoc.OTP))) {
+        const error = new Error('wrong OTP');
+        error.statusCode = 400;
+        throw error;
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({
@@ -38,10 +53,13 @@ async function signup(reqBody) {
         password: hashedPassword,
         phoneNumber
     });
+
+
     await user.save();
-    const accessToken = generateAccessToken(user._id.toString());
-    const refreshToken = await generateRefreshToken(user._id.toString());
-    
+    // const accessToken = generateAccessToken(user._id.toString());
+    // const refreshToken = await generateRefreshToken(user._id.toString());
+    const { accessToken, refreshToken } = await generateTokens(user._id.toString());
+
     return {
         accessToken,
         refreshToken,
@@ -52,50 +70,79 @@ async function signup(reqBody) {
 async function login(reqBody) {
     const {
         email,
+        phoneNumber,
+        OTP: otp,
         password
     } = reqBody;
 
-    const user = await User.findOne({ email });
+    if (password) {
+        let user;
+        if (email) user = await User.findOne({ email });
+        else if (phoneNumber) user = await User.findOne({ phoneNumber });
 
-    if (user) {
-        const doMatch = await bcrypt.compare(password, user.password);
-        if (doMatch) {
-            const accessToken = generateAccessToken(user._id.toString());
-            const refreshToken = await generateRefreshToken(user._id.toString());
-            return {
-                accessToken,
-                refreshToken
+        if (user) {
+            const doMatch = await bcrypt.compare(password, user.password);
+
+            if (doMatch) {
+                // const accessToken = generateAccessToken(user._id.toString());
+                // const refreshToken = await generateRefreshToken(user._id.toString());
+
+                return await generateTokens(user._id.toString());
             }
         }
-    }
 
-    const error = new Error('wrong email or password');
-    error.statusCode = 401;
-    throw error;
+        const error = new Error('wrong email or password');
+        error.statusCode = 401;
+        throw error;
+
+    } else if (otp) {
+        const contactInfo = email || phoneNumber;
+        const OTPDoc = await OTP.findOne({ contactInfo });
+
+        if (OTPDoc) {
+            const doMatch = await bcrypt.compare(otp, OTPDoc.OTP);
+
+            if (doMatch) {
+                let user;
+                if (email) user = await User.findOne({ email });
+                else if (phoneNumber) user = await User.findOne({ phoneNumber });
+
+                // const accessToken = generateAccessToken(user._id.toString());
+                // const refreshToken = await generateRefreshToken(user._id.toString());
+
+                // return { accessToken, refreshToken }
+                return await generateTokens(user._id.toString());
+            }
+        }
+
+        const error = new Error('wrong OTP');
+        error.statusCode = 401;
+        throw error;
+    }
 }
 
 async function logout(token) {
+    const { sub: userId } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    
+    const user = await User.findById(userId);
+    user.tokens = user.tokens.filter(tokenObj => tokenObj.accessToken !== token);
+    await user.save();
+
     await revokeToken(token);
 }
 
-async function emailPasswordResetLink(email) {
+async function emailResetPasswordLink(email) {
     const user = await User.findOne({ email });
 
-    if (!user) {
-        const error = new Error('User not found!');
-        error.statusCode = 404;
-        throw error;
-    }
-
     const token = generateResetPasswordToken(user._id.toString());
-    console.log(token);
-
-    const encodedToken = Buffer.from(token, 'utf-8').toString('base64');
-    const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'email.ejs'));
+    
+    const encodedToken = Buffer.from(token).toString('base64');
+    console.log(encodedToken);
+    const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'resetPassword-email.ejs'));
     const renderedHtml = ejs.render(String(htmlFile), { username: user.username, token: encodedToken });
 
     transporter.sendMail({
-        from: 'navid.safaee1381@gmail.com',
+        from: 'softlaand@gmail.com',
         to: email,
         subject: 'reset password',
         html: renderedHtml,
@@ -105,6 +152,10 @@ async function emailPasswordResetLink(email) {
             cid: 'logo'
         }]
     });
+}
+
+async function smsResetPasswordLink(phoneNumber) {
+
 }
 
 async function resetPassword(userId, reqBody) {
@@ -122,58 +173,96 @@ async function resetPassword(userId, reqBody) {
 
 async function verifyResetPasswordToken(token) {
     try {
+        const { sub: userId } = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET);
+
         const revokedToken = await RevokedToken.findOne({ token });
         if (revokedToken) {
             throw new Error("token revoked");
         }
-        const { sub: userId } = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET);
+
         return userId;
+        
     } catch (error) {
         error.statusCode = 401;
         throw error;
     }
 }
 
+
+//test changed logic
 async function refreshToken(refreshToken) {
 
     const { sub: userId } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-    const user = await User.findOne({  _id: userId, 'refreshTokens.token': refreshToken });
+    const user = await User.findOne({ _id: userId, 'tokens.refreshToken': refreshToken });
 
 
     if (!user) {
         const user = await User.findById(userId);
-        user.refreshTokens = [];
+        user.tokens = [];
         await user.save();
 
         const error = new Error('refresh token revoked');
         error.statusCode = 401;
         throw error;
     } else {
-        user.refreshTokens = user.refreshTokens.filter(tokenObj => tokenObj.token !== refreshToken);
-
+        user.tokens = user.tokens.filter(tokenObj => tokenObj.refreshToken !== refreshToken);
         await user.save();
-    
-        const newAccessToken = generateAccessToken(userId);
-        const newRefreshToken = await generateRefreshToken(userId);
-    
-        return {
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken
-        }
+``
+        return await generateTokens(userId);
     }
 }
 
 
 async function revokeToken(token) {
-
-    const { exp } = jwt.decode(token);
-
     const revokedToken = new RevokedToken({
         token,
     });
-
     await revokedToken.save();
+}
 
+
+async function verifyEmail(email) {
+
+    const oneTimePassword = generateOTP();
+    const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
+
+    const otp = new OTP({
+        OTP: hashedOTP,
+        contactInfo: email
+    });
+
+    await otp.save();
+
+    const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'verification-email.ejs'));
+    const renderedHtml = ejs.render(String(htmlFile), { OTP: oneTimePassword });
+
+    transporter.sendMail({
+        from: 'softlaand@gmail.com',
+        to: email,
+        subject: 'verify your new Softland account',
+        html: renderedHtml,
+        attachments: [{
+            filename: 'pastel-green-logo.png',
+            path: path.join(__dirname, '..', '..', 'public', 'images', 'reset-password', 'pastel-green-logo.png'),
+            cid: 'logo'
+        }]
+    });
+}
+
+
+async function verifyPhoneNumber(phoneNumber) {
+
+    const user = await User.findOne({ phoneNumber });
+
+    console.log('mana diala sms');
+
+    //send sms with otp here    
+}
+
+function generateOTP() {
+    const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
+    let hashedRandomInt = crypto.createHash('md5').update(randomInt).digest("hex");
+    return hashedRandomInt.slice(0, 6);
 }
 
 
@@ -181,8 +270,11 @@ module.exports = {
     signup,
     login,
     logout,
-    emailPasswordResetLink,
+    emailResetPasswordLink,
+    smsResetPasswordLink,
     verifyResetPasswordToken,
     resetPassword,
-    refreshToken
+    refreshToken,
+    verifyEmail,
+    verifyPhoneNumber
 }

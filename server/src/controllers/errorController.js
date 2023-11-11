@@ -11,6 +11,9 @@ function errorHandler(error, req, res, next) {
 
     const statusCode = error.statusCode || 500;
     const message = error.message;
+    if (message === "") {
+        return res.sendStatus(statusCode);
+    }
     res.status(statusCode).json({ message });
 }
 
