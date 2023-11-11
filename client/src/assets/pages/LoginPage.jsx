@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import LoginPageComponent from "../components/LoginPageComponent/LoginFormComponent"
+import LoginPageComponent from "../components/LoginPageComponent/LoginPageComponent"
 import PreLoader from "../components/PreLoader/PreLoader"
 
 
@@ -10,7 +10,7 @@ function LoginPage() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoaded(true)
-    }, 3000)
+    }, 1000)
   }, [])
 
   return (

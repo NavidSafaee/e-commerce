@@ -147,19 +147,18 @@
   color: #0f0;
   font-weight: 600;
 }
-.login .content .form .inputBox input[type="submit"]
+.login .content .form .inputBox .form-btn
 {
   padding: 10px;
+  border: none;
+  width: 100%;
+  border-radius: 10px;
   background: #0f0;
   color: #000;
   font-weight: 600;
   font-size: 1.35em;
   letter-spacing: 0.05em;
   cursor: pointer;
-}
-input[type="submit"]:active
-{
-  opacity: 0.6;
 }
 @media (max-width: 900px)
 {
