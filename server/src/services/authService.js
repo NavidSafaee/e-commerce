@@ -36,7 +36,7 @@ async function signup(reqBody) {
         OTP: otp
     } = reqBody;
 
-    const hashedOTP = await bcrypt.hash(otp, 12);
+    // const hashedOTP = await bcrypt.hash(otp, 12);
     const contactInfo = email || phoneNumber;
 
     const OTPDoc = await OTP.findOne({ contactInfo });
@@ -252,6 +252,13 @@ async function verifyEmail(email) {
 
 async function verifyPhoneNumber(phoneNumber) {
     const oneTimePassword = generateOTP();
+    const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
+    const otp = new OTP({
+        OTP: hashedOTP,
+        contactInfo: phoneNumber
+    });
+    await otp.save();
+
     sendSms(173012, phoneNumber, oneTimePassword);
 }
 
