@@ -30,7 +30,7 @@ const userSchema = new Schema({
 userSchema.methods.toJSON = function () {
     var userObj = this.toObject();
     delete userObj.password;
-    delete userObj.refreshTokens;
+    delete userObj.tokens;
     return userObj;
 }
 

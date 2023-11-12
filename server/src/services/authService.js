@@ -15,6 +15,7 @@ const {
 const User = require('../models/userModel');
 const OTP = require('../models/OTPModel');
 const RevokedToken = require('../models/revokedTokenModel');
+const sendSms = require('../utils/sms');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -212,7 +213,6 @@ async function refreshToken(refreshToken) {
     }
 }
 
-
 async function revokeToken(token) {
     const revokedToken = new RevokedToken({
         token,
@@ -251,12 +251,8 @@ async function verifyEmail(email) {
 
 
 async function verifyPhoneNumber(phoneNumber) {
-
-    const user = await User.findOne({ phoneNumber });
-
-    console.log('mana diala sms');
-
-    //send sms with otp here    
+    const oneTimePassword = generateOTP();
+    sendSms(173012, phoneNumber, oneTimePassword);
 }
 
 function generateOTP() {
