@@ -75,11 +75,15 @@ function SignupPageComponent() {
             confirmPassword: userConfirmPass,
             OTP: userOTP
         }
-        fetch(`${baseURL}/auth/contact-verification`, {
+        fetch(`${baseURL}/auth/signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfoWithOTP)
+        }).then(res => {
+            console.log(res)
+            return res.json()
         })
+            .then(data => console.log(data))
     }
 
     useEffect(() => {
@@ -87,6 +91,11 @@ function SignupPageComponent() {
             FormSender()
         }
     }, [formFlag])
+    // useEffect(() => {
+    //     fetch('https://jsonplaceholder.typicode.com/todos/', {
+    //         method: "GET"
+    //     }).then(res => res.json()).then(data => console.log(data))
+    // }, [])
 
     return (
         <>
@@ -147,7 +156,7 @@ function SignupPageComponent() {
                                     onChange={e => setUserConfirmPass(e.target.value)}
                                     maxLength={6}
                                     minLength={6}
-                                /> <i>Password</i>
+                                /> <i>Reenter Password</i>
 
                             </div>
 
