@@ -3,6 +3,8 @@ import './SignupPageComponent.css';
 import { useEffect, useState } from 'react';
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex';
 import baseURL from '../../baseURL';
+import { Spinner } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 function SignupPageComponent() {
     // const squaresArray = Array.from(Array(260).keys())
@@ -28,6 +30,12 @@ function SignupPageComponent() {
             }
             return true
         } else {
+            swal({
+                title: "Invalid contact info!",
+                text: "Please enter a valid email or phone number",
+                icon: "warning",
+                dangerMode: true,
+            })
             return false
         }
     }
@@ -51,9 +59,26 @@ function SignupPageComponent() {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
         }).then(res => {
+            console.log(res)
             if (res.status === 204) {
                 setShowModal(true)
             }
+        })
+    }
+
+    const OPTSender = () => {
+        let formInfoWithOTP = {
+            username,
+            password: userPass,
+            email: userEmail,
+            phoneNumber: userPhone,
+            confirmPassword: userConfirmPass,
+            OTP: userOTP
+        }
+        fetch(`${baseURL}/auth/contact-verification`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(formInfoWithOTP)
         })
     }
 
@@ -107,6 +132,8 @@ function SignupPageComponent() {
                                     required
                                     value={userPass}
                                     onChange={e => setUserPass(e.target.value)}
+                                    maxLength={6}
+                                    minLength={6}
                                 /> <i>Password</i>
 
                             </div>
@@ -118,6 +145,8 @@ function SignupPageComponent() {
                                     required
                                     value={userConfirmPass}
                                     onChange={e => setUserConfirmPass(e.target.value)}
+                                    maxLength={6}
+                                    minLength={6}
                                 /> <i>Password</i>
 
                             </div>
@@ -129,7 +158,12 @@ function SignupPageComponent() {
 
                             <div className="inputBox">
 
-                                <button className='form-btn' onClick={() => FormChecker(emailOrPhone)}>continue</button>
+                                <button
+                                    className='form-btn'
+                                    onClick={() => FormChecker(emailOrPhone)}
+                                >
+                                    {!formFlag ? "continue" : <Spinner animation="grow" variant="dark" />}
+                                </button>
 
                             </div>
 
@@ -141,8 +175,22 @@ function SignupPageComponent() {
 
                 {showModal && <div className="otp-modal-bg">
                     <div className="otp-modal">
-                        <span>Enter your code</span>
-                        <input className='otp-input' type="text" value={userOTP} onChange={e => setuUserOTP(e.target.value)} />
+                        <img src="./../../../../public/general_images/otp_icon.png" alt="password-icon" />
+                        <span className='otp-title'>Enter OTP code</span>
+                        <p className='check-way-text'>Please check your {(userEmail !== undefined) ? "email" : "phone"}</p>
+                        <input className='otp-input'
+                            type="text"
+                            value={userOTP}
+                            onChange={e => setuUserOTP(e.target.value)}
+                            maxLength={6}
+                            minLength={6}
+                        />
+                        <button
+                            className={`otp-verification-btn ${(userOTP.length == 6) && "otp-active-btn"}`}
+                            onClick={OPTSender}
+                        >
+                            Verify OTP
+                        </button>
                     </div>
                 </div>}
 

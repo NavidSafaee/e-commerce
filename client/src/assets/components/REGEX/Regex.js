@@ -1,5 +1,5 @@
 const EmailChecker = (userInput) => {
-    const emailPattern = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/g
+    const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return emailPattern.test(userInput)
 }
 
