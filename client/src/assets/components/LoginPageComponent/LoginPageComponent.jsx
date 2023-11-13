@@ -1,28 +1,33 @@
 import { Link } from "react-router-dom"
 import "./LoginPageSection.css"
+import { useState } from "react"
 
 function LoginPageComponent() {
 
-    const squaresArray = Array.from(Array(260).keys())
+    // const [formFlag, setFormFlag] = useState(false)
+    // const [userEmail, setUserEmail] = useState("")
+    // const [userPhone, setUserPhone] = useState("")
+
+    // const squaresArray = Array.from(Array(260).keys())
 
     return (
         <>
             <section className="login-signup-page-container">
 
-                {
+                {/* {
                     squaresArray.map((sq, i) => (
                         <span key={i} className="bg-square"></span>
                     ))
-                }
+                } */}
 
-                <div className="login">
+                <div className="login-form-wrapper">
 
-                    <img src="./../../../../public/general_images/logo.png" alt="" />
-                    <div className="content">
+                    <img src="./../../../../public/general_images/logo.png" alt="logo" />
+                    <div className="login-form-content">
 
-                        <h2>Login</h2>
+                        <h2 className="form-title">Login</h2>
 
-                        <div className="form">
+                        <div className="login-form">
 
                             <div className="inputBox">
 
@@ -36,7 +41,7 @@ function LoginPageComponent() {
 
                             </div>
 
-                            <div className="links"> <a href="#">Forgot Password</a> <Link to="/sign-up">Signup</Link>
+                            <div className="links"> <Link to="/forgot-pass" className="forget-btn">Forgot Password</Link> <Link to="/sign-up">Signup</Link>
 
                             </div>
 

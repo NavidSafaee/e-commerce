@@ -19,7 +19,7 @@ function ProductCard({ title, img, rate, category, status, discount, price, newP
         (status === "Sale") && <span className='status sale'>Sale</span>
       }
       <div className="img-wrapper">
-        <img src={`${baseURL}/public/${img}`} alt={title} />
+        <img src={`${baseURL}/public/${img}`} alt={title} crossOrigin='false'/>
         <div className="icon-wrapper"><AiOutlineHeart className='action-icon heart-icon' /></div>
         <div className="icon-wrapper"><FiEye className='action-icon eye-icon' /></div>
         <div className="icon-wrapper"><BsCartPlus className='action-icon cart-icon' /></div>

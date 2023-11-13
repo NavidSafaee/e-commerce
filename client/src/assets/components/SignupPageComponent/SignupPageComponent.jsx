@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate } from 'react-router-dom';
 import './SignupPageComponent.css';
 import { useEffect, useState } from 'react';
@@ -114,11 +115,6 @@ function SignupPageComponent() {
             FormSender()
         }
     }, [formFlag])
-    // useEffect(() => {
-    //     fetch('https://jsonplaceholder.typicode.com/todos/', {
-    //         method: "GET"
-    //     }).then(res => res.json()).then(data => console.log(data))
-    // }, [])
 
     return (
         <>
