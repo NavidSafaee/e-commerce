@@ -1,13 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SignupPageComponent.css';
 import { useEffect, useState } from 'react';
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex';
 import baseURL from '../../baseURL';
 import { Spinner } from 'react-bootstrap';
 import swal from 'sweetalert';
+import { useContext } from 'react';
+import AuthContext from '../Context/AuthContext';
 
 function SignupPageComponent() {
     // const squaresArray = Array.from(Array(260).keys())
+
+    const authContext = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const [formFlag, setFormFlag] = useState(false)
     const [userOTP, setuUserOTP] = useState("")
@@ -75,16 +80,34 @@ function SignupPageComponent() {
             confirmPassword: userConfirmPass,
             OTP: userOTP
         }
+        const showModal = () => {
+            swal({
+              title: "congratulations!",
+              text: "Your registration was successful!",
+              icon: "success",
+            })
+              .then((res) => {
+                if (res) {
+                  navigate("/")
+                }
+              })
+          }
         fetch(`${baseURL}/auth/signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfoWithOTP)
-        }).then(res => {
-            console.log(res)
-            return res.json()
         })
-            .then(data => console.log(data))
+            .then(res => {
+                console.log(res)
+                return res.json()
+            })
+            .then(data => {
+                authContext.login(data.user, data.accessToken, data.refreshToken)
+                showModal()
+            })
     }
+
+
 
     useEffect(() => {
         if (formFlag) {

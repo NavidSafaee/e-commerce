@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom"
 import "./TopStrip.scss"
+import { useContext } from "react"
+import AuthContext from "../Context/AuthContext"
 
 function TopStrip() {
+
+  const authContext = useContext(AuthContext)
+
   return (
     <>
       <div className="top-strip">
@@ -11,7 +16,10 @@ function TopStrip() {
           <strong className='brand-name'>Soft Land</strong>
         </div>
         <div className="account-box">
-          <Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link>
+          {authContext.isLoggedIn === true ?
+            authContext.userInfo.username :
+            (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
+          }
         </div>
       </div>
     </>
