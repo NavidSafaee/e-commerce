@@ -1,47 +1,49 @@
 .forget-page {
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: calc(100vh - 50px);
-    gap: 40px;
-  }
-  .forget-page .forget-pass-img {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 50px);
+  gap: 40px;
+
+  .forget-pass-img {
     width: 500px;
   }
-  .forget-page .forget-form-wrapper {
+  .forget-form-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     width: 400px;
     gap: 40px;
+  
+    .forgot-form-title {
+      font-weight: 700;
+      font-size: 50px;
+      text-align: center;
+      letter-spacing: 3px;
+    }
+    .forgot-form-input {
+      width: 90%;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      border: 3px #dedede solid;
+      outline: none;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: #333;
+    }
+    .forgot-form-btn {
+      width: 50%;
+      height: 45px;
+      color: #fff;
+      border: none;
+      background-color: #1640D6;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 22px;
+    }
   }
-  .forget-page .forget-form-wrapper .forgot-form-title {
-    font-weight: 700;
-    font-size: 50px;
-    text-align: center;
-    letter-spacing: 3px;
-  }
-  .forget-page .forget-form-wrapper .forgot-form-input {
-    width: 90%;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    border: 3px #dedede solid;
-    outline: none;
-    font-size: 16px;
-    letter-spacing: 2px;
-    color: #333;
-  }
-  .forget-page .forget-form-wrapper .forgot-form-btn {
-    width: 50%;
-    height: 45px;
-    color: #fff;
-    border: none;
-    background-color: #1640D6;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 22px;
-  }
+}

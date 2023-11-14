@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom"
 import "./LoginPageSection.css"
 import { useState } from "react"
+// import { useState } from "react"
 
 function LoginPageComponent() {
 
-    // const [formFlag, setFormFlag] = useState(false)
-    // const [userEmail, setUserEmail] = useState("")
-    // const [userPhone, setUserPhone] = useState("")
+    const [loginWay, setLoginWay] = useState(0)
 
     // const squaresArray = Array.from(Array(260).keys())
 
@@ -27,6 +26,13 @@ function LoginPageComponent() {
 
                         <h2 className="form-title">Login</h2>
 
+                        <div className="login-way-box">
+                            <span>with</span>
+                            <div className="login-ways">
+                                <span className={`login-option ${!loginWay && "active"}`} onClick={() => setLoginWay(0)}>email</span>
+                                <span className={`login-option ${loginWay && "active"}`} onClick={() => setLoginWay(1)}>phone numner</span>
+                            </div>
+                        </div>
                         <div className="login-form">
 
                             <div className="inputBox">
