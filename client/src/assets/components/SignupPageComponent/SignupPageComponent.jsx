@@ -16,6 +16,7 @@ function SignupPageComponent() {
     const navigate = useNavigate()
 
     const [formFlag, setFormFlag] = useState(false)
+    const [OTP_Flag, setOTP_Flag] = useState(false)
     const [userOTP, setuUserOTP] = useState("")
     const [username, setUsername] = useState("")
     const [userPass, setUserPass] = useState("")
@@ -73,6 +74,7 @@ function SignupPageComponent() {
     }
 
     const OPTSender = () => {
+        setOTP_Flag(true)
         let formInfoWithOTP = {
             username,
             password: userPass,
@@ -217,7 +219,7 @@ function SignupPageComponent() {
                             className={`otp-verification-btn ${(userOTP.length == 6) && "otp-active-btn"}`}
                             onClick={OPTSender}
                         >
-                            Verify OTP
+                            {!OTP_Flag ? "Verify OTP" : <Spinner animation="grow" variant="dark" />}
                         </button>
                     </div>
                 </div>}
