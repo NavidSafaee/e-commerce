@@ -3,14 +3,14 @@ import { useRoutes } from "react-router-dom"
 import routes from "./assets/Routes"
 import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import baseURL from "./assets/baseURL";
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [accessToken, setAccessToken] = useState(null)
-  const [refreshToken, setrefreshToken] = useState(null)
+  const [refreshToken, setRefreshToken] = useState(null)
   const [userInfo, setUserInfo] = useState({})
 
   const router = useRoutes(routes)
@@ -18,13 +18,12 @@ function App() {
   const login = (userInfo, accessToken, refreshToken) => {
     setIsLoggedIn(true)
     setAccessToken(accessToken)
-    setrefreshToken(refreshToken)
+    setRefreshToken(refreshToken)
     setUserInfo(userInfo)
     localStorage.setItem("userToken", JSON.stringify({ accessToken, refreshToken }))
   }
 
-  const getMe = () => {
-    const userToken = JSON.parse(localStorage.getItem("userToken"))
+  const getMe = (userToken) => {
     fetch(`${baseURL}/users/me`, {
       headers: {
         Authorization: `Bearer ${userToken.accessToken}`
@@ -34,26 +33,26 @@ function App() {
         return res.json()
       })
       .then(userData => {
-        if (userData.message === "jwt expired") {
+        if (userData.message == "jwt expired") {
           refreshTokenHandler()
         } else {
           setIsLoggedIn(true)
           setUserInfo(userData)
-          setAccessToken(accessToken)
-          setrefreshToken(refreshToken)
+          setAccessToken(userToken.accessToken)
+          setRefreshToken(userToken.refreshToken)
         }
       })
   }
 
   useEffect(() => {
-    console.log(isLoggedIn);
     const userToken = JSON.parse(localStorage.getItem("userToken"))
+
     if (userToken) {
-      getMe()
+      getMe(userToken)
     }
   }, [])
 
-  const refreshTokenHandler = () => {
+  const refreshTokenHandler = useCallback(() => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
     if (userToken) {
       fetch(`${baseURL}/auth/refresh-token`, {
@@ -64,34 +63,30 @@ function App() {
         body: JSON.stringify({ token: userToken.refreshToken })
       })
         .then(res => {
+          console.log("ref => ", res)
           return res.json()
         })
         .then(userData => {
-          console.log(userData)
-          setIsLoggedIn(true)
-          setUserInfo(userData)
-          setAccessToken(accessToken)
-          setrefreshToken(refreshToken)
-          localStorage.setItem("userToken", JSON.stringify({ accessToken, refreshToken }))
+          setAccessToken(userData.accessToken)
+          setRefreshToken(userData.refreshToken)
+          localStorage.setItem("userToken", JSON.stringify({ accessToken: userData.accessToken, refreshToken: userData.refreshToken }))
+          getMe(userData)
         })
     }
-  }
+  }, [])
 
   const logout = () => {
-    setAccessToken(null)
-    setUserInfo({})
-    setIsLoggedIn(false)
-    localStorage.removeItem("user")
+    // codes
   }
 
   return (
     <AuthContext.Provider value={{
       isLoggedIn,
       accessToken,
+      refreshToken,
       userInfo,
       login,
-      logout,
-      refreshToken
+      logout
     }}>
       {router}
     </AuthContext.Provider>

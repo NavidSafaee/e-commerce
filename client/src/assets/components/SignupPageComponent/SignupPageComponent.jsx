@@ -83,16 +83,16 @@ function SignupPageComponent() {
         }
         const showModal = () => {
             swal({
-              title: "congratulations!",
-              text: "Your registration was successful!",
-              icon: "success",
+                title: "congratulations!",
+                text: "Your registration was successful!",
+                icon: "success",
             })
-              .then((res) => {
-                if (res) {
-                  navigate("/")
-                }
-              })
-          }
+                .then((res) => {
+                    if (res) {
+                        navigate("/")
+                    }
+                })
+        }
         fetch(`${baseURL}/auth/signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },

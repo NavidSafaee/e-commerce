@@ -16,7 +16,7 @@ function TopStrip() {
           <strong className='brand-name'>Soft Land</strong>
         </div>
         <div className="account-box">
-          {authContext.isLoggedIn === true ?
+          {authContext.isLoggedIn ?
             authContext.userInfo?.username :
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
