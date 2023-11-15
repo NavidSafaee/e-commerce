@@ -1,15 +1,15 @@
 const fs = require('fs');
+const crypto = require('crypto');
 const path = require('path');
 
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
 const {
     generateTokens,
-    generateAccessToken,
-    generateRefreshToken,
+    // generateAccessToken,
+    // generateRefreshToken,
     generateResetPasswordToken
 } = require('../utils/jwt');
 const User = require('../models/userModel');
@@ -85,10 +85,14 @@ async function login(reqBody) {
             const doMatch = await bcrypt.compare(password, user.password);
 
             if (doMatch) {
-                // const accessToken = generateAccessToken(user._id.toString());
-                // const refreshToken = await generateRefreshToken(user._id.toString());
+    
+                const { accessToken, refreshToken } = await generateTokens(user._id.toString());
 
-                return await generateTokens(user._id.toString());
+                return {
+                    accessToken,
+                    refreshToken,
+                    user: user.toJSON()
+                }
             }
         }
 
@@ -108,11 +112,13 @@ async function login(reqBody) {
                 if (email) user = await User.findOne({ email });
                 else if (phoneNumber) user = await User.findOne({ phoneNumber });
 
-                // const accessToken = generateAccessToken(user._id.toString());
-                // const refreshToken = await generateRefreshToken(user._id.toString());
+                const { accessToken, refreshToken } = await generateTokens(user._id.toString());
 
-                // return { accessToken, refreshToken }
-                return await generateTokens(user._id.toString());
+                return {
+                    accessToken,
+                    refreshToken,
+                    user: user.toJSON()
+                }
             }
         }
 
@@ -192,7 +198,6 @@ async function verifyResetPasswordToken(token) {
 
 //test changed logic
 async function refreshToken(refreshToken) {
-
     const { sub: userId } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findOne({ _id: userId, 'tokens.refreshToken': refreshToken });
 
@@ -208,7 +213,6 @@ async function refreshToken(refreshToken) {
     } else {
         user.tokens = user.tokens.filter(tokenObj => tokenObj.refreshToken !== refreshToken);
         await user.save();
-``
         return await generateTokens(userId);
     }
 }
