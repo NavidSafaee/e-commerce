@@ -17,7 +17,7 @@ function SignupPageComponent() {
 
     const [formFlag, setFormFlag] = useState(false)
     const [OTP_Flag, setOTP_Flag] = useState(false)
-    const [userOTP, setuUserOTP] = useState("")
+    const [userOTP, setUserOTP] = useState("")
     const [username, setUsername] = useState("")
     const [userPass, setUserPass] = useState("")
     const [userConfirmPass, setUserConfirmPass] = useState("")
@@ -105,6 +105,7 @@ function SignupPageComponent() {
                 return res.json()
             })
             .then(data => {
+                console.log(data)
                 authContext.login(data.user, data.accessToken, data.refreshToken)
                 showModal()
             })
@@ -190,7 +191,7 @@ function SignupPageComponent() {
 
                                 <button
                                     className='form-btn'
-                                    onClick={() => FormChecker(emailOrPhone)}
+                                    onClick={FormChecker}
                                 >
                                     {!formFlag ? "continue" : <Spinner animation="grow" variant="dark" />}
                                 </button>
@@ -211,7 +212,7 @@ function SignupPageComponent() {
                         <input className='otp-input'
                             type="text"
                             value={userOTP}
-                            onChange={e => setuUserOTP(e.target.value)}
+                            onChange={e => setUserOTP(e.target.value)}
                             maxLength={6}
                             minLength={6}
                         />

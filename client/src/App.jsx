@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRoutes } from "react-router-dom"
+import { useNavigate, useRoutes } from "react-router-dom"
 import routes from "./assets/Routes"
 import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
@@ -14,6 +14,8 @@ function App() {
   const [userInfo, setUserInfo] = useState({})
 
   const router = useRoutes(routes)
+
+  const navigate = useNavigate()
 
   const login = (userInfo, accessToken, refreshToken) => {
     setIsLoggedIn(true)
@@ -77,6 +79,22 @@ function App() {
 
   const logout = () => {
     // codes
+    fetch(`${baseURL}/auth/logout`,
+      {
+        method: "POST",
+        headers: {Authorization: `Bearer ${accessToken}`}
+      }
+    ).then(res => {
+      console.log(res)
+      if (res.ok) {
+        setAccessToken("")
+        setIsLoggedIn(false)
+        setRefreshToken("")
+        setUserInfo(null)
+        localStorage.removeItem("userToken")
+        navigate("/")
+      }
+    })
   }
 
   return (
