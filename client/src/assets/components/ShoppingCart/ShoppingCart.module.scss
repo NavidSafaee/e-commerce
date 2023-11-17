@@ -1,0 +1,208 @@
+@mixin flex($dir: row) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @if($dir ==c) {
+        flex-direction: column;
+    }
+
+    @else {
+        flex-direction: $dir;
+    }
+}
+
+.cartWrapper {
+    width: 100%;
+    min-height: 80vh;
+    @include flex(c);
+    justify-content: flex-start;
+    padding: 30px 100px;
+
+    .header {
+        width: 100%;
+        @include flex(c);
+        gap: 10px;
+
+        .title {
+            color: #444;
+            font-size: 30px;
+            font-weight: 700;
+            padding-left: 20px;
+        }
+
+        .line {
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(to right, #fff, #002ec7, #fff);
+            border-radius: 20px;
+        }
+    }
+
+    .empty_cart {
+        @include flex();
+        width: 100%;
+        padding: 80px;
+
+        img[alt="empty_cart"] {
+            width: 400px;
+        }
+
+        .empty_message_box {
+            width: 400px;
+            @include flex(c);
+
+            .message_title {
+                font-size: 36px;
+                margin-bottom: 15px;
+                color: #333;
+            }
+
+            .message_text {
+                margin: 0;
+                color: #777;
+            }
+
+            .shop_btn {
+                border: none;
+                border-radius: 30px;
+                font-size: 20px;
+                width: 180px;
+                height: 45px;
+                margin-top: 30px;
+                font-weight: 600;
+                color: #fff;
+                background: linear-gradient(60deg, #00009d, #00aeff);
+            }
+        }
+    }
+
+    .cart_body {
+        @include flex();
+        align-items: flex-start;
+        width: 80%;
+        gap: 10px;
+        padding-top: 20px;
+
+        .cart_list {
+            @include flex(c);
+            width: 70%;
+            border: 4px solid #e1dede;
+            border-radius: 20px;
+
+            .shopping_cart_item {
+                width: 100%;
+                height: 270px;
+                @include flex();
+                justify-content: flex-start;
+                padding-left: 30px;
+                gap: 20px;
+                border-bottom: 2px solid #e1dede;
+
+                .image {
+                    width: 200px;
+                }
+            }
+        }
+
+        .checkout_box {
+            width: 30%;
+            // height: 300px;
+            position: sticky;
+            top: 10px;
+            gap: 10px;
+            @include flex(c);
+
+            .couponBox {
+                border-radius: 10px;
+                padding: 10px;
+                background-color: #e6eaf5;
+                width: 100%;
+                gap: 5px;
+                @include flex(c);
+                padding: 10px;
+                align-items: flex-start;
+
+                .couponTitle {
+                    margin: 0;
+                    font-weight: 600;
+                }
+
+                .input_box {
+                    width: 100%;
+                    @include flex();
+
+                    input[placeholder="Coupon code"] {
+                        border: 2px solid #a9a9a9;
+                        border-radius: 5px 0 0 5px;
+                        padding: 5px;
+                        width: 75%;
+                        height: 40px;
+                        outline: none;
+                    }
+
+                    .couponBtn {
+                        width: 25%;
+                        border-radius: 0 5px 5px 0;
+                        height: 40px;
+                        border: none;
+                        color: #fff;
+                        font-weight: 600;
+                        background-color: #008000;
+                    }
+                }
+            }
+
+            .facture {
+                width: 100%;
+                @include flex(c);
+                background-color: #e6eaf5;
+                border-radius: 10px;
+                gap: 10px;
+                padding: 10px;
+
+                .item {
+                    @include flex();
+                    justify-content: space-between;
+                    font-weight: 600;
+                    width: 90%;
+
+                    .itemTitle {
+                        color: #333;
+                    }
+                    .itemValue {
+                        font-size: 18px;
+                        &.red {
+                            color: red;
+                        }
+                        &.green {
+                            color: green;
+                        }
+                        &.finalValue {
+                            font-size: 24px;
+                            font-weight: 700;
+                            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                        }
+                    }
+                }
+                .line {
+                    width: 100%;
+                    height: 3px;
+                    border-radius: 10px;
+                    background-color: #cbcbcb;
+                }
+                .checkout_btn {
+                    width: 80%;
+                    height: 40px;
+                    margin: 10px 0;
+                    border-radius: 5px;
+                    color: #fff;
+                    background-color: #008000;
+                    border: none;
+                    font-weight: 700;
+                    font-size: 21px;
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ import ProductPage from "./pages/ProductPage"
 import SignupPage from "./pages/SignupPage"
 import ForgotPassPage from "./pages/ForgotPassPage"
 import ResetPassPage from "./pages/ResetPassPage"
+import ShoppingCartPage from "./pages/ShoppingCartPage"
 
 const routes = [
     {path: "/", element: <MainPage />},
@@ -15,6 +16,7 @@ const routes = [
     {path: "/consultation", element: <ConsultationPage />},
     {path: "/forgot-pass", element: <ForgotPassPage />},
     {path: "/reset-pass/:userId", element: <ResetPassPage />},
+    {path: "/checkout/cart/", element: <ShoppingCartPage />},
     {path: "*", element: <NotFoundPage />}
 ]
 
