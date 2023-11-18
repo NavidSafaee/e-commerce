@@ -1,5 +1,6 @@
 import './ProductCard.scss'
 import { LuStar } from 'react-icons/lu'
+import { MdStar } from "react-icons/md"
 import { FiEye } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { BsCartPlus } from 'react-icons/bs'
@@ -38,7 +39,7 @@ function ProductCard({ title, img, rate, category, status, discount, price, newP
         {rate !== null && <div className="rate-box">
           {
             coloredStars.map((star, i) => (
-              <LuStar key={i} className='colored-star' />
+              <MdStar key={i} className='colored-star' />
             ))
           }
           {

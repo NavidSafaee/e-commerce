@@ -6,6 +6,11 @@ import Shopping_Cart_Item from "./Shopping_Cart_Item"
 function ShoppingCart() {
 
     const [cartProducts, setCartProducts] = useState([])
+    const [isEmpty, setIsEmpty] = useState(true)
+
+    useEffect(() => {
+        setIsEmpty(false)
+    }, [])
 
     useEffect(() => {
         fetch("http://localhost:8080/products", {
@@ -22,7 +27,7 @@ function ShoppingCart() {
                     <span className={styles.title}>Shopping cart</span>
                     <div className={styles.line}></div>
                 </div>
-                {1 == 15 &&
+                {isEmpty ?
                     <div className={styles.empty_cart}>
                         <img src="./../../../../public/general_images/empty_cart.png" alt="empty_cart" />
                         <div className={styles.empty_message_box}>
@@ -32,9 +37,7 @@ function ShoppingCart() {
                             <button className={styles.shop_btn}>Shop Now</button>
                         </div>
                     </div>
-                }
-                {
-                    1 == 1 &&
+                    :
                     <div className={styles.cart_body}>
                         <div className={styles.cart_list}>
                             {
@@ -43,6 +46,8 @@ function ShoppingCart() {
                                         key={item._id}
                                         img={item.imageUrl}
                                         title={item.title}
+                                        rate={item.rate}
+                                        price={(item.newPrice)? item.newPrice : item.price}
                                     />
                                 ))
                             }
