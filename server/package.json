@@ -29,6 +29,9 @@
     "chai-http": "^4.4.0",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
-    "sinon": "^16.1.0"
+    "sinon": "^16.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
   }
 }

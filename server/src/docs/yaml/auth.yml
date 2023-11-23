@@ -1,0 +1,299 @@
+/auth/signup:
+  post:
+    summary: Creates a new account in SoftLand
+    tags:
+      - auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  username:
+                    type: string
+                    example: navid
+                  phoneNumber:
+                    type: string
+                    example: 09111111111
+                  password:
+                    type: string
+                    example: 123456
+                  confirmPassword:
+                    type: string
+                    example: 123456
+                  OTP:
+                    type: string
+                    example: f43r6d
+              - type: object
+                properties:
+                  username:
+                    type: string
+                    example: navid
+                  email:
+                    type: string
+                    format: email
+                  password:
+                    type: string
+                    example: 123456
+                  confirmPassword:
+                      type: string
+                      example: 123456
+                  OTP:
+                    type: string
+                    example: f43r6d            
+    responses:
+      "201":
+        description: successfully added to cart
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Tokens'
+                - type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/User'          
+      "400":
+        $ref: '#/components/responses/badRequest'          
+
+
+/auth/login:
+  post:
+    summary: Logs the user in to SoftLand account 
+    tags:
+      - auth 
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                  password:
+                    type: string
+                    example: 123456
+              - type: object
+                properties:
+                  phoneNumber:
+                    type: string
+                    example: 09111111111
+                  password:
+                    type: string
+                    example: 123456
+              - type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                  OTP:
+                    type: string
+                    example: fr43s1
+              - type: object
+                properties:
+                  phoneNumber:
+                    type: string
+                    example: 09111111111
+                  OTP:
+                    type: string
+                    example: fr43s1
+    responses:
+      "200":
+        description: successfully logged in
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Tokens'
+                - type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/User'
+      "400":
+        $ref: '#/components/responses/badRequest'
+      "401":
+        $ref: '#/components/responses/unauthorized'
+
+
+
+/auth/logout:
+  post:
+    summary: Logs out of SoftLand account
+    tags:
+      - auth
+    security: 
+      - bearerAuth: []   
+    responses:
+      "201":
+        description: successfully logged out and revoked token
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: logged out successfully
+      "401":
+        $ref: '#/components/responses/unauthorized'
+
+
+/auth/forgot-password:
+  post:
+    summary: Sends a reset password link to user
+    tags:
+      - auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+              - type: object
+                properties:
+                  phoneNumber:
+                    type: string
+                    example: 09111111111  
+    responses:
+      "204":
+        description: successfully sent link to user via email/sms 
+
+/auth/reset-password/token-verification:
+  post:
+    summary: Verifies reset password token
+    tags:
+      - auth
+    requestBody:  
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs   
+    responses:
+      "204":
+        description: token verified             
+      "401":
+        $ref: '#/components/responses/unauthorized'            
+
+
+/auth/reset-password:
+  post:
+    summary: Resets users password
+    tags:
+      - auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+                example: 123456
+              confirmPassword:
+                type: string
+                example: 123456
+              token:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs
+    responses:
+      "204":
+        description: password reset successfully           
+      "401":
+        $ref: '#/components/responses/unauthorized'  
+
+
+
+/auth/refresh-token:
+  post:
+    summary: Returns new access and refresh token
+    tags:
+      - auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:  
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs
+    responses:
+      "200":
+        description: token refreshed successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tokens'
+      "401":
+        $ref: '#/components/responses/unauthorized'  
+
+
+/auth/contact-verification:
+  post:
+    summary: Verifies users contact info
+    tags:
+      - auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  username:
+                    type: string
+                    example: navid
+                  phoneNumber:
+                    type: string
+                    example: 09111111111
+                  password:
+                    type: string
+                    example: 123456
+                  confirmPassword:
+                    type: string
+                    example: 123456     
+              - type: object
+                properties:
+                  username:
+                    type: string
+                    example: navid
+                  email:
+                    type: string
+                    format: email
+                  password:
+                    type: string
+                    example: 123456
+                  confirmPassword:
+                    type: string
+                    example: 123456
+              - type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+              - type: object
+                properties:
+                  phoneNumber:
+                    type: string
+                    example: 09111111111
+    responses:
+      "204":
+        description: sends verification code to users email or phoneNumber
+
+      
+
+

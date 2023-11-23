@@ -72,12 +72,8 @@ async function httpVerifyResetPasswordToken(req, res, next) {
     try {
         const token = Buffer.from(req.body.token, 'base64').toString()
 
-        // noo need for id. test and delete this
-        // const userId = 
         await verifyResetPasswordToken(token);
         res.sendStatus(204);
-        //whatttt??? test and delete this
-        // return userId;
 
     } catch (error) {
         next(error);

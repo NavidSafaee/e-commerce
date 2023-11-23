@@ -6,6 +6,8 @@ const {
     httpGetProductById
 } = require('../controllers/productController');
 
+// const { isAuth, isAdmin } = require('../middlewares/auth');
+
 const router = express.Router();
 
 router.get('/', httpGetAllProducts);

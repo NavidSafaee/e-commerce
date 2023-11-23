@@ -45,7 +45,9 @@ async function addToCart(userId, productId) {
         }
     }
     await cart.save();
-    return cart;
+    await cart.populate('items.product');
+    
+    return cart.items;
 }
 
 

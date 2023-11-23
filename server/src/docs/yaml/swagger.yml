@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: API Documents
+  description: API documentation for SoftLand
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: SoftLand server
+
+
+
+components:
+
+  responses:
+    unauthorized:
+        description: when authorization errors occur (jwt errors)
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'jwt message'
+    forbidden:
+        description: when user has valid token but can't access to this route due to his/her role
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'Access denied'
+    badRequest:
+      description: when user sends invalid request body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'              
+
+  securitySchemes:
+    bearerAuth:     
+      type: http
+      scheme: bearer
+      in: header
+      bearerFormat: JWT 
+
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 650b1ed61882fc118a114d19
+        title:
+          type: string
+          example: Modern Sofa
+        price:
+          type: number
+          example: 180
+        category:
+          type: string
+          example: SOFA
+        imageUrl:
+          type: string
+          example: images\products\11.png
+        rate:
+          type: number
+          example: 4
+        status:
+          type: string
+          example: New
+        discount:
+          type: number
+          example: 0.2
+        discountExpiresAt:
+          type: date
+          example: 2024-03-28T16:33:26.500Z
+        __v:
+          type: number
+          example: 0
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error message
+
+    Cart:
+      type: object
+      properties: 
+        product: 
+          $ref: "#/components/schemas/Product"
+        quantity: 
+          type: number
+          example: 2
+        _id:
+          type: string
+          example: 650b1ed61882fc118a114d19  
+
+    User:
+      type: object
+      properties: 
+        _id: 
+          type: string
+          example: 655769ef14b767ea9f0cfe6c
+        username: 
+          type: string
+          example: "navid"
+        role:
+          type: string
+          example: CUSTOMER
+        phoneNumber:
+          type: string
+          example: "09336652515"
+        email:
+          type: string
+          example: example@gmail.com
+        __v:
+          type: number
+          example: 2   
+    Tokens:
+      type: object
+      properties: 
+        accessToken: 
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs
+        refreshToken: 
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs 
+
+
+ 

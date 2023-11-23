@@ -1,0 +1,21 @@
+paths: 
+  /users/me:
+    get:
+      summary: Returns authenticated users info
+      tags:
+        - users
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'        
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'        
+
+                  

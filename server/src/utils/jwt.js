@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel');
 
-function generateAccessToken(userId) {
+function generateAccessToken(userId, role) {
     return jwt.sign(
-        {},
+        { role },
         process.env.ACCESS_TOKEN_SECRET,
         {
             subject: userId,
@@ -13,31 +13,10 @@ function generateAccessToken(userId) {
     );
 }
 
-// async function generateRefreshToken(userId) {
-//     const refreshToken = jwt.sign(
-//         {},
-//         process.env.REFRESH_TOKEN_SECRET,
-//         {
-//             subject: userId,
-//             expiresIn: '1y'
-//         }
-//     );
 
-//     // const aYearFromNow = new Date();
-//     // aYearFromNow.setFullYear(aYearFromNow.getFullYear() + 1);
-//     const {exp} = jwt.decode(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-//     const user = await User.findById(userId);
-//     user.refreshTokens.push({ token: refreshToken, expirationDate: exp + '000' });
-//     await user.save();
-
-//     return refreshToken;
-// }
-
-
-function generateRefreshToken(userId) {
+function generateRefreshToken(userId, role) {
     return jwt.sign(
-        {},
+        { role },
         process.env.REFRESH_TOKEN_SECRET,
         {
             subject: userId,
@@ -57,11 +36,9 @@ function generateResetPasswordToken(userId) {
     );
 }
 
-async function generateTokens(userId) {
-    const accessToken = generateAccessToken(userId);
-    const refreshToken = generateRefreshToken(userId);
-
-    console.log(refreshToken);
+async function generateTokens(userId, role) {
+    const accessToken = generateAccessToken(userId, role);
+    const refreshToken = generateRefreshToken(userId, role);
 
     const { exp } = jwt.decode(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
@@ -71,8 +48,6 @@ async function generateTokens(userId) {
 
     return { accessToken, refreshToken }
 }
-
-
 
 
 module.exports = {

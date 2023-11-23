@@ -7,10 +7,12 @@ const {
     httpAddToCart
 } = require('../controllers/cartController');
 
-const isAuth = require('../middlewares/isAuth');
+const { addToCartValidator } = require('../middlewares/validators/cartValidator');
 
-router.get('/', isAuth, httpGetCart);
-router.put('/', isAuth, httpAddToCart);
+const { isAuth, isCustomer } = require('../middlewares/auth');
+
+router.get('/', isAuth, isCustomer, httpGetCart);
+router.put('/', isAuth, isCustomer, addToCartValidator, httpAddToCart);
 
 
 module.exports = router;

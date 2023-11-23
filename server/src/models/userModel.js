@@ -9,6 +9,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['CUSTOMER', 'ADMIN'],
+        required: true
+    },
     email: String,
     phoneNumber: String,
     tokens: [{

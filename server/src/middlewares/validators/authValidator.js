@@ -1,4 +1,4 @@
-const { body, re, oneOf } = require('express-validator');
+const { body, oneOf } = require('express-validator');
 const User = require('../../models/userModel');
 
 
@@ -36,7 +36,7 @@ const existingAccountValidator = [
     body('phoneNumber')
         .if(body('email').not().exists())
         .custom(async (value, { req }) => {
-            const user = await User.findOne({ email: value });
+            const user = await User.findOne({ phoneNumber: value });
             if (!user) {
                 throw new Error('no account found for this phone number')
             }

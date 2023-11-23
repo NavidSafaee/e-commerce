@@ -21,8 +21,8 @@ const {
     tokenValidator,
     contactValidator
 } = require('../middlewares/validators/authValidator');
-  
-const isAuth = require('../middlewares/isAuth');
+
+const { isAuth } = require('../middlewares/auth');
 
 router.post('/signup', signupValidator, httpSignup);
 router.post('/login', loginValidator, httpLogin);

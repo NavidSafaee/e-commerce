@@ -48,18 +48,17 @@ async function signup(reqBody) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+    
     const user = new User({
         username,
         email,
         password: hashedPassword,
-        phoneNumber
+        phoneNumber,
+        role: "CUSTOMER"
     });
-
-
     await user.save();
-    // const accessToken = generateAccessToken(user._id.toString());
-    // const refreshToken = await generateRefreshToken(user._id.toString());
-    const { accessToken, refreshToken } = await generateTokens(user._id.toString());
+
+    const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
 
     return {
         accessToken,
@@ -86,7 +85,7 @@ async function login(reqBody) {
 
             if (doMatch) {
     
-                const { accessToken, refreshToken } = await generateTokens(user._id.toString());
+                const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
 
                 return {
                     accessToken,
@@ -96,7 +95,7 @@ async function login(reqBody) {
             }
         }
 
-        const error = new Error('wrong email or password');
+        const error = new Error('wrong contact info or password');
         error.statusCode = 401;
         throw error;
 
@@ -112,7 +111,9 @@ async function login(reqBody) {
                 if (email) user = await User.findOne({ email });
                 else if (phoneNumber) user = await User.findOne({ phoneNumber });
 
-                const { accessToken, refreshToken } = await generateTokens(user._id.toString());
+                const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
+
+                // await OTPDoc.deleteOne();
 
                 return {
                     accessToken,
@@ -122,7 +123,7 @@ async function login(reqBody) {
             }
         }
 
-        const error = new Error('wrong OTP');
+        const error = new Error('wrong contact info or OTP');
         error.statusCode = 401;
         throw error;
     }

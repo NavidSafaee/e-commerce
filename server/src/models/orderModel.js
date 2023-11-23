@@ -12,10 +12,14 @@ const orderSchema = new Schema({
             required: true
         },
         quantity: {
-            tpe: Number,
+            type: Number,
             required: true
         }
-    }]
+    }],
+    received: {
+        type: Boolean,
+        required: true
+    }
 }, { timestamps: true });
 
 

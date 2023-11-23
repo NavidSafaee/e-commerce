@@ -1,0 +1,65 @@
+/carts:
+  put:
+    summary: The product with given will be added to the cart
+    tags:
+      - carts 
+    security: 
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              productId:
+                type: string
+                example: 650b1ed61882fc118a114d19
+    responses: 
+      "200":
+        description: successfully added to cart
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Cart'
+      "404":
+        description: if there is no product with that id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'product not found!'            
+      "400":
+        $ref: '#/components/responses/badRequest'
+      "401":
+        $ref: '#/components/responses/unauthorized'
+      "403":
+        $ref: '#/components/responses/forbidden'
+
+
+  get:
+    summary: Returns users cart
+    tags:
+      - carts 
+    security: 
+      - bearerAuth: []
+    responses:
+      "200":
+        description: users cart
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Cart'
+      "404":
+        description: if user has no cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'        
+      "401":
+        $ref: '#/components/responses/unauthorized'
+      "403":
+        $ref: '#/components/responses/forbidden'
