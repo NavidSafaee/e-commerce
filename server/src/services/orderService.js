@@ -2,18 +2,15 @@ const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 
 async function postOrder(userId, orderItems, role) {
-
     if (role === 'ADMIN') {
 
-        // const {orderItems} = reqBody;
+        const order = new Order({
+            user: userId,
+            items: orderItems,
+            received: false
+        });
 
-        // const order = new Order({
-        //     user: userId,
-        //     items: orderItems
-        //     received: false
-        // });
-
-        // await order.save();
+        await order.save();
 
     } else if (role === 'CUSTOMER') {
 
@@ -22,7 +19,7 @@ async function postOrder(userId, orderItems, role) {
         if (!cart) {
             const error = new Error('Cart not found!');
             error.statusCode = 404;
-            throw error
+            throw error;
         }
 
         await cart.populate('items.product');
@@ -33,22 +30,31 @@ async function postOrder(userId, orderItems, role) {
             received: false
         });
 
+        await cart.deleteOne();
         await order.save();
     }
-
 }
 
-async function getOrder(userId) {
-    const order = await Order.findOne({ user: userId });
-    if (!order) {
-        const error = new Error('Order not found!');
-        error.statusCode = 404;
-        throw error
+async function getOrders(userId, query) {
+    const orders = await Order.find({ user: userId, received: query.received });
+    return orders;
+}
+
+async function changeReceivedState(orderId) {
+    const order = await Order.findById(orderId).populate('user');
+
+    if (order.user.role === 'CUSTOMER') {
+        const error = new Error('Access denied');
+        error.statusCode = 403;
+        throw error;
     }
-    return order;
+
+    order.received = true;
+    await order.save();
 }
 
 module.exports = {
     postOrder,
-    getOrder
+    getOrders,
+    changeReceivedState
 }

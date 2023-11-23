@@ -190,7 +190,7 @@
 
 
 /auth/reset-password:
-  post:
+  patch:
     summary: Resets users password
     tags:
       - auth

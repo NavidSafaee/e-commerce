@@ -1,15 +1,16 @@
 const { validationResult } = require('express-validator');
 
-const { 
+const {
     postOrder,
-    getOrder
- } = require('../services/orderService');
+    getOrders,
+    changeReceivedState
+} = require('../services/orderService');
 
 
 async function httpPostOrder(req, res, next) {
     try {
         validationCheck(req);
-        postOrder(req.userId, req.body.orderItems, req.role);
+        await postOrder(req.userId, req.body.orderItems, req.role);
         res.sendStatus(201);
     } catch (error) {
         next(error);
@@ -17,9 +18,20 @@ async function httpPostOrder(req, res, next) {
 }
 
 
-async function httpGetOrder(req, res, next) {
+async function httpGetOrders(req, res, next) {
     try {
-        getOrder(req.userId);
+        const response = await getOrders(req.userId, req.query);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function httpChangeReceivedState(req, res, next) {
+    try {
+        validationCheck(req);
+        await changeReceivedState(req.params.orderId);
+        res.sendStatus(204);
     } catch (error) {
         next(error);
     }
@@ -35,7 +47,7 @@ function validationCheck(req) {
         } else {
             err = new Error(errors.array()[0].msg);
         }
-        
+
         err.statusCode = 400;
         err.data = errors.array();
         throw err;
@@ -46,5 +58,6 @@ function validationCheck(req) {
 
 module.exports = {
     httpPostOrder,
-    httpGetOrder
+    httpGetOrders,
+    httpChangeReceivedState
 }

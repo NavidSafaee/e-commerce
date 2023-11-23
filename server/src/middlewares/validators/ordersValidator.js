@@ -1,4 +1,4 @@
-const { body, oneOf } = require('express-validator');
+const { body, param, oneOf } = require('express-validator');
 
 
 const postOrderValidator = [
@@ -20,7 +20,6 @@ const postOrderValidator = [
         ],
         body().custom((value, { req }) => {
             if (req.role !== 'ADMIN') {
-                console.log('abad?');
                 return true;
             }
         })

@@ -48,7 +48,7 @@ async function signup(reqBody) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    
+
     const user = new User({
         username,
         email,
@@ -84,7 +84,7 @@ async function login(reqBody) {
             const doMatch = await bcrypt.compare(password, user.password);
 
             if (doMatch) {
-    
+
                 const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
 
                 return {
@@ -131,7 +131,7 @@ async function login(reqBody) {
 
 async function logout(token) {
     const { sub: userId } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    
+
     const user = await User.findById(userId);
     user.tokens = user.tokens.filter(tokenObj => tokenObj.accessToken !== token);
     await user.save();
@@ -143,7 +143,7 @@ async function emailResetPasswordLink(email) {
     const user = await User.findOne({ email });
 
     const token = generateResetPasswordToken(user._id.toString());
-    
+
     const encodedToken = Buffer.from(token).toString('base64');
     console.log(encodedToken);
     const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'resetPassword-email.ejs'));
@@ -168,13 +168,8 @@ async function smsResetPasswordLink(phoneNumber) {
 
 async function resetPassword(userId, reqBody) {
     const { password, token } = reqBody;
-
-    const user = await User.findById(userId);
     const hashedPassword = await bcrypt.hash(password, 12);
-
-    user.password = hashedPassword;
-    await user.save();
-
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
     await revokeToken(token);
 }
 
@@ -189,7 +184,7 @@ async function verifyResetPasswordToken(token) {
         }
 
         return userId;
-        
+
     } catch (error) {
         error.statusCode = 401;
         throw error;

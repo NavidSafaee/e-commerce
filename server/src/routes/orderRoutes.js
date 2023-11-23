@@ -2,14 +2,19 @@ const express = require('express');
 
 const {
     httpPostOrder,
-    httpGetOrder
+    httpGetOrders,
+    httpChangeReceivedState
 } = require('../controllers/orderController');
-const { isAuth } = require('../middlewares/auth');
-const { postOrderValidator } = require('../middlewares/validators/ordersValidator');
+const { isAuth, isAdmin } = require('../middlewares/auth');
+const { 
+    postOrderValidator,
+    changeReceivedStateValidator 
+} = require('../middlewares/validators/ordersValidator');
 
 const router = express.Router();
 
-router.get('/', isAuth, httpGetOrder);
+router.get('/', isAuth, httpGetOrders);
 router.post('/', isAuth, postOrderValidator, httpPostOrder);
+router.put('/:orderId/received', isAuth, isAdmin, httpChangeReceivedState);
 
 module.exports = router;
