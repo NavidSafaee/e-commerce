@@ -7,7 +7,6 @@ import RecomendedDepartment from "../components/RecomendedDepartment/RecomendedD
 import SpecialOfferSection from "../components/SpecialOfferSection/SpecialOfferSection"
 import TopBar from "../components/TopBar/TopBar"
 import TopStrip from "../components/TopStrip/TopStrip"
-import TrensSection from "../components/TrensSection/TrensSection"
 
 function MainPage() {
   return (
@@ -18,7 +17,6 @@ function MainPage() {
       <HeroSlider />
       <AdvantagesSection />
       <RecomendedDepartment />
-      <TrensSection />
       <SpecialOfferSection />
       <ProductsSection />
       <Footer />

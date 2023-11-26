@@ -5,14 +5,15 @@ import { FiEye } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { BsCartPlus } from 'react-icons/bs'
 import baseURL from '../../baseURL'
+import { Link } from 'react-router-dom'
 
 // eslint-disable-next-line react/prop-types
-function ProductCard({ title, img, rate, category, status, discount, price, newPrice }) {
+function ProductCard({ _id, title, imageUrl, rate, category, status, discount, price, newPrice }) {
   let coloredStars = Array.from(Array(rate).keys())
   let greyStars = Array.from(Array(5 - rate).keys())
 
   return (
-    <div className="product-card">
+    <Link to={`/products/${_id}`} className="product-card">
       {
         (status === "New") && <span className='status new-product'>New</span>
       }
@@ -20,7 +21,7 @@ function ProductCard({ title, img, rate, category, status, discount, price, newP
         (status === "Sale") && <span className='status sale'>Sale</span>
       }
       <div className="img-wrapper">
-        <img src={`${baseURL}/public/${img}`} alt={title} crossOrigin='false'/>
+        <img src={`${baseURL}/public/${imageUrl}`} alt={title} crossOrigin='false'/>
         <div className="icon-wrapper"><AiOutlineHeart className='action-icon heart-icon' /></div>
         <div className="icon-wrapper"><FiEye className='action-icon eye-icon' /></div>
         <div className="icon-wrapper"><BsCartPlus className='action-icon cart-icon' /></div>
@@ -49,7 +50,7 @@ function ProductCard({ title, img, rate, category, status, discount, price, newP
           }
         </div>}
       </div>
-    </div>
+    </Link>
   )
 }
 

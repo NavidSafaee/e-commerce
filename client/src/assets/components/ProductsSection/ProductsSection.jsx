@@ -3,6 +3,7 @@ import "./ProductsSection.scss"
 // import productsList from "./ProductsList.json"
 import ProductCard from "../ProductCard/ProductCard"
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi'
+import baseURL from "../../baseURL"
 
 function ProductsSection() {
     const [focusItem, setFocusItem] = useState("All Products")
@@ -12,11 +13,11 @@ function ProductsSection() {
     const filterItems = ["All Products", "Best Sellers", "New Arrivals", "Todays Deals"]
 
     useEffect(() => {
-        fetch("http://localhost:8080/products", {
+        fetch(`${baseURL}/products`, {
             method: "GET"
         })
             .then(res => res.json())
-            .then(data => { setAllProducts(data.products) })
+            .then(data => { setAllProducts(data.products); console.log(data); })
     }, [])
 
     return (
@@ -40,14 +41,7 @@ function ProductsSection() {
                     allProducts?.map(item => (
                         <ProductCard
                             key={item._id}
-                            title={item.title}
-                            category={item.category}
-                            rate={item.rate}
-                            price={item.price}
-                            newPrice={item.newPrice}
-                            status={item.status}
-                            img={item.imageUrl}
-                            discount={item.discount}
+                            {...item}
                         />
                     ))
                 }

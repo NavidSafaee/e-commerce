@@ -5,18 +5,15 @@ import Navbar from "../components/Navbar/Navbar"
 import TopBar from "../components/TopBar/TopBar"
 import TopStrip from "../components/TopStrip/TopStrip"
 import PreLoader from "../components/PreLoader/PreLoader"
-// import { useParams } from "react-router-dom"
 
 function ProductPage() {
     
     const [isLoaded, setIsLoaded] = useState(false)
 
-    // const {productID} = useParams()
-
     useEffect(() => {
         setTimeout(() => {
             setIsLoaded(true)
-        }, 3000)
+        }, 1000)
     }, [])
 
     return (

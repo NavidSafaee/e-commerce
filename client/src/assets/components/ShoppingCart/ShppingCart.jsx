@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import styles from "./ShoppingCart.module.scss"
 import Shopping_Cart_Item from "./Shopping_Cart_Item"
+import baseURL from "../../baseURL"
 
 function ShoppingCart() {
 
@@ -13,10 +14,12 @@ function ShoppingCart() {
     }, [])
 
     useEffect(() => {
-        fetch("http://localhost:8080/products", {
+        fetch(`${baseURL}/products`, {
             method: "GET"
         })
-            .then(res => res.json())
+            .then(res => {
+                return res.json()
+            })
             .then(data => { setCartProducts(data.products) })
     }, [])
 
