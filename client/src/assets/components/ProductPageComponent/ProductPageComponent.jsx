@@ -2,10 +2,11 @@
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai"
 import { BiDollar } from 'react-icons/bi'
 import ComponentStyle from "./ProductPageComponent.module.scss"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import baseURL from "../../baseURL"
 import { useParams } from "react-router-dom"
 import { calcDiscountedPrice } from "../../functions"
+import AuthContext from "../Context/AuthContext"
 
 function ProductPageComponent() {
 
@@ -15,13 +16,28 @@ function ProductPageComponent() {
     const [rate, setRate] = useState(0)
     const { productId } = useParams()
 
+    const authContext = useContext(AuthContext)
+
+    const productAdder = () => {
+        let req_body = { "productId": productInfo._id }
+        console.log(productInfo._id)
+        fetch(`${baseURL}/carts`, {
+            method: "PUT",
+            headers: { Authorization: `Bearer ${authContext.accessToken}`, "Content-type": "application/json" },
+            body: JSON.stringify(req_body)
+        }).then(res => {
+            console.log(res)
+            return res.json()
+        }).then(data => console.log(data))
+    }
+
     useEffect(() => {
         fetch(`${baseURL}/products/${productId}`, {
             method: "GET",
             headers: { "Content-type": "application/json" }
         }).then(res => {
             return res.json()
-        }).then(data => { setProductInfo(data); setRate(data.rate); console.log(data); })
+        }).then(data => { setProductInfo(data); setRate(data.rate); })
     }, [])
 
     return (
@@ -54,7 +70,7 @@ function ProductPageComponent() {
                         Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
                     </div>
                     <div className={ComponentStyle.btnBox}>
-                        <button className={ComponentStyle.addBtn}>Add to Cart</button>
+                        <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
                     </div>
                 </div>
             </section>}

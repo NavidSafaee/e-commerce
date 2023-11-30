@@ -5,6 +5,7 @@ import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
 import { useCallback, useEffect, useState } from "react";
 import baseURL from "./assets/baseURL";
+import { isTokenExpired } from "./assets/functions";
 
 function App() {
 
@@ -17,12 +18,16 @@ function App() {
 
   const navigate = useNavigate()
 
+  const writeTokenInStorage = (token) => {
+    setAccessToken(token.accessToken)
+    setRefreshToken(token.refreshToken)
+    localStorage.setItem("userToken", JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken }))
+  }
+
   const login = (userInfo, accessToken, refreshToken) => {
     setIsLoggedIn(true)
-    setAccessToken(accessToken)
-    setRefreshToken(refreshToken)
+    writeTokenInStorage({ accessToken, refreshToken })
     setUserInfo(userInfo)
-    localStorage.setItem("userToken", JSON.stringify({ accessToken, refreshToken }))
   }
 
   const getMe = (userToken) => {
@@ -36,7 +41,7 @@ function App() {
       })
       .then(userData => {
         if (userData.message == "jwt expired") {
-          refreshTokenHandler()
+          refreshTokenHandler(null)
         } else {
           setIsLoggedIn(true)
           setUserInfo(userData)
@@ -54,9 +59,10 @@ function App() {
     }
   }, [])
 
-  const refreshTokenHandler = useCallback(() => {
+  const refreshTokenHandler = useCallback((functionType) => {
+    console.log(functionType)
     const userToken = JSON.parse(localStorage.getItem("userToken"))
-    if (userToken) {
+    if (userToken.refreshToken) {
       fetch(`${baseURL}/auth/refresh-token`, {
         method: "POST",
         headers: {
@@ -69,32 +75,42 @@ function App() {
           return res.json()
         })
         .then(userData => {
-          setAccessToken(userData.accessToken)
-          setRefreshToken(userData.refreshToken)
-          localStorage.setItem("userToken", JSON.stringify({ accessToken: userData.accessToken, refreshToken: userData.refreshToken }))
+          writeTokenInStorage(userData)
           getMe(userData)
+          switch (functionType) {
+            case "logout":
+              logout()
+              break;
+
+            default:
+              break;
+          }
         })
     }
   }, [])
 
-  const logout = () => {
-    // codes
-    fetch(`${baseURL}/auth/logout`,
-      {
-        method: "POST",
-        headers: {Authorization: `Bearer ${accessToken}`}
-      }
-    ).then(res => {
-      console.log(res)
-      if (res.ok) {
-        setAccessToken("")
-        setIsLoggedIn(false)
-        setRefreshToken("")
-        setUserInfo(null)
-        localStorage.removeItem("userToken")
-        navigate("/")
-      }
-    })
+  const logout = async () => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"))
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler("logout")
+    } else {
+      await fetch(`${baseURL}/auth/logout`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${userToken.accessToken}` }
+        }
+      ).then(res => {
+        console.log(res)
+        if (res.ok) {
+          setAccessToken("")
+          setIsLoggedIn(false)
+          setRefreshToken("")
+          setUserInfo(null)
+          localStorage.removeItem("userToken")
+          navigate("/")
+        }
+      })
+    }
   }
 
   return (

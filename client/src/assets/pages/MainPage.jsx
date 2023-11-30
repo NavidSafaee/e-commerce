@@ -3,7 +3,6 @@ import Footer from "../components/Footer/Footer"
 import HeroSlider from "../components/HeroSlider/HeroSlider"
 import Navbar from "../components/Navbar/Navbar"
 import ProductsSection from "../components/ProductsSection/ProductsSection"
-import RecomendedDepartment from "../components/RecomendedDepartment/RecomendedDepartment"
 import SpecialOfferSection from "../components/SpecialOfferSection/SpecialOfferSection"
 import TopBar from "../components/TopBar/TopBar"
 import TopStrip from "../components/TopStrip/TopStrip"
@@ -16,7 +15,6 @@ function MainPage() {
       <Navbar />
       <HeroSlider />
       <AdvantagesSection />
-      <RecomendedDepartment />
       <SpecialOfferSection />
       <ProductsSection />
       <Footer />
