@@ -65,12 +65,12 @@
         .detailRow {
             @include flex();
             justify-content: space-between;
-            width: 300px;
+            width: 350px;
 
             .price {
                 @include flex();
-                font-size: 35px;
-                font-weight: 700;
+                font-size: 32px;
+                font-weight: 600;
                 color: #00006d;
             }
 

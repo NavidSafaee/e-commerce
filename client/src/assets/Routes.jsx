@@ -12,7 +12,7 @@ const routes = [
     {path: "/", element: <MainPage />},
     {path: "/login", element: <LoginPage />},
     {path: "/sign-up", element: <SignupPage />},
-    {path: "/products/:productID", element: <ProductPage />},
+    {path: "/products/:productId", element: <ProductPage />},
     {path: "/consultation", element: <ConsultationPage />},
     {path: "/forgot-pass", element: <ForgotPassPage />},
     {path: "/reset-pass/:userId", element: <ResetPassPage />},
