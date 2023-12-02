@@ -19,6 +19,7 @@ function App() {
   const navigate = useNavigate()
 
   const writeTokenInStorage = (token) => {
+    console.log("writeTokenInStorage => ", "binamoose dalghak!", token);
     setAccessToken(token.accessToken)
     setRefreshToken(token.refreshToken)
     localStorage.setItem("userToken", JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken }))
@@ -31,39 +32,41 @@ function App() {
   }
 
   const getMe = (userToken) => {
+    console.log('getme bus');
     fetch(`${baseURL}/users/me`, {
       headers: {
         Authorization: `Bearer ${userToken.accessToken}`
       }
+    }).then(res => {
+      return res.json()
+    }).then(userData => {
+      writeTokenInStorage(userToken)
+      setIsLoggedIn(true)
+      setUserInfo(userData)
     })
-      .then(res => {
-        return res.json()
-      })
-      .then(userData => {
-        if (userData.message == "jwt expired") {
-          refreshTokenHandler(null)
-        } else {
-          setIsLoggedIn(true)
-          setUserInfo(userData)
-          setAccessToken(userToken.accessToken)
-          setRefreshToken(userToken.refreshToken)
-        }
-      })
   }
 
   useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
 
     if (userToken) {
-      getMe(userToken)
+      if (isTokenExpired(userToken.accessToken)) {
+        refreshTokenHandler()
+          .then(userToken => {
+            console.log("when expired! ", userToken)
+            getMe(userToken);
+          })
+        } else {
+        console.log("normal", userToken)
+        getMe(userToken)
+      }
     }
   }, [])
 
-  const refreshTokenHandler = useCallback((functionType) => {
-    console.log(functionType)
+  const refreshTokenHandler = useCallback(() => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
     if (userToken.refreshToken) {
-      fetch(`${baseURL}/auth/refresh-token`, {
+      return fetch(`${baseURL}/auth/refresh-token`, {
         method: "POST",
         headers: {
           "Content-type": "application/json"
@@ -74,25 +77,21 @@ function App() {
           console.log("ref => ", res)
           return res.json()
         })
-        .then(userData => {
-          writeTokenInStorage(userData)
-          getMe(userData)
-          switch (functionType) {
-            case "logout":
-              logout()
-              break;
-
-            default:
-              break;
-          }
-        })
     }
   }, [])
 
   const logout = async () => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
     if (isTokenExpired(userToken.accessToken)) {
-      refreshTokenHandler("logout")
+      refreshTokenHandler()
+        .then(userData => {
+          writeTokenInStorage(userData)
+          setIsLoggedIn(true)
+          setUserInfo(userData)
+          setAccessToken(userToken.accessToken)
+          setRefreshToken(userToken.refreshToken)
+          logout()
+        })
     } else {
       await fetch(`${baseURL}/auth/logout`,
         {

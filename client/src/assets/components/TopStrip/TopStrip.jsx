@@ -22,7 +22,7 @@ function TopStrip() {
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
         </div>
-        {authContext.isLoggedIn && <div className="logout-btn" onClick={authContext.logout}>
+        {authContext.isLoggedIn && <div className="logout-btn" onClick={() => authContext.logout({accessToken: authContext.accessToken, refreshToken: authContext.refreshToken})}>
           <FaPowerOff />
         </div>}
       </div>

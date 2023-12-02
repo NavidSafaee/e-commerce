@@ -194,7 +194,7 @@ async function verifyResetPasswordToken(token) {
 
 //test changed logic
 async function refreshToken(refreshToken) {
-    const { sub: userId } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const { sub: userId, role } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findOne({ _id: userId, 'tokens.refreshToken': refreshToken });
 
 
@@ -209,7 +209,7 @@ async function refreshToken(refreshToken) {
     } else {
         user.tokens = user.tokens.filter(tokenObj => tokenObj.refreshToken !== refreshToken);
         await user.save();
-        return await generateTokens(userId);
+        return await generateTokens(userId, role);
     }
 }
 

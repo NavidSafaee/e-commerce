@@ -8,7 +8,7 @@ function generateAccessToken(userId, role) {
         process.env.ACCESS_TOKEN_SECRET,
         {
             subject: userId,
-            expiresIn: '30m'
+            expiresIn: '1m'
         }
     );
 }
