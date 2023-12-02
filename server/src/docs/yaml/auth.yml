@@ -167,6 +167,8 @@
     responses:
       "204":
         description: successfully sent link to user via email/sms 
+      "400":
+        $ref: '#/components/responses/badRequest'
 
 /auth/reset-password/token-verification:
   post:

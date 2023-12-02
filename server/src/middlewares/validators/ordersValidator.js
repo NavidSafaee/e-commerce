@@ -1,4 +1,4 @@
-const { body, param, oneOf } = require('express-validator');
+const { body, oneOf } = require('express-validator');
 
 
 const postOrderValidator = [

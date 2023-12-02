@@ -36,13 +36,17 @@ async function signup(reqBody) {
         OTP: otp
     } = reqBody;
 
-    // const hashedOTP = await bcrypt.hash(otp, 12);
+    let role = "CUSTOMER"
+    if (await User.countDocuments() === 0) {
+        role = "ADMIN"
+    }
+
     const contactInfo = email || phoneNumber;
 
-    const OTPDoc = await OTP.findOne({ contactInfo });
+    const OTPDoc = await OTP.find({ contactInfo });
 
     if (!OTPDoc || !(await bcrypt.compare(otp, OTPDoc.OTP))) {
-        const error = new Error('wrong OTP');
+        const error = new Error('Wrong contact info or OTP');
         error.statusCode = 400;
         throw error;
     }
@@ -54,11 +58,11 @@ async function signup(reqBody) {
         email,
         password: hashedPassword,
         phoneNumber,
-        role: "CUSTOMER"
+        role
     });
     await user.save();
 
-    const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
+    const { accessToken, refreshToken } = await generateTokens(user._id.toString(), role);
 
     return {
         accessToken,
@@ -101,10 +105,12 @@ async function login(reqBody) {
 
     } else if (otp) {
         const contactInfo = email || phoneNumber;
-        const OTPDoc = await OTP.findOne({ contactInfo });
+        const OTPDocs = await OTP.find({ contactInfo });
 
-        if (OTPDoc) {
-            const doMatch = await bcrypt.compare(otp, OTPDoc.OTP);
+        if (OTPDocs.length > 0) {
+            const doMatch = OTPDocs.some(async (OTPDoc) => {
+                return await bcrypt.compare(otp, OTPDoc.OTP);
+            })
 
             if (doMatch) {
                 let user;
@@ -112,8 +118,6 @@ async function login(reqBody) {
                 else if (phoneNumber) user = await User.findOne({ phoneNumber });
 
                 const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
-
-                // await OTPDoc.deleteOne();
 
                 return {
                     accessToken,
@@ -123,7 +127,7 @@ async function login(reqBody) {
             }
         }
 
-        const error = new Error('wrong contact info or OTP');
+        const error = new Error('Wrong contact info or OTP');
         error.statusCode = 401;
         throw error;
     }
@@ -192,9 +196,8 @@ async function verifyResetPasswordToken(token) {
 }
 
 
-//test changed logic
 async function refreshToken(refreshToken) {
-    const { sub: userId } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const { sub: userId, role } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findOne({ _id: userId, 'tokens.refreshToken': refreshToken });
 
 
@@ -209,7 +212,7 @@ async function refreshToken(refreshToken) {
     } else {
         user.tokens = user.tokens.filter(tokenObj => tokenObj.refreshToken !== refreshToken);
         await user.save();
-        return await generateTokens(userId);
+        return await generateTokens(userId, role);
     }
 }
 
@@ -222,19 +225,10 @@ async function revokeToken(token) {
 
 
 async function verifyEmail(email) {
-
-    const oneTimePassword = generateOTP();
-    const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
-
-    const otp = new OTP({
-        OTP: hashedOTP,
-        contactInfo: email
-    });
-
-    await otp.save();
+    const OTP = await generateOTP(email);
 
     const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'verification-email.ejs'));
-    const renderedHtml = ejs.render(String(htmlFile), { OTP: oneTimePassword });
+    const renderedHtml = ejs.render(String(htmlFile), { OTP });
 
     transporter.sendMail({
         from: 'softlaand@gmail.com',
@@ -251,21 +245,23 @@ async function verifyEmail(email) {
 
 
 async function verifyPhoneNumber(phoneNumber) {
-    const oneTimePassword = generateOTP();
+    const OTP = await generateOTP(phoneNumber);
+    sendSms(173012, phoneNumber, OTP);
+}
+
+async function generateOTP(contactInfo) {
+    const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
+    let hashedRandomInt = crypto.createHash('md5').update(randomInt).digest("hex");
+    const oneTimePassword = hashedRandomInt.slice(0, 6);
+
     const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
     const otp = new OTP({
         OTP: hashedOTP,
-        contactInfo: phoneNumber
+        contactInfo
     });
     await otp.save();
 
-    sendSms(173012, phoneNumber, oneTimePassword);
-}
-
-function generateOTP() {
-    const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
-    let hashedRandomInt = crypto.createHash('md5').update(randomInt).digest("hex");
-    return hashedRandomInt.slice(0, 6);
+    return oneTimePassword;
 }
 
 
