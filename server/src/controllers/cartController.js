@@ -1,8 +1,9 @@
-const { validationResult } = require('express-validator');
 
+const validator = require('../utils/validator');
 const {
     getCart,
-    addToCart
+    addToCart,
+    getCartItemQuantity
 } = require('../services/cartService');
 
 async function httpGetCart(req, res, next) {
@@ -16,7 +17,7 @@ async function httpGetCart(req, res, next) {
 
 async function httpAddToCart(req, res, next) {
     try {
-        validationCheck(req);
+        validator(req);
         const productId = req.body.productId;
         
         const response = await addToCart(req.userId, productId);
@@ -26,26 +27,19 @@ async function httpAddToCart(req, res, next) {
     }
 }
 
-
-function validationCheck(req) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let err;
-        if (errors.array()[0].msg === 'Invalid value(s)') {
-            console.log(errors.array()[0].nestedErrors[0]);
-            err = new Error(errors.array()[0].nestedErrors[0][0].msg);
-        } else {
-            err = new Error(errors.array()[0].msg);
-        }
-        
-        err.statusCode = 400;
-        err.data = errors.array();
-        throw err;
+async function httpGetCartItemQuantity(req, res, next) {
+    try {
+        const productId = req.params.productId;
+        const response = await getCartItemQuantity(productId);
+        res.status(200).json({quantity: response});
+    } catch (error) {
+        next(error);
     }
 }
 
 
 module.exports = {
     httpGetCart,
-    httpAddToCart
+    httpAddToCart,
+    httpGetCartItemQuantity
 }

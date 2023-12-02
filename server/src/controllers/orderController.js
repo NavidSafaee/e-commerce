@@ -1,5 +1,4 @@
-const { validationResult } = require('express-validator');
-
+const validator = require('../utils/validator');
 const {
     postOrder,
     getOrders,
@@ -9,7 +8,7 @@ const {
 
 async function httpPostOrder(req, res, next) {
     try {
-        validationCheck(req);
+        validator(req);
         await postOrder(req.userId, req.body.orderItems, req.role);
         res.sendStatus(201);
     } catch (error) {
@@ -29,31 +28,13 @@ async function httpGetOrders(req, res, next) {
 
 async function httpChangeReceivedState(req, res, next) {
     try {
-        validationCheck(req);
+        validator(req);
         await changeReceivedState(req.params.orderId);
         res.sendStatus(204);
     } catch (error) {
         next(error);
     }
 }
-
-function validationCheck(req) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let err;
-        if (errors.array()[0].msg === 'Invalid value(s)') {
-            console.log(errors.array()[0].nestedErrors[0]);
-            err = new Error(errors.array()[0].nestedErrors[0][0].msg);
-        } else {
-            err = new Error(errors.array()[0].msg);
-        }
-
-        err.statusCode = 400;
-        err.data = errors.array();
-        throw err;
-    }
-}
-
 
 
 module.exports = {

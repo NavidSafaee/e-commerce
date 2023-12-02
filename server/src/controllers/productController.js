@@ -1,8 +1,9 @@
-const { 
+const {
     getAllProducts,
     getProductById,
     createProduct
- } = require('../services/productServices');
+} = require('../services/productServices');
+const validator = require('../utils/validator');
 
 
 
@@ -26,8 +27,14 @@ async function httpGetProductById(req, res, next) {
 }
 
 async function httpCreateProduct(req, res, next) {
-    const response = await createProduct(req.body);
-    res.status(201).json(response);
+    try {
+        validator(req);
+        const response = await createProduct(req.body, req.files);
+        res.status(201).json(response);
+        
+    } catch (error) {
+        next(error);
+    }
 }
 
 

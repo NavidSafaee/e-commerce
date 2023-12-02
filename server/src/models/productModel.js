@@ -14,16 +14,17 @@ const productSchema = new Schema({
         enum: ['CHAIR', 'SOFA', 'BENCH', 'STORAGE', 'FURNITURE', 'TABLE'],
         required: true
     },
-    imageUrl: {
+    imageUrls: {
+        type: [String],
+        required: true
+    },
+    description: {
         type: String,
         required: true
     },
-    rate : {
-        type: Number,
-        required: true
-    },
+    rate : Number,
     status: String,
-    newPrice: Number,
+    // newPrice: Number,
     discount : Number,
     discountExpiresAt: Date
 });

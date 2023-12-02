@@ -35,18 +35,31 @@ async function getProductById(productId) {
     return product;
 }
 
-// will be removed
-async function createProduct(reqBody) {
+
+async function createProduct(reqBody, images) {
+    // if (!images) {
+    //     const error = new Error('the product should at leas have one image');
+    //     error.statusCode = 400;
+    //     throw error;
+    // }
+    let paths;
+
+    if (images) {
+        paths = images.map(image => {
+            const imageUrl = 'public/' + image.path.replace('\\', '/');
+            return imageUrl;
+        });    
+    }
+    
     const {
         title,
         price,
         category,
         discount,
-        rate,
-        status
+        description
     } = reqBody;
 
-    let date;
+    let date;   
     if (discount) {
         date = new Date();
         date.setDate(date.getDate() + 190);
@@ -56,14 +69,13 @@ async function createProduct(reqBody) {
         title,
         price,
         category,
-        imageUrl: path.join('images', 'products', '7.png'),
+        imageUrls: paths,
         discount,
-        rate,
-        status,
+        description,
         discountExpiresAt: date
     });
 
-    calcDiscountedPrice(product);
+    // calcDiscountedPrice(product);
 
     await product.save();
     return product;

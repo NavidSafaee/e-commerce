@@ -1,65 +1,106 @@
-/carts:
-  put:
-    summary: The product with given will be added to the cart
-    tags:
-      - carts 
-    security: 
-      - bearerAuth: []
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              productId:
-                type: string
-                example: 650b1ed61882fc118a114d19
-    responses: 
-      "200":
-        description: successfully added to cart
-        content:
-          application/json:
-            schema:
-              $ref: '#components/schemas/Cart'
-      "404":
-        description: if there is no product with that id
+paths:
+  /carts:
+    put:
+      summary: The product with given will be added to the cart
+      tags:
+        - carts 
+      security: 
+        - bearerAuth: []
+      requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                message:
+                productId:
                   type: string
-                  example: 'product not found!'            
-      "400":
-        $ref: '#/components/responses/badRequest'
-      "401":
-        $ref: '#/components/responses/unauthorized'
-      "403":
-        $ref: '#/components/responses/forbidden'
+                  example: 650b1ed61882fc118a114d19
+      responses: 
+        "200":
+          description: successfully added to cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "404":
+          description: if there is no product with that id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'product not found!'            
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
 
+    get:
+      summary: Returns users cart
+      tags:
+        - carts 
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: users cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "404":
+          description: if user has no cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
 
+/carts/{productId}:
   get:
-    summary: Returns users cart
+    summary: Returns cart item quantity
     tags:
-      - carts 
+      - carts
+    parameters:
+      - in: path
+        name: productId
+        type: string
+        required: true
+        schema:
+          type: string
+          example: 650b1ed61882fc118a114d19
+        description: The product ID   
     security: 
       - bearerAuth: []
     responses:
       "200":
-        description: users cart
+        description: quantity of item in cart
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/Cart'
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  example: 4    
       "404":
-        description: if user has no cart
+        description: if user has no cart or there is no item with that id in cart
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Error'        
+              $ref: '#/components/schemas/Error'
       "401":
         $ref: '#/components/responses/unauthorized'
       "403":
-        $ref: '#/components/responses/forbidden'
+        $ref: '#/components/responses/forbidden'  
+
+
+ 

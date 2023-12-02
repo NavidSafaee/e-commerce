@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8080;
 const server = http.createServer(app);
 
 (async function startServer() {
-    await mongoConnect(process.env.TEST_MONGO_URL);
+    await mongoConnect(process.env.MONGO_URL);
     refreshTokenCleanUp();
     swaggerDocs(app);
     server.listen(PORT, () => {
