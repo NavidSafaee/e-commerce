@@ -2,7 +2,7 @@ import swal from 'sweetalert'
 import './ForgotPass.scss'
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex'
 import { useEffect, useState } from 'react'
-// import baseURL from '../../baseURL'
+import baseURL from '../../baseURL'
 
 function ForgotPass() {
 
@@ -39,24 +39,31 @@ function ForgotPass() {
         }
     }
 
-    const FormSender = () => {
-        let formInfo = {
-            email: userEmail,
-            phoneNumber: userPhone
+    const FormSender = (input_type, send_value) => {
+        let req_body = {}
+        if (input_type === "email") {
+            req_body = { email: send_value }
+        } else {
+            req_body = { phoneNumber: send_value }
         }
-        console.log(formInfo)
-        // fetch(`${baseURL}/auth/contact-verification`, {
-        //     method: "POST",
-        //     headers: { "Content-type": "application/json" },
-        //     body: JSON.stringify(formInfo)
-        // }).then(res => {
-        //     console.log(res)
-        // })
+        console.log(req_body)
+
+        fetch(`${baseURL}/auth/forgot-password`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(req_body)
+        }).then(res => {
+            console.log(res)
+        })
     }
 
     useEffect(() => {
         if (formFlag) {
-            FormSender()
+            if (userEmail) {
+                FormSender("email", userEmail)
+            } else {
+                FormSender("phoneNumber", userPhone)
+            }
         }
     }, [formFlag])
 

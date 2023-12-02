@@ -19,7 +19,6 @@ function App() {
   const navigate = useNavigate()
 
   const writeTokenInStorage = (token) => {
-    console.log("writeTokenInStorage => ", "binamoose dalghak!", token);
     setAccessToken(token.accessToken)
     setRefreshToken(token.refreshToken)
     localStorage.setItem("userToken", JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken }))
@@ -32,7 +31,6 @@ function App() {
   }
 
   const getMe = (userToken) => {
-    console.log('getme bus');
     fetch(`${baseURL}/users/me`, {
       headers: {
         Authorization: `Bearer ${userToken.accessToken}`
@@ -53,11 +51,9 @@ function App() {
       if (isTokenExpired(userToken.accessToken)) {
         refreshTokenHandler()
           .then(userToken => {
-            console.log("when expired! ", userToken)
             getMe(userToken);
           })
-        } else {
-        console.log("normal", userToken)
+      } else {
         getMe(userToken)
       }
     }
@@ -74,7 +70,6 @@ function App() {
         body: JSON.stringify({ token: userToken.refreshToken })
       })
         .then(res => {
-          console.log("ref => ", res)
           return res.json()
         })
     }
@@ -99,7 +94,6 @@ function App() {
           headers: { Authorization: `Bearer ${userToken.accessToken}` }
         }
       ).then(res => {
-        console.log(res)
         if (res.ok) {
           setAccessToken("")
           setIsLoggedIn(false)
