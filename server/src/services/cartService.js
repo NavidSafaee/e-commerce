@@ -50,8 +50,27 @@ async function addToCart(userId, productId) {
     return cart.items;
 }
 
+async function getCartItemQuantity(productId) {
+    const cart = await Cart.findOne({'items.product': productId});
+
+    if (!cart) {
+        const error = new Error('Cart or item not found!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const item = cart.items.find(item => {
+        return item.product.toString() === productId;
+    });
+
+    console.log(item.quantity);
+
+    return item.quantity;
+}
+
 
 module.exports = {
     getCart,
-    addToCart
+    addToCart,
+    getCartItemQuantity
 }

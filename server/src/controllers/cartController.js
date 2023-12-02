@@ -2,7 +2,8 @@
 const validator = require('../utils/validator');
 const {
     getCart,
-    addToCart
+    addToCart,
+    getCartItemQuantity
 } = require('../services/cartService');
 
 async function httpGetCart(req, res, next) {
@@ -26,8 +27,19 @@ async function httpAddToCart(req, res, next) {
     }
 }
 
+async function httpGetCartItemQuantity(req, res, next) {
+    try {
+        const productId = req.params.productId;
+        const response = await getCartItemQuantity(productId);
+        res.status(200).json({quantity: response});
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     httpGetCart,
-    httpAddToCart
+    httpAddToCart,
+    httpGetCartItemQuantity
 }
