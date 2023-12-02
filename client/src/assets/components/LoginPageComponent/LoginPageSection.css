@@ -151,9 +151,6 @@
   transition: 0.5s;
   pointer-events: none;
 }
-.login-signup-page-container .login-form-wrapper .login-form-content .login-form .inputBox.move-input i {
-  left: 100px;
-}
 .login-signup-page-container .login-form-wrapper .login-form-content .login-form .inputBox input 
 {
   position: relative;
