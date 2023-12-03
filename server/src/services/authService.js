@@ -42,8 +42,8 @@ async function signup(reqBody) {
     }
 
     const contactInfo = email || phoneNumber;
-
-    const OTPDoc = await OTP.find({ contactInfo });
+    
+    const OTPDoc = await OTP.findOne({ contactInfo });
 
     if (!OTPDoc || !(await bcrypt.compare(otp, OTPDoc.OTP))) {
         const error = new Error('Wrong contact info or OTP');
