@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 
-async function getUser(userId) {
+async function getMe(userId) {
     let user = await User.findById(userId);
     return user.toJSON();
 }
@@ -8,5 +8,5 @@ async function getUser(userId) {
 
 
 module.exports = {
-    getUser
+    getMe
 }

@@ -33,7 +33,7 @@ components:
                   type: string
                   example: 'Access denied'
     badRequest:
-      description: when user sends invalid request body
+      description: when user sends invalid request body or invalid object id
       content:
         application/json:
           schema:
@@ -120,7 +120,42 @@ components:
           example: example@gmail.com
         __v:
           type: number
-          example: 2   
+          example: 2
+
+    Review:
+      type: object
+      properties: 
+        _id: 
+          type: string
+          example: 655769ef14b767ea9f0cfe6c
+        product: 
+          type: string
+          example: 655769ef14b767ea9f0cfe6c
+        user:
+          type: string
+          example: 655769ef14b767ea9f0cfe6c
+        username:
+          type: string
+          example: navid
+        rating:
+          type: number
+          example: 5
+        review:
+          type: string
+          example: perfect
+        validationStatus:
+          type: String
+          example: PENDING
+        createdAt:
+          type: date
+          example: 2024-03-28T16:33:26.500Z
+        updatedAt:
+          type: date
+          example: 2024-03-28T16:33:26.500Z
+        __v:
+          type: number
+          example: 2
+
     Tokens:
       type: object
       properties: 

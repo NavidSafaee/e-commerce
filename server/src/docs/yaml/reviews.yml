@@ -1,0 +1,125 @@
+paths:
+  /reviews/{productId}:
+    put:
+      summary: Adds a new review to product.
+      tags:
+        - reviews 
+      parameters:
+        - in: path
+          name: productId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The product ID
+      security: 
+        - bearerAuth: []    
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: number
+                  example: 5
+                review:
+                  type: string
+                  example: perfect!       
+      responses:
+        "201":
+          description: Adds a new review to product.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+    get:
+      summary: Returns reviews of single product
+      tags:
+        - reviews 
+      parameters:
+        - in: path
+          name: productId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The product ID         
+      responses:
+        "200":
+          description: Returns reviews of single product
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+        "400":
+          $ref: '#/components/responses/badRequest'
+
+  /reviews/{reviewId}:
+    patch:
+      summary: Changes validation status
+      tags:
+        - reviews 
+      parameters:
+        - in: path
+          name: reviewId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The review ID
+      security: 
+        - bearerAuth: []    
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                validationStatus:
+                  type: String
+                  example: VALID       
+      responses:
+        "204":
+          description: status changed successfully from PENDING to VALID/INVALID
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+
+  /reviews/me:
+    get:
+      summary: Returns authenticate users reviews
+      tags:
+        - reviews 
+      security: 
+        - bearerAuth: []         
+      responses:
+        "200":
+          description: returns all reviews of authenticated user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+  

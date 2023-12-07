@@ -51,11 +51,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Product"
         "400":
-          description: returns an error with "invalid value in request body" message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: '#/components/responses/badRequest'
         "404":
           description: returns an error with "Product Not Found!" message
           content:

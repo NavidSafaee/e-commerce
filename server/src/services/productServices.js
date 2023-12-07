@@ -48,9 +48,9 @@ async function createProduct(reqBody, images) {
         paths = images.map(image => {
             const imageUrl = 'public/' + image.path.replace('\\', '/');
             return imageUrl;
-        });    
+        });
     }
-    
+
     const {
         title,
         price,
@@ -58,13 +58,13 @@ async function createProduct(reqBody, images) {
         discount,
         description
     } = reqBody;
-
-    let date;   
+    
+    let date;
     if (discount) {
         date = new Date();
         date.setDate(date.getDate() + 190);
     }
-    
+
     const product = new Product({
         title,
         price,
@@ -81,12 +81,16 @@ async function createProduct(reqBody, images) {
     return product;
 }
 
-function calcDiscountedPrice(product) {
-    if (product.discount) {
-        product.newPrice = (product.price * (1 - product.discount)).toFixed(2);
-    }
-    return product;
-}
+// function roundToHalf(num) {
+//     return Math.round(num * 2) / 2;
+// }
+
+// function calcDiscountedPrice(product) {
+//     if (product.discount) {
+//         product.newPrice = (product.price * (1 - product.discount)).toFixed(2);
+//     }
+//     return product;
+// }
 
 module.exports = {
     getAllProducts,

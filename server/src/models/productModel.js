@@ -24,7 +24,6 @@ const productSchema = new Schema({
     },
     rate : Number,
     status: String,
-    // newPrice: Number,
     discount : Number,
     discountExpiresAt: Date
 });

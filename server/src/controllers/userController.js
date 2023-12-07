@@ -1,8 +1,8 @@
-const { getUser } = require('../services/userService');
+const { getMe } = require('../services/userService');
 
-async function httpGetUser(req, res, next) {
+async function httpGetMe(req, res, next) {
     try {
-        const result = await getUser(req.userId);
+        const result = await getMe(req.userId);
         res.status(200).json(result);
     } catch (error) {
         next(error);
@@ -10,5 +10,5 @@ async function httpGetUser(req, res, next) {
 }
 
 module.exports = {
-    httpGetUser
+    httpGetMe
 }
