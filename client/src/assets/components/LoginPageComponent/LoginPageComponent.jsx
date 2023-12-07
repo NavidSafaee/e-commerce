@@ -95,50 +95,11 @@ function LoginPageComponent() {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
         }).then(res => {
-            console.log(res)
             if (res.status === 204) {
                 setShowModal(true)
             }
         })
     }
-
-    // const OPTSender = () => {
-    //     setOTP_Flag(true)
-    //     let formInfoWithOTP = {
-    //         username,
-    //         password: userPass,
-    //         email: userEmail,
-    //         phoneNumber: userPhone,
-    //         confirmPassword: userConfirmPass,
-    //         OTP: userOTP
-    //     }
-    //     const showModal = () => {
-    //         swal({
-    //             title: "congratulations!",
-    //             text: "Your registration was successful!",
-    //             icon: "success",
-    //         })
-    //             .then((res) => {
-    //                 if (res) {
-    //                     navigate("/")
-    //                 }
-    //             })
-    //     }
-    //     fetch(`${baseURL}/auth/signup`, {
-    //         method: "POST",
-    //         headers: { "Content-type": "application/json" },
-    //         body: JSON.stringify(formInfoWithOTP)
-    //     })
-    //         .then(res => {
-    //             console.log(res)
-    //             return res.json()
-    //         })
-    //         .then(data => {
-    //             console.log(data)
-    //             authContext.login(data.user, data.accessToken, data.refreshToken)
-    //             showModal()
-    //         })
-    // }
 
     useEffect(() => {
         if (formFlag) {
@@ -176,9 +137,9 @@ function LoginPageComponent() {
                         </div>
                         <div className="login-form">
 
-                            <div className="inputBox">
+                            <div  className={`inputBox ${loginWay && "move-input"}`}>
 
-                                <input type="email" className={`inputBox ${loginWay && "move-input"}`} required value={emailOrPhone} onChange={e => setEmailOrPhone(e.target.value)} /> <i>Email / Phone number</i>
+                                <input type="text" required value={emailOrPhone} onChange={e => setEmailOrPhone(e.target.value)} /> <i>Email / Phone number</i>
 
                             </div>
 

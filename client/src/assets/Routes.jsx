@@ -15,7 +15,7 @@ const routes = [
     {path: "/products/:productId", element: <ProductPage />},
     {path: "/consultation", element: <ConsultationPage />},
     {path: "/forgot-pass", element: <ForgotPassPage />},
-    {path: "/reset-pass/:userId", element: <ResetPassPage />},
+    {path: "/reset-pass/:userToken", element: <ResetPassPage />},
     {path: "/checkout/cart/", element: <ShoppingCartPage />},
     {path: "*", element: <NotFoundPage />}
 ]
