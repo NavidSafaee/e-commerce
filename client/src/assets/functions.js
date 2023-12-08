@@ -1,3 +1,4 @@
+import swal from "sweetalert"
 import {jwtDecode} from 'jwt-decode'
 
 const Multiplier = (num, c) => {
@@ -24,4 +25,15 @@ const calcDiscountedPrice = product => {
     }
 }
 
-export { Multiplier, isTokenExpired, calcDiscountedPrice }
+const showMessage = (detail) => {
+    return swal({
+        title: detail.title,
+        text: detail.text,
+        icon: detail.icon, // warning , error , success , info
+        dangerMode: detail.dangerMode,
+        timer: detail.timer,
+        buttons: detail.buttons
+    })
+}
+
+export { Multiplier, isTokenExpired, calcDiscountedPrice, showMessage }

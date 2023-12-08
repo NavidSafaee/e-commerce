@@ -3,10 +3,24 @@ import "./TopStrip.scss"
 import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
 import { FaPowerOff } from "react-icons/fa"
+import { showMessage } from "../../functions"
 
 function TopStrip() {
 
   const authContext = useContext(AuthContext)
+
+  const logout = () => {
+    showMessage({
+      title: "Logout",
+      text: "Are you Sure?",
+      icon: "warning",
+      buttons: ["No", "Yes"]
+    }).then(select => {
+      if (select) {
+        authContext.logout({ accessToken: authContext.accessToken, refreshToken: authContext.refreshToken })
+      }
+    })
+  }
 
   return (
     <>
@@ -22,7 +36,7 @@ function TopStrip() {
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
         </div>
-        {authContext.isLoggedIn && <div className="logout-btn" onClick={() => authContext.logout({accessToken: authContext.accessToken, refreshToken: authContext.refreshToken})}>
+        {authContext.isLoggedIn && <div className="logout-btn" onClick={logout}>
           <FaPowerOff />
         </div>}
       </div>

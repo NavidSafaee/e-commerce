@@ -42,38 +42,41 @@ function ProductPageComponent() {
 
     return (
         <>
-            {productInfo && <section className={ComponentStyle.ProductDetailSection}>
-                <div className={ComponentStyle.imgContainer}>
-                    {productInfo.discount && <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span>}
-                    <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' />
-                </div>
-                <div className={ComponentStyle.productDetailContainer}>
-                    <h4 className={ComponentStyle.productCategory}>{productInfo?.category}</h4>
-                    <h3 className={ComponentStyle.ProductTitle}>{productInfo?.title}</h3>
-                    <div className={ComponentStyle.detailRow}>
-                        <span className={ComponentStyle.price}><BiDollar />{calcDiscountedPrice(productInfo)}</span>
-                        {rate && <div className={ComponentStyle.starsBox}>
-                            {
-                                Array.from(Array(productInfo.rate).keys())?.map((star, i) => (
-                                    <AiTwotoneStar key={i} className={ComponentStyle.coloredStar} />
-                                ))
-                            }
-                            {
-                                Array.from(Array(5 - productInfo.rate).keys())?.map((star, i) => (
-                                    <AiOutlineStar key={i} className={ComponentStyle.greyStar} />
-                                ))
-                            }
-                        </div>}
-                        <span className={ComponentStyle.review}>29 reviews</span>
+            <section className={ComponentStyle.ProductDetailSection}>
+                {productInfo && <>
+                    <div className={ComponentStyle.imgContainer}>
+                        {productInfo.discount && <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span>}
+                        <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' />
                     </div>
-                    <div className={ComponentStyle.description}>
-                        Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
+                    <div className={ComponentStyle.productDetailContainer}>
+                        <h4 className={ComponentStyle.productCategory}>{productInfo?.category}</h4>
+                        <h3 className={ComponentStyle.ProductTitle}>{productInfo?.title}</h3>
+                        <div className={ComponentStyle.detailRow}>
+                            <span className={ComponentStyle.price}><BiDollar />{calcDiscountedPrice(productInfo)}</span>
+                            {rate && <div className={ComponentStyle.starsBox}>
+                                {
+                                    Array.from(Array(productInfo.rate).keys())?.map((star, i) => (
+                                        <AiTwotoneStar key={i} className={ComponentStyle.coloredStar} />
+                                    ))
+                                }
+                                {
+                                    Array.from(Array(5 - productInfo.rate).keys())?.map((star, i) => (
+                                        <AiOutlineStar key={i} className={ComponentStyle.greyStar} />
+                                    ))
+                                }
+                            </div>}
+                            <span className={ComponentStyle.review}>29 reviews</span>
+                        </div>
+                        <div className={ComponentStyle.description}>
+                            Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
+                        </div>
+                        <div className={ComponentStyle.btnBox}>
+                            <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
+                        </div>
                     </div>
-                    <div className={ComponentStyle.btnBox}>
-                        <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
-                    </div>
-                </div>
-            </section>}
+                </>
+                }
+            </section>
         </>
     )
 }

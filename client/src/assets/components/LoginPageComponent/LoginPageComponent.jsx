@@ -1,11 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom"
 import "./LoginPageSection.css"
 import { useEffect, useState, useContext } from "react"
 import { EmailChecker, PhoneChecker } from "../REGEX/Regex"
-import swal from "sweetalert"
 import baseURL from "../../baseURL"
 import AuthContext from "../Context/AuthContext"
 import { Spinner } from "react-bootstrap"
+import { showMessage } from "../../functions"
 // import { useState } from "react"
 
 function LoginPageComponent() {
@@ -36,13 +37,19 @@ function LoginPageComponent() {
             }
             return true
         } else {
-            swal({
-                title: "Invalid contact info!",
-                text: "Please enter a valid email or phone number",
-                icon: "warning",
-                dangerMode: true,
+            showMessage(
+                {
+                    title: "Invalid Contact info!",
+                    text: "Please enter a valid email or phone number",
+                    icon: "error",
+                    dangerMode: true,
+                    timer: 3000
+                }
+            ).then(val => {
+                setEmailOrPhone("")
+                setUserPass("")
+                setFormFlag(false)
             })
-            setFormFlag(false)
             return false
         }
     }
@@ -54,34 +61,41 @@ function LoginPageComponent() {
     }
 
     const FormSender = (way) => {
-        let formInfo = null;
-        // let route = null;
+        let formInfo = null
+
         if (!way) { // login with password
             formInfo = {
                 password: userPass,
                 email: userEmail,
                 phoneNumber: userPhone
             }
-            // route = "login"
+
         } else {  // with otp
             formInfo = {
                 email: userEmail,
                 phoneNumber: userPhone,
                 OTP: userOTP,
             }
-            // route = "contact-verification"
+
         }
         fetch(`${baseURL}/auth/login`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
         }).then(res => {
-            if (res.ok) {
-                return res.json()
+            console.log(res)
+            if (!res.ok) {
+                setFormFlag(false)
             }
+            return res.json()
         }).then(data => {
-            authContext.login(data.user, data.accessToken, data.refreshToken)
-            navigate("/")
+            console.log(data)
+            if (data.message) {
+                showMessage({ title: "Oops!", text: data.message, icon: "error" })
+            } else if(data) {
+                authContext.login(data.user, data.accessToken, data.refreshToken)
+                navigate("/")
+            }
         })
     }
 
@@ -137,7 +151,7 @@ function LoginPageComponent() {
                         </div>
                         <div className="login-form">
 
-                            <div  className={`inputBox ${loginWay && "move-input"}`}>
+                            <div className={`inputBox ${loginWay && "move-input"}`}>
 
                                 <input type="text" required value={emailOrPhone} onChange={e => setEmailOrPhone(e.target.value)} /> <i>Email / Phone number</i>
 
@@ -184,7 +198,7 @@ function LoginPageComponent() {
                         />
                         <button
                             className={`otp-verification-btn ${(userOTP.length == 6) && "otp-active-btn"}`}
-                            onClick={() => {FormSender(1); setOTP_Flag(true)}}
+                            onClick={() => { FormSender(1); setOTP_Flag(true) }}
                         >
                             {!OTP_Flag ? "Verify OTP" : <Spinner animation="grow" variant="dark" />}
                         </button>
