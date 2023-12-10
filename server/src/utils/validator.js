@@ -5,7 +5,7 @@ function validate(req) {
     if (!errors.isEmpty()) {
         let err;
         if (errors.array()[0].msg === 'Invalid value(s)') {
-            console.log(errors.array()[0].nestedErrors[0]);
+            // console.log(errors.array()[0].nestedErrors[0]);
             err = new Error(errors.array()[0].nestedErrors[0][0].msg);
         } else {
             err = new Error(errors.array()[0].msg);

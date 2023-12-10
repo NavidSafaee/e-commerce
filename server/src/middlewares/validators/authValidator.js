@@ -1,12 +1,13 @@
 const { body, oneOf } = require('express-validator');
 const User = require('../../models/userModel');
+const { changePersonalInfoValidator } = require('./userValidator');
 
 
 const emailOrPhoneNumberValidator = [
     body('email', 'please enter a valid email or phoneNumber')
         .if(body('phoneNumber').not().exists())
         .isEmail(),
-        // .normalizeEmail(),
+    // .normalizeEmail(),
 
     body('phoneNumber', 'please enter a valid email or phoneNumber')
         .if(body('email').not().exists())
@@ -47,10 +48,8 @@ const existingAccountValidator = [
 
 const signupValidator = [
     body().custom((value, { req }) => {
-        if (Object.keys(req.body).length !== 5 &&
-            (Object.keys(req.body).length !== 4)) {
-            throw new Error('Bad Request');
-        }
+        if (req.query.action === 'signup' && Object.keys(req.body).length > 4) throw new Error('Bad Request');
+        if (Object.keys(req.body).length > 5) throw new Error('Bad Request');
         return true;
     }),
 
@@ -63,9 +62,9 @@ const signupValidator = [
         .trim()
         .isLength({ min: 6 }),
 
-    body('confirmPassword', 'The password must be at least 6 characters')
+    body('confirmPassword')
         .trim()
-        .isLength({min: 6})
+        .isLength({ min: 6 })
         .custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Passwords have to match');
@@ -87,7 +86,6 @@ const signupValidator = [
 
     body('phoneNumber')
         .if(body('email').not().exists())
-        .exists()
         .custom(async (value, { req }) => {
             const user = await User.findOne({ phoneNumber: value });
             if (user) {
@@ -103,14 +101,10 @@ const signupValidator = [
 ];
 
 
-
 const loginValidator = [
     body().custom((value, { req }) => {
-
-        if (Object.keys(req.body).length !== 2 &&
-            (Object.keys(req.body).length !== 1)) {
-            throw new Error('Bad Request');
-        }
+        if (req.query.action === 'login' && Object.keys(req.body).length > 1) throw new Error('Bad Request');
+        if (Object.keys(req.body).length > 2) throw new Error('Bad Request');
         return true;
     }),
 
@@ -164,18 +158,17 @@ const resetPasswordValidator = [
 ];
 
 const contactValidator = [
-
     body().custom((value, { req }) => {
-        if (Object.keys(req.body).length !== 1 && Object.keys(req.body).length !== 4) {
-            throw new Error('Bad Request');
-        }
+        const action = req.query.action;
+        if (action !== 'edit' && action !== 'login' && action !== 'signup') throw new Error('Bad Request');
         return true;
     }),
 
+    
     oneOf([
         signupValidator,
         body().custom((value, { req }) => {
-            if (Object.keys(req.body).length !== 4) {
+            if (req.query.action !== 'signup') {
                 return true;
             }
         })
@@ -184,7 +177,17 @@ const contactValidator = [
     oneOf([
         loginValidator,
         body().custom((value, { req }) => {
-            if (Object.keys(req.body).length !== 1) {
+
+            if (req.query.action !== 'login') {
+                return true;
+            }
+        })
+    ]),
+
+    oneOf([
+        changePersonalInfoValidator,
+        body().custom((value, { req }) => {
+            if (req.query.action !== 'edit') {
                 return true;
             }
         })

@@ -16,6 +16,7 @@ const userSchema = new Schema({
     },
     email: String,
     phoneNumber: String,
+    birthDate: Date,
     tokens: [{
         accessToken: {
             type: String,

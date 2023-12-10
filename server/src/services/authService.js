@@ -8,8 +8,6 @@ const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
 const {
     generateTokens,
-    // generateAccessToken,
-    // generateRefreshToken,
     generateResetPasswordToken
 } = require('../utils/jwt');
 const User = require('../models/userModel');
@@ -42,33 +40,63 @@ async function signup(reqBody) {
     }
 
     const contactInfo = email || phoneNumber;
-    
-    const OTPDoc = await OTP.findOne({ contactInfo });
 
-    if (!OTPDoc || !(await bcrypt.compare(otp, OTPDoc.OTP))) {
-        const error = new Error('Wrong contact info or OTP');
-        error.statusCode = 400;
-        throw error;
+    // const OTPDoc = await OTP.findOne({ contactInfo });
+
+    const OTPDocs = await OTP.find({ contactInfo });
+
+    if (OTPDocs.length > 0) {
+        const doMatch = await checkMatchingCondition(otp, OTPDocs);
+        if (doMatch) {
+            const hashedPassword = await bcrypt.hash(password, 12);
+
+            const user = new User({
+                username,
+                email,
+                password: hashedPassword,
+                phoneNumber,
+                role
+            });
+            await user.save();
+
+            const { accessToken, refreshToken } = await generateTokens(user._id.toString(), role);
+
+            return {
+                accessToken,
+                refreshToken,
+                user: user.toJSON()
+            }
+        }
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const error = new Error('Wrong contact info or OTP');
+    error.statusCode = 400;
+    throw error;
 
-    const user = new User({
-        username,
-        email,
-        password: hashedPassword,
-        phoneNumber,
-        role
-    });
-    await user.save();
+    // if (!OTPDoc || !(await bcrypt.compare(otp, OTPDoc.OTP))) {
+    //     const error = new Error('Wrong contact info or OTP');
+    //     error.statusCode = 400;
+    //     throw error;
+    // }
 
-    const { accessToken, refreshToken } = await generateTokens(user._id.toString(), role);
+    // const hashedPassword = await bcrypt.hash(password, 12);
 
-    return {
-        accessToken,
-        refreshToken,
-        user: user.toJSON()
-    }
+    // const user = new User({
+    //     username,
+    //     email,
+    //     password: hashedPassword,
+    //     phoneNumber,
+    //     role
+    // });
+    // await user.save();
+
+    // const { accessToken, refreshToken } = await generateTokens(user._id.toString(), role);
+
+    // return {
+    //     accessToken,
+    //     refreshToken,
+    //     user: user.toJSON()
+    // }
 }
 
 async function login(reqBody) {
@@ -108,14 +136,17 @@ async function login(reqBody) {
         const OTPDocs = await OTP.find({ contactInfo });
 
         if (OTPDocs.length > 0) {
-            const doMatch = OTPDocs.some(async (OTPDoc) => {
-                return await bcrypt.compare(otp, OTPDoc.OTP);
-            })
-
+            const doMatch = await checkMatchingCondition(otp, OTPDocs);
             if (doMatch) {
                 let user;
                 if (email) user = await User.findOne({ email });
                 else if (phoneNumber) user = await User.findOne({ phoneNumber });
+
+                if (!user) {
+                    const error = new Error('User not found');
+                    error.statusCode = 404;
+                    throw error;
+                }
 
                 const { accessToken, refreshToken } = await generateTokens(user._id.toString(), user.role);
 
@@ -203,6 +234,13 @@ async function refreshToken(refreshToken) {
 
     if (!user) {
         const user = await User.findById(userId);
+
+        if (!user) {
+            const error = new Error('User not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
         user.tokens = [];
         await user.save();
 
@@ -262,6 +300,16 @@ async function generateOTP(contactInfo) {
     await otp.save();
 
     return oneTimePassword;
+}
+
+async function checkMatchingCondition(otp, OTPDocs) {
+    for (let OTPDoc of OTPDocs) {
+        const comparisonResult = await bcrypt.compare(otp, OTPDoc.OTP);
+        if (comparisonResult) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

@@ -5,6 +5,7 @@ const addReviewValidator = [
         .isInt({ min: 1, max: 5 }),
 
     body('review', 'Review should not be empty')
+        .trim()
         .notEmpty(),
 ];
 

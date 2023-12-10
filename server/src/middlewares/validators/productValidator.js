@@ -2,6 +2,7 @@ const { body } = require('express-validator');
 
 const postProductValidator = [
     body('title', 'title should not be empty')
+        .trim()
         .notEmpty(),
 
 
@@ -10,6 +11,7 @@ const postProductValidator = [
         .isLength({ max: 4 }),
 
     body('category', 'category should not be empty')
+        .trim()
         .notEmpty()
         .custom((value, { req }) => {
             if (!['CHAIR', 'SOFA', 'BENCH', 'STORAGE', 'FURNITURE', 'TABLE'].includes(value)) {
@@ -23,6 +25,7 @@ const postProductValidator = [
         .isLength({ max: 4 }),
 
     body('description', 'description should not be empty')
+        .trim()
         .notEmpty()
 ];
 
