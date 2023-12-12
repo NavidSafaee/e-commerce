@@ -5,7 +5,7 @@ import ComponentStyle from "./ProductPageComponent.module.scss"
 import { useContext, useEffect, useState } from "react"
 import baseURL from "../../baseURL"
 import { useParams } from "react-router-dom"
-import { calcDiscountedPrice } from "../../functions"
+import { calcDiscountedPrice, isTokenExpired, refreshTokenHandler } from "../../functions"
 import AuthContext from "../Context/AuthContext"
 
 function ProductPageComponent() {
@@ -18,17 +18,28 @@ function ProductPageComponent() {
 
     const authContext = useContext(AuthContext)
 
-    const productAdder = () => {
-        let req_body = { "productId": productInfo._id }
-        console.log(productInfo._id)
-        fetch(`${baseURL}/carts`, {
-            method: "PUT",
-            headers: { Authorization: `Bearer ${authContext.accessToken}`, "Content-type": "application/json" },
-            body: JSON.stringify(req_body)
-        }).then(res => {
-            console.log(res)
-            return res.json()
-        }).then(data => console.log(data))
+    const productAdder = async () => {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (isTokenExpired(userToken.accessToken)) {
+            console.log("product page => token expired")
+            refreshTokenHandler()
+            .then(token => {
+                console.log("token update shoda", token)
+                authContext.writeTokenInStorage(token)
+                productAdder()
+            })
+        } else {
+            let req_body = { "productId": productInfo._id }
+            console.log(productInfo._id)
+            await fetch(`${baseURL}/carts`, {
+                method: "PUT",
+                headers: { Authorization: `Bearer ${userToken.accessToken}`, "Content-type": "application/json" },
+                body: JSON.stringify(req_body)
+            }).then(res => {
+                console.log(res)
+                return res.json()
+            }).then(data => console.log(data))
+        }
     }
 
     useEffect(() => {

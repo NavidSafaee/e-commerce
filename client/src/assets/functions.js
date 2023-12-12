@@ -1,5 +1,6 @@
 import swal from "sweetalert"
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
+import baseURL from "./baseURL"
 
 const Multiplier = (num, c) => {
     return num * c
@@ -36,4 +37,20 @@ const showMessage = (detail) => {
     })
 }
 
-export { Multiplier, isTokenExpired, calcDiscountedPrice, showMessage }
+const refreshTokenHandler = () => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"))
+    if (userToken.refreshToken) {
+        return fetch(`${baseURL}/auth/refresh-token`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ token: userToken.refreshToken })
+        })
+            .then(res => {
+                return res.json()
+            })
+    }
+}
+
+export { Multiplier, isTokenExpired, calcDiscountedPrice, showMessage, refreshTokenHandler }

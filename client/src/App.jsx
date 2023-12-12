@@ -113,7 +113,8 @@ function App() {
       refreshToken,
       userInfo,
       login,
-      logout
+      logout,
+      writeTokenInStorage
     }}>
       {router}
     </AuthContext.Provider>
