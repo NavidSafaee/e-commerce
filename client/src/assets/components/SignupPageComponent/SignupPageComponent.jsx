@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate } from 'react-router-dom';
 import './SignupPageComponent.css';
@@ -8,6 +9,7 @@ import { Spinner } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
+import { showMessage } from '../../functions';
 
 function SignupPageComponent() {
     // const squaresArray = Array.from(Array(260).keys())
@@ -37,11 +39,11 @@ function SignupPageComponent() {
             }
             return true
         } else {
-            swal({
+            showMessage({
                 title: "Invalid contact info!",
                 text: "Please enter a valid email or phone number",
                 icon: "warning",
-                dangerMode: true,
+                dangerMode: true
             })
             return false
         }
@@ -69,6 +71,18 @@ function SignupPageComponent() {
             console.log(res)
             if (res.status === 204) {
                 setShowModal(true)
+            } else {
+                return res.json()
+            }
+        }).then(data => {
+            console.log(data)
+            if (data) {
+                showMessage({ title: "Oops!", text: data.message, icon: "warning" })
+                    .then(val => {
+                        setFormFlag(false)
+                        setUserPass("")
+                        setUserConfirmPass("")
+                    })
             }
         })
     }
@@ -83,18 +97,7 @@ function SignupPageComponent() {
             confirmPassword: userConfirmPass,
             OTP: userOTP
         }
-        const showModal = () => {
-            swal({
-                title: "congratulations!",
-                text: "Your registration was successful!",
-                icon: "success",
-            })
-                .then((res) => {
-                    if (res) {
-                        navigate("/")
-                    }
-                })
-        }
+        console.log(formInfoWithOTP);
         fetch(`${baseURL}/auth/signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
@@ -102,16 +105,31 @@ function SignupPageComponent() {
         })
             .then(res => {
                 console.log(res)
+                if (res.ok) {
+                    showMessage({
+                        title: "congratulations!",
+                        text: "Your registration was successful!",
+                        icon: "success",
+                        timer: 3000
+                    })
+                }
                 return res.json()
             })
             .then(data => {
-                console.log(data)
-                authContext.login(data.user, data.accessToken, data.refreshToken)
-                showModal()
+                if (data.message && (data.message === "Wrong contact info or OTP")) {
+                    showMessage({
+                        title: "Wrong OTP!!",
+                        text: "Please enter the OTP correctly",
+                        icon: "error"
+                    })
+                    setOTP_Flag(false)
+                    setUserOTP("")
+                } else if (data) {
+                    authContext.login(data.user, data.accessToken, data.refreshToken)
+                    navigate("/")
+                }
             })
     }
-
-
 
     useEffect(() => {
         if (formFlag) {

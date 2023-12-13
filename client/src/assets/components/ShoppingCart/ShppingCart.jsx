@@ -20,7 +20,7 @@ function ShoppingCart() {
             .then(res => {
                 return res.json()
             })
-            .then(data => { setCartProducts(data.products) })
+            // .then(data => { setCartProducts(data.products) })
     }, [])
 
     return (
@@ -30,7 +30,7 @@ function ShoppingCart() {
                     <span className={styles.title}>Shopping cart</span>
                     <div className={styles.line}></div>
                 </div>
-                {isEmpty ?
+                {isEmpty || !cartProducts.length ?
                     <div className={styles.empty_cart}>
                         <img src="./../../../../public/general_images/empty_cart.png" alt="empty_cart" />
                         <div className={styles.empty_message_box}>

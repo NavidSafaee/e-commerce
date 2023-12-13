@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import swal from 'sweetalert'
 import './ForgotPass.scss'
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex'
 import { useEffect, useState } from 'react'
 import baseURL from '../../baseURL'
+import { showMessage } from "./../../functions"
 
 function ForgotPass() {
 
@@ -54,6 +56,21 @@ function ForgotPass() {
             body: JSON.stringify(req_body)
         }).then(res => {
             console.log(res)
+            if (res.ok) {
+                showMessage({
+                    title: `${userEmail ? "Email" : "message"} sent!`,
+                    text: `please check your ${userEmail ? "Email inbox" : "phone"}!`,
+                    icon: "info"
+                })
+            } else {
+                return res.json()
+            }
+        }).then(data => {
+            showMessage({
+                title: "Oops!",
+                text: data.message,
+                icon: "error"
+            }).then(val => setFormFlag(false))
         })
     }
 
