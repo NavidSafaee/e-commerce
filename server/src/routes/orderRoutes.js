@@ -2,9 +2,11 @@ const express = require('express');
 
 const {
     httpPostOrder,
-    httpGetOrders,
-    httpChangeReceivedState,
-    // httpGetUserOrders
+    httpGetCustomerOrders,
+    httpChangeDeliveryState,
+    httpGetMyOrders,
+    httpGetCustomerDeliveredOrdersCount,
+    httpGetLastMonthDeliveredOrders
 } = require('../controllers/orderController');
 const { isAuth, isAdmin } = require('../middlewares/auth');
 const { 
@@ -13,9 +15,11 @@ const {
 
 const router = express.Router();
 
-router.get('/', isAuth, httpGetOrders);
 router.post('/', isAuth, postOrderValidator, httpPostOrder);
-// router.get('/:userId', isAuth, httpGetUserOrders);
-router.put('/:orderId/received', isAuth, isAdmin, httpChangeReceivedState);
+router.get('/me', isAuth, httpGetMyOrders);
+router.get('/customer', isAuth, httpGetCustomerOrders);
+router.put('/admin/:orderId/delivered', isAuth, httpChangeDeliveryState);
+router.get('/customer/delivered/count', isAuth, isAdmin, httpGetCustomerDeliveredOrdersCount);
+router.get('/customer/delivered/lastMonth', isAuth, isAdmin, httpGetLastMonthDeliveredOrders);
 
 module.exports = router;

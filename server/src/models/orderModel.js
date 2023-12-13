@@ -16,8 +16,12 @@ const orderSchema = new Schema({
             required: true
         }
     }],
-    received: {
+    delivered: {
         type: Boolean,
+        required: true
+    },
+    deliveryDate: {
+        type: Date,
         required: true
     }
 }, { timestamps: true });

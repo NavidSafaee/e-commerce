@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/userModel');
+const Cart = require('../models/cartModel');
+const Order = require('../models/orderModel');
 const OTP = require('../models/OTPModel');
 
 async function getMe(userId) {
@@ -64,6 +66,35 @@ async function changePersonalInfo(userId, reqBody) {
     }
 }
 
+async function getCustomersCount() {
+    const count = await User.countDocuments({ role: 'CUSTOMER' });
+    return { count };
+}
+
+
+async function getUsers(role) {
+    return await User.find({ role });
+}
+
+
+// async function deleteUser(adminId, userId) {
+//     const user = await User.findById(userId);
+//     if (user.role === 'ADMIN') {
+//         const currentAdmin = await User.findById(adminId);
+//         const firstUser = await User.findOne().sort('createdAt');
+        
+//         if (currentAdmin.createdAt !== firstUser.createdAt) {
+//             const error = new Error('access denied');
+//             error.statusCode = 403;
+//             throw error; 
+//         }
+//     }
+
+//     user.deleteOne();
+//     await Cart.findOneAndDelete({ user: userId });
+//     await Order.findOneAndDelete({ user: userId, deliveryDate: { $gt: new Date() } });
+// }
+
 async function checkMatchingCondition(otp, OTPDocs) {
     for (let OTPDoc of OTPDocs) {
         const comparisonResult = await bcrypt.compare(otp, OTPDoc.OTP);
@@ -76,5 +107,8 @@ async function checkMatchingCondition(otp, OTPDocs) {
 
 module.exports = {
     getMe,
-    changePersonalInfo
+    changePersonalInfo,
+    getCustomersCount,
+    getUsers,
+    // deleteUser
 }

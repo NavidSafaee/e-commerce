@@ -46,11 +46,17 @@ async function changeValidationStatus(reviewId, validationStatus) {
     await Review.findByIdAndUpdate(reviewId, { validationStatus });
 }
 
+async function getPendingReviewsCount() {
+    const count = await Review.countDocuments({ validationStatus: 'PENDING' });
+    return { count };
+}  
+
 
 
 module.exports = {
     addReview,
     getReviews,
     getMyReviews,
-    changeValidationStatus
+    changeValidationStatus,
+    getPendingReviewsCount
 }

@@ -1,7 +1,9 @@
 const {
     getAllProducts,
     getProductById,
-    createProduct
+    createProduct,
+    getAllProductsCount,
+    editProduct
 } = require('../services/productServices');
 const validator = require('../utils/validator');
 
@@ -37,10 +39,31 @@ async function httpCreateProduct(req, res, next) {
     }
 }
 
+async function httpGetAllProductCount(req, res, next) {
+    try {
+        const response = await getAllProductsCount();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function httpEditProduct(req, res, next) {
+    try {
+        validator(req);
+        const productId = req.params.productId;
+        await editProduct(productId, req.body);
+        res.status(204);
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 module.exports = {
     httpGetAllProducts,
     httpCreateProduct,
-    httpGetProductById
+    httpGetProductById,
+    httpGetAllProductCount,
+    httpEditProduct
 }

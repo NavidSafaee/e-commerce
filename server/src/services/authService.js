@@ -25,19 +25,19 @@ const transporter = nodemailer.createTransport({
 });
 
 
-async function signup(reqBody) {
+async function signup(req) {
     const {
+        userRole,
         username,
         email,
         phoneNumber,
         password,
         OTP: otp
-    } = reqBody;
+    } = req.body;
 
     let role = "CUSTOMER"
-    if (await User.countDocuments() === 0) {
-        role = "ADMIN"
-    }
+    if (await User.countDocuments() === 0) role = "ADMIN"
+    if (req.role === 'ADMIN') role = userRole;
 
     const contactInfo = email || phoneNumber;
 

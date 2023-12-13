@@ -95,7 +95,16 @@ const changePersonalInfoValidator = [
         .isLength({ min: 6, max: 6 })
 ];
 
+const getUsersValidator = [
+    body().custom((value, { req }) => {
+        const role = req.query.role;
+        if (role !== 'CUSTOMER' && role !== 'ADMIN') throw new Error('invalid role in query');
+        return true;
+    })
+];
+
 
 module.exports = {
-    changePersonalInfoValidator
+    changePersonalInfoValidator,
+    getUsersValidator
 }

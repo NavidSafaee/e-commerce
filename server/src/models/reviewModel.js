@@ -30,4 +30,4 @@ const ratingsAndReviewsSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = new model('Ratings_Reviews', ratingsAndReviewsSchema);
+module.exports = model('Ratings_Reviews', ratingsAndReviewsSchema);

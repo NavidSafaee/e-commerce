@@ -28,4 +28,12 @@ const productSchema = new Schema({
     discountExpiresAt: Date
 });
 
+productSchema.methods.toJSON = function () {
+    var productObj = this.toObject();
+    delete productObj.description;
+    productObj.imageUrl = productObj.imageUrls[0];
+    delete productObj.imageUrls;
+    return productObj;
+}
+
 module.exports = model('Product', productSchema);

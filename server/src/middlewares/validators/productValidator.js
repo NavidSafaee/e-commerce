@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const postProductValidator = [
+const createOrEditProductValidator = [
     body('title', 'title should not be empty')
         .trim()
         .notEmpty(),
@@ -20,7 +20,7 @@ const postProductValidator = [
             return true;
         }),
 
-    body('discount', 'invalid discount percent')
+    body('discount', 'invalid discount percentage')
         .isFloat({ min: 0.01, max: 1 })
         .isLength({ max: 4 }),
 
@@ -31,5 +31,5 @@ const postProductValidator = [
 
 
 module.exports = {
-    postProductValidator
+    createOrEditProductValidator
 }

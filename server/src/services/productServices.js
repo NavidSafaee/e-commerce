@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Product = require('../models/productModel');
 
 // for creating products (will be removed)!
@@ -16,6 +17,10 @@ async function getAllProducts(query) {
     }
 
     const totalItems = await Product.find().countDocuments();
+
+    products = products.map(product => {
+        return product.toJSON();
+    })
 
     return {
         products,
@@ -81,6 +86,32 @@ async function createProduct(reqBody, images) {
     return product;
 }
 
+async function getAllProductsCount() {
+    const count = await Product.countDocuments();
+    return { count };
+}
+
+
+async function editProduct(productId, reqBody) {
+    // delete old image urls
+    deleteOldProductImageFile(productId);
+
+    // TODO what about _id?
+    await Product.findByIdAndUpdate(productId, reqBody);
+}
+
+
+async function deleteOldProductImageFile(productId) {
+    const oldProduct = await Product.findById(productId).select('imageUrls');
+    oldProduct.imageUrls.forEach(async imageUrl => {
+        fs.unlink(imageUrl, err => {
+            if (err) {
+               throw err;
+            }
+        });
+    });
+}
+
 // function roundToHalf(num) {
 //     return Math.round(num * 2) / 2;
 // }
@@ -95,5 +126,7 @@ async function createProduct(reqBody, images) {
 module.exports = {
     getAllProducts,
     getProductById,
-    createProduct
+    createProduct,
+    getAllProductsCount,
+    editProduct
 }

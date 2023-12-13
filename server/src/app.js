@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
 const { errorHandler } = require('./controllers/errorController');
 
 
@@ -30,7 +31,8 @@ app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
 app.use('/auth', authRoutes);
 app.use('/orders', orderRoutes);
-app.use('/reviews', reviewRoutes)
+app.use('/reviews', reviewRoutes);
+app.use('/tickets', ticketRoutes);
 app.use(errorHandler);
 
 // static serve

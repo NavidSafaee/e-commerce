@@ -249,6 +249,14 @@
     summary: Verifies users contact info
     tags:
       - auth
+    parameters:
+      - in: query
+        name: action
+        required: true
+        schema: 
+          type: string
+          example: signup/login/edit
+        description: action of contact-verification  
     requestBody:
       content:
         application/json:

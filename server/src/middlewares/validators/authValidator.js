@@ -48,8 +48,8 @@ const existingAccountValidator = [
 
 const signupValidator = [
     body().custom((value, { req }) => {
-        if (req.query.action === 'signup' && Object.keys(req.body).length > 4) throw new Error('Bad Request');
-        if (Object.keys(req.body).length > 5) throw new Error('Bad Request');
+        if (req.query.action === 'signup' && Object.keys(req.body).length > 5) throw new Error('Bad Request');
+        if (Object.keys(req.body).length > 6) throw new Error('Bad Request');
         return true;
     }),
 
@@ -98,6 +98,13 @@ const signupValidator = [
         .if((value, { req }) => req.url === '/signup')
         .isLength({ min: 6, max: 6 }),
 
+    body('userRole', 'user role should not be empty')
+        .if((value, { req }) => req.role === 'ADMIN')
+        .notEmpty()
+        .custom((value, { req }) => {
+            if (value !== 'ADMIN' && value !== 'CUSTOMER') throw new Error('please enter a valid role');
+            return true; 
+        })
 ];
 
 
@@ -164,7 +171,7 @@ const contactValidator = [
         return true;
     }),
 
-    
+
     oneOf([
         signupValidator,
         body().custom((value, { req }) => {
