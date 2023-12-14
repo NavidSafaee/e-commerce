@@ -26,6 +26,7 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    maxQuantityAllowedInCart: Number,
     rate: Number,
     status: String,
     discount: Number,

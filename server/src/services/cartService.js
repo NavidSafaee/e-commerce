@@ -1,6 +1,7 @@
 const Cart = require('../models/cartModel');
 const Product = require('../models/productModel');
 
+
 async function getMyCart(userId) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
     if (!cart) {
@@ -11,6 +12,8 @@ async function getMyCart(userId) {
 
     return cart.items;
 }
+
+
 
 async function addToCart(userId, productId) {
     const product = await Product.findOne({ _id: productId });
@@ -53,6 +56,8 @@ async function addToCart(userId, productId) {
     return { totalQuantity };
 }
 
+
+
 async function deleteFromCart(userId, productId) {
     const product = await Product.findById(productId);
     if (!product) {
@@ -93,6 +98,8 @@ async function deleteFromCart(userId, productId) {
     return { totalQuantity };
 }
 
+
+
 async function changeCartItemQuantity(userId, productId, action) {
     const product = await Product.findById(productId);
     if (!product) {
@@ -100,7 +107,7 @@ async function changeCartItemQuantity(userId, productId, action) {
         error.statusCode = 404;
         throw error;
     }
-    
+
     const cart = await Cart.findOne({ user: userId });
     if (!cart) {
         const error = new Error('Cart not found!');
@@ -115,23 +122,33 @@ async function changeCartItemQuantity(userId, productId, action) {
         throw error;
     }
 
-    if (action === 'increase') {
-        if (product.quantity === 0) {
-            const error = new Error('The product is not available in stock');
-            error.statusCode = 400;
-            throw error;
-        }
-        cart.items[index].quantity += 1;
-        product.quantity -= 1;
-
-    } else if (action === 'decrease') {
-        if (cart.items[index].quantity === 1) {
-            const error = new Error('There is only one of this product in your shopping cart');
-            error.statusCode = 400;
-            throw error;
-        }
-        cart.items[index].quantity -= 1;
-        product.quantity += 1;
+    switch (action) {
+        case 'increase':
+            if (product.quantity === 0) {
+                const error = new Error('The product is not available in stock');
+                error.statusCode = 400;
+                throw error;
+            }
+    
+            if (cart.items[index].quantity + 1 > product.maxQuantityAllowed) {
+                const error = new Error('You cannot add more than the allowed quantity of this product');
+                error.statusCode = 400;
+                throw error;
+            }
+    
+            cart.items[index].quantity += 1;
+            product.quantity -= 1;
+            break;
+    
+        case 'decrease':
+            if (cart.items[index].quantity === 1) {
+                const error = new Error('There is only one of this product in your shopping cart');
+                error.statusCode = 400;
+                throw error;
+            }
+            cart.items[index].quantity -= 1;
+            product.quantity += 1;
+            break;
     }
 
     await product.save();
@@ -142,6 +159,8 @@ async function changeCartItemQuantity(userId, productId, action) {
     cart.items.forEach(item => totalQuantity += item.quantity);
     return { totalQuantity };
 }
+
+
 
 async function getCartItemQuantity(productId) {
     const cart = await Cart.findOne({ 'items.product': productId });
