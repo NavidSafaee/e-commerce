@@ -9,6 +9,10 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    quantity: {
+        type: Number,
+        required: true
+    },
     category: {
         type: String,
         enum: ['CHAIR', 'SOFA', 'BENCH', 'STORAGE', 'FURNITURE', 'TABLE'],
@@ -22,9 +26,9 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    rate : Number,
+    rate: Number,
     status: String,
-    discount : Number,
+    discount: Number,
     discountExpiresAt: Date
 });
 

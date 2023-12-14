@@ -1,7 +1,7 @@
 const Cart = require('../models/cartModel');
 const Product = require('../models/productModel');
 
-async function getCart(userId) {
+async function getMyCart(userId) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
     if (!cart) {
         const error = new Error('Cart not found!');
@@ -21,37 +21,130 @@ async function addToCart(userId, productId) {
         throw error;
     }
 
+    if (product.quantity === 0) {
+        const error = new Error('The product is not available in stock');
+        error.statusCode = 400;
+        throw error;
+    }
 
     let cart = await Cart.findOne({ user: userId });
     if (!cart) {
         cart = new Cart({
             user: userId,
-            items: [
-                {
-                    product: productId,
-                    quantity: 1
-                }
-            ]
+            items: []
         });
-    } else {
-        const index = cart.items.findIndex(item => {
-            return item.product.toString() === productId;
-        });
-
-        if (index >= 0) {
-            cart.items[index].quantity += 1;
-        } else {
-            cart.items.push({ product: productId, quantity: 1 });
-        }
     }
+
+    const cartItem = cart.items.find(item => item.product.toString() === productId);
+    if (cartItem) {
+        const error = new Error('This product is already in your cart');
+        error.statusCode = 400;
+        throw error;
+    }
+    cart.items.push({ product: productId, quantity: 1 });
+    product.quantity -= 1;
+
+    await product.save();
     await cart.save();
     await cart.populate('items.product');
+
+    let totalQuantity = 0;
+    cart.items.forEach(item => totalQuantity += item.quantity);
+    return { totalQuantity };
+}
+
+async function deleteFromCart(userId, productId) {
+    const product = await Product.findById(productId);
+    if (!product) {
+        const error = new Error('Product not found!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+        const error = new Error('Cart not found!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const cartItem = cart.items.find(item => item.product.toString() === productId);
+    if (!cartItem) {
+        const error = new Error('Product not found in cart');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    product.quantity += cartItem.quantity;
+    cart.items = cart.items.filter(item => item.product.toString() !== productId);
+
+    let totalQuantity = 0;
+    await product.save();
+
+    if (cart.items.length === 0) {
+        await cart.deleteOne();
+        return { totalQuantity };
+    }
+
+    await cart.save();
+    await cart.populate('items.product');
+
+    cart.items.forEach(item => totalQuantity += item.quantity);
+    return { totalQuantity };
+}
+
+async function changeCartItemQuantity(userId, productId, action) {
+    const product = await Product.findById(productId);
+    if (!product) {
+        const error = new Error('Product not found!');
+        error.statusCode = 404;
+        throw error;
+    }
     
-    return cart.items;
+    const cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+        const error = new Error('Cart not found!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const index = cart.items.findIndex(item => item.product.toString() === productId);
+    if (index < 0) {
+        const error = new Error('Product not found in cart');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (action === 'increase') {
+        if (product.quantity === 0) {
+            const error = new Error('The product is not available in stock');
+            error.statusCode = 400;
+            throw error;
+        }
+        cart.items[index].quantity += 1;
+        product.quantity -= 1;
+
+    } else if (action === 'decrease') {
+        if (cart.items[index].quantity === 1) {
+            const error = new Error('There is only one of this product in your shopping cart');
+            error.statusCode = 400;
+            throw error;
+        }
+        cart.items[index].quantity -= 1;
+        product.quantity += 1;
+    }
+
+    await product.save();
+    await cart.save();
+    await cart.populate('items.product');
+
+    let totalQuantity = 0;
+    cart.items.forEach(item => totalQuantity += item.quantity);
+    return { totalQuantity };
 }
 
 async function getCartItemQuantity(productId) {
-    const cart = await Cart.findOne({'items.product': productId});
+    const cart = await Cart.findOne({ 'items.product': productId });
 
     if (!cart) {
         const error = new Error('Cart or item not found!');
@@ -63,14 +156,14 @@ async function getCartItemQuantity(productId) {
         return item.product.toString() === productId;
     });
 
-    console.log(item.quantity);
-
     return item.quantity;
 }
 
 
 module.exports = {
-    getCart,
+    getMyCart,
     addToCart,
+    deleteFromCart,
+    changeCartItemQuantity,
     getCartItemQuantity
 }

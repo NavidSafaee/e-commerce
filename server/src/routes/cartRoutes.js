@@ -3,19 +3,22 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    httpGetCart,
+    httpGetMyCart,
     httpAddToCart,
+    httpDeleteFromCart,
+    httpChangeCartItemQuantity,
     httpGetCartItemQuantity
 } = require('../controllers/cartController');
 
-const { addToCartValidator } = require('../middlewares/validators/cartValidator');
+const { changeCartItemQuantityValidator } = require('../middlewares/validators/cartValidator');
 
 const { isAuth, isCustomer } = require('../middlewares/auth');
 
-router.get('/', isAuth, isCustomer, httpGetCart);
-router.put('/', isAuth, isCustomer, addToCartValidator, httpAddToCart);
-router.get('/:productId/quantity', isAuth, isCustomer, httpGetCartItemQuantity);
-
+router.get('/me', isAuth, isCustomer, httpGetMyCart);
+router.put('/me/items/:productId', isAuth, isCustomer, httpAddToCart);
+router.delete('/me/items/:productId', isAuth, isCustomer, httpDeleteFromCart);
+router.put('/me/items/:productId/quantity', isAuth, isCustomer, changeCartItemQuantityValidator, httpChangeCartItemQuantity);
+router.get('/me/items/:productId/quantity', isAuth, isCustomer, httpGetCartItemQuantity);
 
 
 module.exports = router;
