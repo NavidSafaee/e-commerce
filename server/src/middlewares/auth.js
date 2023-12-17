@@ -46,7 +46,7 @@ function isCustomer(req, res, next) {
 
     try {
         if (req.role !== 'CUSTOMER') {
-            const error = new Error();
+            const error = new Error('Access denied');
             error.statusCode = 403;
             throw error;
         }

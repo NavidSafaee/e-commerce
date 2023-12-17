@@ -1,10 +1,28 @@
 const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
+const Product = require('../models/productModel');
 
 async function postOrder(userId, reqBody, role) {
     if (role === 'ADMIN') {
 
         const { orderItems, deliveryDate } = reqBody;
+
+
+        orderItems.forEach(async item => {
+            const product = await Product.findById(item.product._id);
+
+            if (!product) {
+                const error = new Error(`No product ${item.product._id} with id  was found`);
+                error.statusCode = 404;
+                throw error;
+            }
+
+            if (product.title !== item.product.title) {
+                const error = new Error('product title and id doesn\'t match');
+                error.statusCode = 400;
+                throw error;
+            }
+        });
 
         const order = new Order({
             user: userId,
@@ -24,25 +42,42 @@ async function postOrder(userId, reqBody, role) {
             error.statusCode = 404;
             throw error;
         }
-
         await cart.populate('items.product');
+
+        const orderItems = await Promise.all(cart.items.map(async item => {
+            
+            const product = await Product.findById(item.product._id);
+            if (product.quantity === 0) {
+                const error = new Error('The product is not available in stock');
+                error.statusCode = 400;
+                throw error;
+            }
+            product.quantity -= item.quantity;
+            await product.save();
+
+            return {
+                product: item.product.toJSON(),
+                quantity: item.quantity,
+                _id: item._id
+            }
+        }));
+
 
         const todayDate = new Date();
 
         const order = new Order({
             user: userId,
-            items: cart.items,
-            delivered: false,
+            items: orderItems,
             deliveryDate: todayDate.setDate(todayDate.getDate() + 2)
         });
 
-        await cart.deleteOne();
         await order.save();
+        await cart.deleteOne();
     }
 }
 
 async function getCustomerOrders() {
-    const orders =  await Order.aggregate([
+    const orders = await Order.aggregate([
         {
             $lookup: {
                 from: 'users',
@@ -53,6 +88,14 @@ async function getCustomerOrders() {
         },
         {
             $match: { 'user.role': 'CUSTOMER' }
+        },
+        {
+            $project: {
+                'user.tokens': 0,
+                'user.password': 0,
+                'user.email': 0,
+                'user.birthDate': 0,
+            }
         }
     ]);
     return orders;
@@ -81,7 +124,7 @@ async function changeDeliveryState(orderId) {
 
 
 async function getCustomerDeliveredOrdersCount() {
-    const orderCount =  await Order.aggregate([
+    const orderCount = await Order.aggregate([
         {
             $lookup: {
                 from: 'users',
@@ -93,9 +136,7 @@ async function getCustomerDeliveredOrdersCount() {
         {
             $match: { 'user.role': 'CUSTOMER', deliveryDate: { $lte: new Date() } }
         },
-        {
-            $count: 'count'
-        }
+        { $count: 'count' }
     ]);
 
     return orderCount[0];
@@ -104,8 +145,8 @@ async function getCustomerDeliveredOrdersCount() {
 
 async function getLastMonthDeliveredOrders() {
     let currentDate = new Date();
-    const prevMonth = currentDate.setDate(currentDate.getDate() - 2);  
-    
+    const prevMonth = currentDate.setDate(currentDate.getDate() - 2);
+
     const orders = await Order.aggregate([
         {
             $lookup: {

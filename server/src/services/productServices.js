@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Product = require('../models/productModel');
+const Order = require('../models/orderModel');
 
 // for creating products (will be removed)!
 const path = require('path');
@@ -42,32 +43,80 @@ async function getProductById(productId) {
 
 
 async function createProduct(reqBody, images) {
-    // if (!images) {
-    //     const error = new Error('the product should at leas have one image');
-    //     error.statusCode = 400;
-    //     throw error;
-    // }
-    let paths;
+
+    const order = await Order.findById(reqBody.orderId);
+    if (!order) {
+        const error = new Error('No order was found with the given id');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (!order.isDelivered) {
+        const error = new Error('Order not delivered yet');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (!images) {
+        const error = new Error('the product should at leas have one image');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    const {
+        _id,
+        title,
+        price,
+        category,
+        quantity,
+        discount,
+        description,
+        maxQuantityAllowedInCart,
+        imageUrls
+    } = reqBody;
 
     if (images) {
-        paths = images.map(image => {
+        imageUrls = images.map(image => {
             const imageUrl = 'public/' + image.path.replace('\\', '/');
             return imageUrl;
         });
     }
 
-    const {
-        title,
-        price,
-        category,
-        discount,
-        description
-    } = reqBody;
-    
     let date;
     if (discount) {
         date = new Date();
         date.setDate(date.getDate() + 190);
+    }
+
+
+    const isInOrder = order.items.some(item => item.product.title === title && item.quantity === quantity);
+    if (!isInOrder) {
+        const error = new Error('This product is not in specified order');
+        error.statusCode = 400;
+        throw error;
+    }
+
+
+    if (_id) {
+        const product = await Product.findById(_id);
+
+        if (!product) {
+            const error = new Error('No product was found with the given id');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        if (title !== product.title || price !== product.price || category !== product.category ||
+            description !== product.description || discount !== product.discount ||
+            maxQuantityAllowedInCart !== product.maxQuantityAllowedInCart || areUrlsMatch(product)) {
+            const error = new Error('product id and given info doesn\'t match');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        product.quantity += quantity;
+        await product.save();
+        return product;
     }
 
     const product = new Product({
@@ -92,24 +141,59 @@ async function getAllProductsCount() {
 }
 
 
-async function editProduct(productId, reqBody) {
-    // delete old image urls
-    deleteOldProductImageFile(productId);
+async function editProduct(productId, reqBody, newImages) {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+        const error = new Error('Product not found!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (newImages) {
+        reqBody.imageUrls = newImages.map(newImage => {
+            const imageUrl = 'public/' + newImage.path.replace('\\', '/');
+            return imageUrl;
+        });
+    }
+
+    if (!areUrlsMatch(product)) {
+        const oldProduct = await Product.findById(productId).select('imageUrls');
+        oldProduct.imageUrls.forEach(async imageUrl => {
+            fs.unlink(imageUrl, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+        });
+    }
 
     // TODO what about _id?
     await Product.findByIdAndUpdate(productId, reqBody);
 }
 
 
-async function deleteOldProductImageFile(productId) {
-    const oldProduct = await Product.findById(productId).select('imageUrls');
-    oldProduct.imageUrls.forEach(async imageUrl => {
-        fs.unlink(imageUrl, err => {
-            if (err) {
-               throw err;
+// async function deleteOldProductImageFiles(productId) {
+//     const oldProduct = await Product.findById(productId).select('imageUrls');
+//     oldProduct.imageUrls.forEach(async imageUrl => {
+//         fs.unlink(imageUrl, err => {
+//             if (err) {
+//                 throw err;
+//             }
+//         });
+//     });
+// }
+
+
+function areUrlsMatch(product) {
+    if (imageUrls.length !== product.imageUrls.length) {
+        for (let i = 0; i < imageUrls.length; i++) {
+            if (imageUrls[i] !== product.imageUrls[i]) {
+                return false;
             }
-        });
-    });
+        }
+    } 
+    return true;
 }
 
 // function roundToHalf(num) {

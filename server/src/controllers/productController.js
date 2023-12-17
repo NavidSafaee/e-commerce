@@ -52,7 +52,7 @@ async function httpEditProduct(req, res, next) {
     try {
         validator(req);
         const productId = req.params.productId;
-        await editProduct(productId, req.body);
+        await editProduct(productId, req.body, req.files);
         res.status(204);
     } catch (error) {
         next(error);

@@ -10,8 +10,8 @@ const {
 
 async function httpGetMyCart(req, res, next) {
     try {
-        const result = await getMyCart(req.userId);
-        res.status(200).json(result);
+        const response = await getMyCart(req.userId);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }

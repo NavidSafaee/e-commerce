@@ -45,9 +45,7 @@ async function addToCart(userId, productId) {
         throw error;
     }
     cart.items.push({ product: productId, quantity: 1 });
-    product.quantity -= 1;
 
-    await product.save();
     await cart.save();
     await cart.populate('items.product');
 
@@ -79,13 +77,9 @@ async function deleteFromCart(userId, productId) {
         error.statusCode = 404;
         throw error;
     }
-
-    product.quantity += cartItem.quantity;
     cart.items = cart.items.filter(item => item.product.toString() !== productId);
-
+    
     let totalQuantity = 0;
-    await product.save();
-
     if (cart.items.length === 0) {
         await cart.deleteOne();
         return { totalQuantity };
@@ -130,14 +124,13 @@ async function changeCartItemQuantity(userId, productId, action) {
                 throw error;
             }
     
-            if (cart.items[index].quantity + 1 > product.maxQuantityAllowed) {
+            if (cart.items[index].quantity + 1 > product.maxQuantityAllowedInCart) {
                 const error = new Error('You cannot add more than the allowed quantity of this product');
                 error.statusCode = 400;
                 throw error;
             }
     
             cart.items[index].quantity += 1;
-            product.quantity -= 1;
             break;
     
         case 'decrease':
@@ -147,11 +140,9 @@ async function changeCartItemQuantity(userId, productId, action) {
                 throw error;
             }
             cart.items[index].quantity -= 1;
-            product.quantity += 1;
             break;
     }
-
-    await product.save();
+    
     await cart.save();
     await cart.populate('items.product');
 

@@ -13,15 +13,12 @@ const { createOrEditProductValidator } = require('../middlewares/validators/prod
 
 const router = express.Router();
 
+router.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10));
+
 router.get('/', httpGetAllProducts);
 router.get('/count', isAuth, isAdmin, httpGetAllProductCount);
 router.get('/:productId', httpGetProductById);
-
-// multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10),
-// isAuth, isAdmin,
 router.post('/', isAuth, isAdmin, createOrEditProductValidator, httpCreateProduct);
-
-// multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10),
 router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
 
 module.exports = router;

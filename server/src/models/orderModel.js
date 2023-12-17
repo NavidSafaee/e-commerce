@@ -16,10 +16,7 @@ const orderSchema = new Schema({
             required: true
         }
     }],
-    delivered: {
-        type: Boolean,
-        required: true
-    },
+    isDelivered: Boolean,
     deliveryDate: {
         type: Date,
         required: true
