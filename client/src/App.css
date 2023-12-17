@@ -10,17 +10,16 @@ body {
 }
 
 :root {
-  /* --main-color: #7AC751; */
-  --main-color: #0802A3;
+  --main-color: #06a99d;
   --box-shd: 3px 3px 5px #dedede, -3px -3px 5px #dedede, -3px 3px 5px #dedede, 3px -3px 5px #dedede;
 }
 
 ::-webkit-scrollbar {
   width: 1rem;
-  background-color: #faebd7;
+  background-color: #d7fafa;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(10deg, #7600c4, #480079);
+  background: var(--main-color);
   border-radius: 10px;
-  border: 3px solid #faebd7;
+  border: 3px solid #d7fafa;
 }

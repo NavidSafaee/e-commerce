@@ -1,0 +1,174 @@
+.slider-section {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  margin-bottom: 50px;
+}
+.slider-section .slider-box {
+  width: 900px;
+  height: 500px;
+  border-radius: 5px;
+  background: linear-gradient(103.4deg, rgba(241, 250, 255, 0.8784313725) 0.89%, #F1FAFF 101.61%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.slider-section .slider-box .sidebar {
+  width: 150px;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-direction: column;
+}
+.slider-section .slider-box .sidebar .item {
+  padding: 8px 0 5px 0;
+  height: 27%;
+  width: 70%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #fff;
+  cursor: pointer;
+}
+.slider-section .slider-box .sidebar .item.selected {
+  border: 3px groove var(--main-color);
+}
+.slider-section .slider-box .sidebar .item img {
+  object-fit: cover;
+  height: 55%;
+}
+.slider-section .slider-box .sidebar .item .price {
+  color: var(--main-color);
+  font-size: 12px;
+  font-weight: 700;
+}
+.slider-section .slider-box .sidebar .item .product-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #555;
+}
+.slider-section .slider-box .main-box {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.slider-section .slider-box .main-box img {
+  width: 45%;
+  border-radius: 10px;
+}
+.slider-section .slider-box .main-box .text-box {
+  width: 50%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  cursor: default;
+  user-select: none;
+}
+.slider-section .slider-box .main-box .text-box .top-text {
+  color: var(--main-color);
+  font-size: 22px;
+  font-weight: 400;
+}
+.slider-section .slider-box .main-box .text-box .bold-text {
+  text-align: center;
+  font-weight: 700;
+  font-size: 32px;
+}
+.slider-section .slider-box .main-box .text-box .off-text {
+  color: rgba(81, 81, 81, 0.7098039216);
+  font-size: 22px;
+  font-weight: 600;
+}
+.slider-section .slider-box .main-box .text-box .buy-btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: var(--main-color);
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-weight: 700;
+  color: #fff;
+}
+.slider-section .slider-box .circles-box {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+  width: 120px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.slider-section .slider-box .circles-box .circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(81, 130, 199, 0.2901960784);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.slider-section .slider-box .circles-box .circle.focus {
+  width: 24px;
+  border-radius: 500px;
+  height: 9px;
+  background-color: var(--main-color);
+}
+
+@media screen and (max-width: 992px) {
+  .slider-section .slider-box {
+    width: 95%;
+    height: 450px;
+  }
+  .slider-section .slider-box .main-box .text-box .top-text {
+    font-size: 18px;
+  }
+  .slider-section .slider-box .main-box .text-box .bold-text {
+    font-size: 26px;
+  }
+  .slider-section .slider-box .main-box .text-box .off-text {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .slider-section {
+    padding: 15px 0;
+    align-items: flex-start;
+  }
+  .slider-section .slider-box {
+    padding: 20px 10px;
+    flex-direction: column;
+  }
+  .slider-section .slider-box .sidebar {
+    flex-direction: row;
+    width: 400px;
+    height: 80px;
+  }
+  .slider-section .slider-box .sidebar .item {
+    height: 100%;
+    width: 32%;
+  }
+  .slider-section .slider-box .circles-box {
+    left: unset;
+    right: 40px;
+    bottom: 30px;
+    transform: translateX(0);
+    flex-direction: column;
+    width: 20px;
+    height: 100px;
+  }
+}/*# sourceMappingURL=HeroSlider.css.map */

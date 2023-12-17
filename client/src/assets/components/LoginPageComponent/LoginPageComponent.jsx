@@ -76,8 +76,8 @@ function LoginPageComponent() {
                 phoneNumber: userPhone,
                 OTP: userOTP,
             }
-
         }
+        console.log(formInfo);
         fetch(`${baseURL}/auth/login`, {
             method: "POST",
             headers: { "Content-type": "application/json" },

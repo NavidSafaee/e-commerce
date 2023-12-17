@@ -18,20 +18,17 @@ function ProductPageComponent() {
 
     const authContext = useContext(AuthContext)
 
-    const productAdder = async () => {
+    const productAdder = () => {
         const userToken = JSON.parse(localStorage.getItem("userToken"))
         if (isTokenExpired(userToken.accessToken)) {
-            console.log("product page => token expired")
             refreshTokenHandler()
             .then(token => {
-                console.log("token update shoda", token)
                 authContext.writeTokenInStorage(token)
                 productAdder()
             })
         } else {
             let req_body = { "productId": productInfo._id }
-            console.log(productInfo._id)
-            await fetch(`${baseURL}/carts`, {
+            fetch(`${baseURL}/carts`, {
                 method: "PUT",
                 headers: { Authorization: `Bearer ${userToken.accessToken}`, "Content-type": "application/json" },
                 body: JSON.stringify(req_body)
