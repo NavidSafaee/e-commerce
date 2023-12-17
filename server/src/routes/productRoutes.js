@@ -13,7 +13,7 @@ const { createOrEditProductValidator } = require('../middlewares/validators/prod
 
 const router = express.Router();
 
-router.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10));
+// router.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10));
 
 router.get('/', httpGetAllProducts);
 router.get('/count', isAuth, isAdmin, httpGetAllProductCount);
