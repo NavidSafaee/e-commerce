@@ -1,0 +1,74 @@
+.top-strip {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background-color: var(--main-color);
+  color: #fff;
+  position: relative;
+}
+.top-strip .left-text {
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: -2px 0 4px #e6e6e6;
+  cursor: default;
+}
+.top-strip .brand-box {
+  display: none;
+}
+.top-strip .account-box {
+  position: absolute;
+  right: 70px;
+  width: 160px;
+  background-color: #ffbf00;
+  padding: 6px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #000c38;
+}
+.top-strip .account-box .login-btn,
+.top-strip .account-box .sign-up {
+  transition: 0.4s;
+  cursor: pointer;
+  color: #000c38;
+  text-decoration: none;
+}
+.top-strip .account-box .login-btn:hover,
+.top-strip .account-box .sign-up:hover {
+  color: #fbfbff;
+}
+.top-strip .logout-btn {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 670px) {
+  .top-strip {
+    padding: 0 20px;
+  }
+  .top-strip .left-text {
+    display: none;
+  }
+  .top-strip .brand-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .top-strip .brand-box img {
+    transform: scale(0.8);
+  }
+  .top-strip .brand-box strong {
+    font-weight: 700;
+    font-size: 22px;
+    cursor: pointer;
+    color: #fff;
+  }
+  .top-strip .account-box {
+    right: 20px;
+  }
+}/*# sourceMappingURL=TopStrip.css.map */

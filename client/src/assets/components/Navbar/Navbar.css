@@ -1,0 +1,113 @@
+.navbar-container {
+  width: 100%;
+  height: 70px;
+  background-color: #F7F8FA;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 150px;
+  position: relative;
+}
+.navbar-container .links-box {
+  width: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-container .links-box a {
+  text-decoration: none;
+  font-weight: 400;
+  color: #555;
+  transition: 0.4s;
+  position: relative;
+  padding: 3px 14px;
+}
+.navbar-container .links-box a::after, .navbar-container .links-box a::before {
+  content: "";
+  width: 0;
+  height: 2px;
+  border-radius: 5px;
+  background-color: var(--main-color);
+  position: absolute;
+  transition: 0.4s;
+}
+.navbar-container .links-box a::after {
+  left: -14px;
+  bottom: 0;
+}
+.navbar-container .links-box a::before {
+  right: -14px;
+  top: 0;
+}
+.navbar-container .links-box a:hover::after {
+  width: 70%;
+  left: -4px;
+}
+.navbar-container .links-box a:hover::before {
+  width: 70%;
+  right: -4px;
+}
+.navbar-container .collecton-containter {
+  position: relative;
+  height: 100%;
+  margin-right: 20px;
+}
+.navbar-container .collecton-containter:hover .collection-list {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.navbar-container .collecton-containter .collection-btn {
+  width: 260px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-color);
+  color: #fff;
+  gap: 14px;
+  cursor: default;
+}
+.navbar-container .collecton-containter .collection-btn svg {
+  font-size: 28px;
+}
+.navbar-container .collecton-containter .collection-list {
+  position: absolute;
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #F7F8FA;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2;
+  border: 2px solid #555;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  box-shadow: var(--box-shd);
+}
+.navbar-container .collecton-containter .collection-list .item {
+  width: 100%;
+  height: 35px;
+  padding-left: 40px;
+  color: #555;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #dadada;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.navbar-container .collecton-containter .collection-list .item:hover {
+  padding-left: 60px;
+  color: var(--main-color);
+  background-color: #ececec;
+}
+
+@media screen and (max-width: 1200px) {
+  .navbar-container {
+    padding-left: 0;
+    justify-content: center;
+    height: 60px;
+    margin: 25px 0;
+  }
+}/*# sourceMappingURL=Navbar.css.map */

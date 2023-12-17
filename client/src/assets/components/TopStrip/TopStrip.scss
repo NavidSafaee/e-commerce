@@ -24,57 +24,61 @@
         position: absolute;
         right: 70px;
         width: 160px;
-        background-color: gold;
-        padding: 4px 20px;
+        background-color: #ffbf00;
+        padding: 6px 20px;
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 500;
+        color: #000c38;
 
         .login-btn,
         .sign-up {
             transition: .4s;
             cursor: pointer;
+            color: #000c38;
             text-decoration: none;
-            color: #fff;
 
             &:hover {
-                color: #01003e;
+                color: #fbfbff;
             }
         }
     }
+
     .logout-btn {
         cursor: pointer;
     }
 }
 
 @media screen and (max-width: 670px) {
-.top-strip {
-    padding: 0 20px;
+    .top-strip {
+        padding: 0 20px;
 
-    .left-text {
-        display: none;
-    }
-    .brand-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-
-        img {
-            transform: scale(.8);
+        .left-text {
+            display: none;
         }
 
-        strong {
-            font-weight: 700;
-            font-size: 22px;
-            cursor: pointer;
-            color: #fff;
+        .brand-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            img {
+                transform: scale(.8);
+            }
+
+            strong {
+                font-weight: 700;
+                font-size: 22px;
+                cursor: pointer;
+                color: #fff;
+            }
+        }
+
+        .account-box {
+            right: 20px;
         }
     }
-    .account-box {
-        right: 20px;
-    }
-}
 }
