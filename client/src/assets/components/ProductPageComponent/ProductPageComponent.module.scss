@@ -211,6 +211,7 @@
             font-size: 30px;
             font-family: cursive;
         }
+
         textarea {
             width: 70%;
             min-height: 100px;
@@ -222,7 +223,15 @@
             border-radius: 10px;
             padding: 14px;
             border: #06a99d 4px groove;
+            font-size: 18px;
+            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+            transition: .5s;
+
+            &.showInput {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            }
         }
+
         button {
             border: none;
             outline: none;
@@ -233,6 +242,12 @@
             background-color: var(--main-color);
             color: #fff;
             font-weight: 600;
+            transform: scale(0);
+            transition: .5s;
+
+            &.showBtn {
+                transform: scale(1);
+            }
         }
     }
 }

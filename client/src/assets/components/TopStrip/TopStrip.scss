@@ -33,6 +33,13 @@
         font-weight: 500;
         color: #000c38;
 
+        .username-container {
+            cursor: pointer;
+            font-weight: 700;
+            color: #fff;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
         .login-btn,
         .sign-up {
             transition: .4s;

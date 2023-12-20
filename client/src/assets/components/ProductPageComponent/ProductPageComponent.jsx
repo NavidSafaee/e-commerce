@@ -4,8 +4,9 @@ import { BiDollar } from 'react-icons/bi'
 import ComponentStyle from "./ProductPageComponent.module.scss"
 import { useContext, useEffect, useState } from "react"
 import baseURL from "../../baseURL"
+import Rating from '@mui/material/Rating';
 import { useParams } from "react-router-dom"
-import { calcDiscountedPrice, isTokenExpired, refreshTokenHandler } from "../../functions"
+import { calcDiscountedPrice, isTokenExpired, refreshTokenHandler, showMessage } from "../../functions"
 import AuthContext from "../Context/AuthContext"
 
 function ProductPageComponent() {
@@ -26,6 +27,8 @@ function ProductPageComponent() {
     const [mainImageIndex, setMainImageIndex] = useState(0)
     const [userComment, setUserComment] = useState("")
     const [commentFlag, setCommentFlag] = useState(false)
+    const [myRate, setMyRate] = useState(0)
+    const [isRated, setIsRated] = useState(false)
     const { productId } = useParams()
 
     const authContext = useContext(AuthContext)
@@ -66,7 +69,7 @@ function ProductPageComponent() {
                         productAdder()
                     })
             } else {
-                let req_body = { "review": userComment, "rating": 4 }
+                let req_body = { "review": userComment, "rating": myRate }
                 fetch(`${baseURL}/reviews/${productInfo._id}`, {
                     method: "PUT",
                     headers: {
@@ -76,6 +79,14 @@ function ProductPageComponent() {
                     body: JSON.stringify(req_body)
                 }).then(res => {
                     console.log(res)
+                    if (res.ok) {
+                        showMessage({
+                            title: "Thanks!! 😍",
+                            text: "Your feedback has been successfully send!",
+                            icon: "success"
+                        })
+                        setCommentFlag(false)
+                    }
                     return res.json()
                 }).then(data => console.log(data))
             }
@@ -99,11 +110,11 @@ function ProductPageComponent() {
             headers: { "Content-type": "application/json" }
         }).then(res => {
             return res.json()
-        }).then(data => { 
+        }).then(data => {
             setProductInfo(data)
             setRate(data.rate)
             console.log(data)
-            
+
             getComments(data._id)
         })
     }, [])
@@ -113,6 +124,10 @@ function ProductPageComponent() {
             sendComment()
         }
     }, [commentFlag])
+
+    useEffect(() => {
+        console.log(myRate)
+    }, [myRate])
 
     return (
         <>
@@ -124,7 +139,7 @@ function ProductPageComponent() {
                                 {imageLoaded && productInfo.discount && <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span>}
                                 {imageLoaded ?
                                     // <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' onError={setImageLoaded(false)} />
-                                    <img src={otherImages[mainImageIndex]} alt={productInfo?.title} />
+                                    <img src={otherImages[mainImageIndex]} alt={productInfo?.title} onLoad={console.log(2)} onError={() => setImageLoaded(false)} />
                                     :
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-off" width="44" height="44" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -172,9 +187,18 @@ function ProductPageComponent() {
                 </>
                 }
                 {authContext.isLoggedIn && <div className={ComponentStyle.your_comment}>
-                    <h4>Leave your comment!</h4>
-                    <textarea value={userComment} onChange={e => setUserComment(e.target.value)}></textarea>
-                    <button onClick={() => setCommentFlag(true)}>Send</button>
+                    <h4>{isRated ? "Great! Leave your comment!" : "Please rate us!"}</h4>
+                    <Rating
+                        name="size-large"
+                        value={myRate}
+                        onChange={(event, newValue) => {
+                            setMyRate(newValue)
+                            setIsRated(true)
+                        }}
+                        readOnly={isRated}
+                    />
+                    <textarea className={isRated && ComponentStyle.showInput} value={userComment} onChange={e => setUserComment(e.target.value)}></textarea>
+                    <button onClick={() => setCommentFlag(true)} className={isRated && ComponentStyle.showBtn}>Send</button>
                 </div>}
             </section>
         </>
