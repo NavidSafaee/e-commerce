@@ -7,27 +7,28 @@ async function postOrder(userId, reqBody, role) {
 
         const { orderItems, deliveryDate } = reqBody;
 
-
         orderItems.forEach(async item => {
-            const product = await Product.findById(item.product._id);
+            if (item.product.productId) {
+                const product = await Product.findById(item.product.productId);
 
-            if (!product) {
-                const error = new Error(`No product ${item.product._id} with id  was found`);
-                error.statusCode = 404;
-                throw error;
-            }
+                if (!product) {
+                    const error = new Error(`No product with id ${item.product._id} was found`);
+                    error.statusCode = 404;
+                    throw error;
+                }
 
-            if (product.title !== item.product.title) {
-                const error = new Error('product title and id doesn\'t match');
-                error.statusCode = 400;
-                throw error;
+                if (product.title !== item.product.title) {
+                    const error = new Error('product title and id doesn\'t match');
+                    error.statusCode = 400;
+                    throw error;
+                }
             }
         });
 
         const order = new Order({
             user: userId,
             items: orderItems,
-            delivered: false,
+            isDelivered: false,
             deliveryDate
         });
 
@@ -45,7 +46,7 @@ async function postOrder(userId, reqBody, role) {
         await cart.populate('items.product');
 
         const orderItems = await Promise.all(cart.items.map(async item => {
-            
+
             const product = await Product.findById(item.product._id);
             if (product.quantity === 0) {
                 const error = new Error('The product is not available in stock');
@@ -118,7 +119,7 @@ async function changeDeliveryState(orderId) {
         throw error;
     }
 
-    order.delivered = true;
+    order.isDelivered = true;
     await order.save();
 }
 

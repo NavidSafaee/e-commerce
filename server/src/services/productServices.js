@@ -5,6 +5,8 @@ const Order = require('../models/orderModel');
 // for creating products (will be removed)!
 const path = require('path');
 
+
+
 async function getAllProducts(query) {
     const { category } = query;
     const currentPage = +query.page || 1;
@@ -30,6 +32,8 @@ async function getAllProducts(query) {
     }
 }
 
+
+
 async function getProductById(productId) {
     const product = await Product.findById(productId);
     if (!product) {
@@ -42,9 +46,23 @@ async function getProductById(productId) {
 }
 
 
-async function createProduct(reqBody, images) {
 
-    const order = await Order.findById(reqBody.orderId);
+
+async function createProduct(reqBody, images) {
+    const {
+        orderId,
+        itemId,
+        productId,
+        title,
+        quantity,
+        price,
+        category,
+        discount,
+        description,
+        maxQuantityAllowedInCart
+    } = reqBody;
+
+    const order = await Order.findById(orderId);
     if (!order) {
         const error = new Error('No order was found with the given id');
         error.statusCode = 404;
@@ -57,29 +75,18 @@ async function createProduct(reqBody, images) {
         throw error;
     }
 
-    if (!images) {
-        const error = new Error('the product should at leas have one image');
+    const isInOrder = order.items.some(item => item._id.toString() === itemId);
+    if (!isInOrder) {
+        const error = new Error('This product is not in specified order');
         error.statusCode = 400;
         throw error;
     }
 
-    const {
-        _id,
-        title,
-        price,
-        category,
-        quantity,
-        discount,
-        description,
-        maxQuantityAllowedInCart,
-        imageUrls
-    } = reqBody;
-
-    if (images) {
-        imageUrls = images.map(image => {
-            const imageUrl = 'public/' + image.path.replace('\\', '/');
-            return imageUrl;
-        });
+    const isInStock = order.items.some(item => item._id.toString() === itemId && item.isInStock);
+    if (isInStock) {
+        const error = new Error('Order item is already added to stock');
+        error.statusCode = 400;
+        throw error;
     }
 
     let date;
@@ -89,56 +96,58 @@ async function createProduct(reqBody, images) {
     }
 
 
-    const isInOrder = order.items.some(item => item.product.title === title && item.quantity === quantity);
-    if (!isInOrder) {
-        const error = new Error('This product is not in specified order');
-        error.statusCode = 400;
-        throw error;
-    }
 
-
-    if (_id) {
-        const product = await Product.findById(_id);
-
+    let product;
+    let orderItem = order.items.find(item => item._id.toString() === itemId);
+    if (productId) {
+        product = await Product.findById(productId);
         if (!product) {
             const error = new Error('No product was found with the given id');
             error.statusCode = 404;
             throw error;
         }
 
-        if (title !== product.title || price !== product.price || category !== product.category ||
-            description !== product.description || discount !== product.discount ||
-            maxQuantityAllowedInCart !== product.maxQuantityAllowedInCart || areUrlsMatch(product)) {
-            const error = new Error('product id and given info doesn\'t match');
+        product.quantity += orderItem.quantity;
+    } else {
+        if (!images) {
+            const error = new Error('the product should at leas have one image');
             error.statusCode = 400;
             throw error;
         }
 
-        product.quantity += quantity;
-        await product.save();
-        return product;
+        const imageUrls = images.map(image => {
+            const imageUrl = 'public/images/products' + image.filename;
+            return imageUrl;
+        });
+
+        product = new Product({
+            title,
+            quantity,
+            price,
+            category,
+            imageUrls,
+            description,
+            maxQuantityAllowedInCart,
+            discount,
+            discountExpiresAt: date
+        });
     }
 
-    const product = new Product({
-        title,
-        price,
-        category,
-        imageUrls: paths,
-        discount,
-        description,
-        discountExpiresAt: date
-    });
-
-    // calcDiscountedPrice(product);
-
+    orderItem.isInStock = true;
     await product.save();
+    await order.save();
     return product;
 }
+
+
+
 
 async function getAllProductsCount() {
     const count = await Product.countDocuments();
     return { count };
 }
+
+
 
 
 async function editProduct(productId, reqBody, newImages) {
@@ -155,17 +164,9 @@ async function editProduct(productId, reqBody, newImages) {
             const imageUrl = 'public/' + newImage.path.replace('\\', '/');
             return imageUrl;
         });
-    }
 
-    if (!areUrlsMatch(product)) {
         const oldProduct = await Product.findById(productId).select('imageUrls');
-        oldProduct.imageUrls.forEach(async imageUrl => {
-            fs.unlink(imageUrl, err => {
-                if (err) {
-                    throw err;
-                }
-            });
-        });
+        oldProduct.imageUrls.forEach(async imageUrl => fs.unlink(imageUrl, err => { if (err) { throw err } }));
     }
 
     // TODO what about _id?
@@ -173,38 +174,8 @@ async function editProduct(productId, reqBody, newImages) {
 }
 
 
-// async function deleteOldProductImageFiles(productId) {
-//     const oldProduct = await Product.findById(productId).select('imageUrls');
-//     oldProduct.imageUrls.forEach(async imageUrl => {
-//         fs.unlink(imageUrl, err => {
-//             if (err) {
-//                 throw err;
-//             }
-//         });
-//     });
-// }
-
-
-function areUrlsMatch(product) {
-    if (imageUrls.length !== product.imageUrls.length) {
-        for (let i = 0; i < imageUrls.length; i++) {
-            if (imageUrls[i] !== product.imageUrls[i]) {
-                return false;
-            }
-        }
-    } 
-    return true;
-}
-
 // function roundToHalf(num) {
 //     return Math.round(num * 2) / 2;
-// }
-
-// function calcDiscountedPrice(product) {
-//     if (product.discount) {
-//         product.newPrice = (product.price * (1 - product.discount)).toFixed(2);
-//     }
-//     return product;
 // }
 
 module.exports = {

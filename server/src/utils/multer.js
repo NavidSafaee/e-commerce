@@ -1,9 +1,11 @@
+const path = require('path');
+
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, path.join(__dirname, '..', 'public', 'images', 'products'));
+        callback(null, path.join(__dirname, '..', '..', 'public', 'images', 'products'));
     },
     filename: (req, file, callback) => {
         callback(null, uuidv4() + '-' + file.originalname);

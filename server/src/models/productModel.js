@@ -30,7 +30,7 @@ const productSchema = new Schema({
     rate: Number,
     status: String,
     discount: Number,
-    discountExpiresAt: Date
+    discountExpiration: Date
 });
 
 productSchema.methods.toJSON = function () {

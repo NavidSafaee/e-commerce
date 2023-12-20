@@ -12,7 +12,7 @@ function sendSms(textId, phoneNumber, argument) {
     const options = {
         hostname: 'console.melipayamak.com',
         port: 443,
-        path: '/api/send/shared/97fe278060a143828bc680dd9b1f4a95',
+        path: process.env.SMS_URL,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
