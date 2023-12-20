@@ -15,8 +15,6 @@ const { createOrEditProductValidator } = require('../middlewares/validators/prod
 
 const router = express.Router();
 
-
-
 router.get('/', httpGetAllProducts);
 router.get('/count', isAuth, isAdmin, httpGetAllProductCount);
 router.get('/:productId', httpGetProductById);

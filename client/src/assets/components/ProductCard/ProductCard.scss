@@ -6,12 +6,13 @@
 
 .product-card {
     width: 270px;
-    height: 400px;
+    height: 350px;
     @include flex();
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: column;
     border-radius: 0 7px 7px 7px;
     gap: 10px;
+    padding: 0 0 15px 0;
     cursor: pointer;
     background-color: #f9f8f8;
     transition: .5s;
@@ -44,9 +45,11 @@
 
     .img-wrapper {
         width: 100%;
+        min-height: 200px;
         position: relative;
         z-index: 10;
         border-radius: 0 7px 0 0;
+        @include flex();
 
         &:hover .icon-wrapper {
             transform: scale(1);
@@ -97,6 +100,10 @@
 
         img {
             border-radius: inherit;
+        }
+
+        svg {
+            transform: scale(1.5);
         }
     }
 
