@@ -14,17 +14,18 @@
 
         a {
             text-decoration: none;
+            font-family: pac;
         }
-
+        
         img {
             transform: scale(.9);
         }
-
+        
         strong {
             font-weight: 700;
             font-size: 22px;
             cursor: pointer;
-            color: #555;
+            color: var(--main-color);
         }
     }
 
