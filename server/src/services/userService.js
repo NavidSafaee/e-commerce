@@ -32,7 +32,7 @@ async function changePersonalInfo(userId, reqBody) {
             if (OTPDocs.length > 0) {
                 const doMatch = await checkMatchingCondition(otp, OTPDocs);
                 if (doMatch) {
-                    return await User.findByIdAndUpdate(userId, { email });
+                    return await User.findByIdAndUpdate(userId, { email }, { new: true });
                 }
             }
             error = new Error('Wrong email or OTP');
@@ -44,25 +44,24 @@ async function changePersonalInfo(userId, reqBody) {
             if (OTPDocs.length > 0) {
                 const doMatch = await checkMatchingCondition(otp, OTPDocs);
                 if (doMatch) {
-                    return await User.findByIdAndUpdate(userId, { phoneNumber });
+                    return await User.findByIdAndUpdate(userId, { phoneNumber }, { new: true });
                 }
             }
             error = new Error('Wrong contact info or OTP');
             error.statusCode = 401;
             throw error;
-            break;
 
         case Boolean(newPassword):
             const hashedPassword = await bcrypt.hash(newPassword, 12);
-            return await User.findByIdAndUpdate(userId, { password: hashedPassword });
+            return await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
 
         case Boolean(birthDate):
-            return await User.findByIdAndUpdate(userId, { birthDate });
+            return await User.findByIdAndUpdate(userId, { birthDate }, { new: true });
 
         default:
             error = new Error('Bad Request');
             error.statusCode = 400;
-            throw error;    
+            throw error;
     }
 }
 
@@ -76,24 +75,6 @@ async function getUsers(role) {
     return await User.find({ role });
 }
 
-
-// async function deleteUser(adminId, userId) {
-//     const user = await User.findById(userId);
-//     if (user.role === 'ADMIN') {
-//         const currentAdmin = await User.findById(adminId);
-//         const firstUser = await User.findOne().sort('createdAt');
-        
-//         if (currentAdmin.createdAt !== firstUser.createdAt) {
-//             const error = new Error('access denied');
-//             error.statusCode = 403;
-//             throw error; 
-//         }
-//     }
-
-//     user.deleteOne();
-//     await Cart.findOneAndDelete({ user: userId });
-//     await Order.findOneAndDelete({ user: userId, deliveryDate: { $gt: new Date() } });
-// }
 
 async function checkMatchingCondition(otp, OTPDocs) {
     for (let OTPDoc of OTPDocs) {
@@ -110,5 +91,4 @@ module.exports = {
     changePersonalInfo,
     getCustomersCount,
     getUsers,
-    // deleteUser
 }

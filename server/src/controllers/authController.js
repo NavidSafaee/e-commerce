@@ -118,6 +118,11 @@ async function httpVerifyEmailOrPhoneNumber(req, res, next) {
         } else if (phoneNumber) {
             await verifyPhoneNumber(req.body.phoneNumber);
             return res.sendStatus(204);
+            
+        } else {
+            const error = new Error('no contact info provided');
+            error.statusCode = 400;
+            throw error;
         }
 
     } catch (error) {

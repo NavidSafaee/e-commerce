@@ -31,7 +31,7 @@ const userSchema = new Schema({
             required: true,
         }
     }]
-}, { timestamps: true });
+});
 
 userSchema.methods.toJSON = function () {
     var userObj = this.toObject();

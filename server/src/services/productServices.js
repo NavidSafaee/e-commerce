@@ -22,7 +22,7 @@ async function getAllProducts(query) {
     const totalItems = await Product.find().countDocuments();
 
     products = products.map(product => {
-        return product.toJSON();
+        return product.restrictInfo();
     })
 
     return {
@@ -95,8 +95,6 @@ async function createProduct(reqBody, images) {
         date.setDate(date.getDate() + 190);
     }
 
-
-
     let product;
     let orderItem = order.items.find(item => item._id.toString() === itemId);
     if (productId) {
@@ -119,6 +117,12 @@ async function createProduct(reqBody, images) {
             const imageUrl = 'public/images/products' + image.filename;
             return imageUrl;
         });
+
+        if (quantity !== orderItem.quantity) {
+            const error = new Error('product quantity must be equal to order item quantity');
+            error.statusCode = 400;
+            throw error;
+        }
 
         product = new Product({
             title,
@@ -145,6 +149,13 @@ async function createProduct(reqBody, images) {
 async function getAllProductsCount() {
     const count = await Product.countDocuments();
     return { count };
+}
+
+
+async function getAllProductsTitle() {
+    const products = await Product.find().select('title');
+    productsTitle = products.map(product => product.title);
+    return productsTitle;
 }
 
 
@@ -183,5 +194,6 @@ module.exports = {
     getProductById,
     createProduct,
     getAllProductsCount,
+    getAllProductsTitle,
     editProduct
 }

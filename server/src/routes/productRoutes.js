@@ -5,8 +5,9 @@ const {
     httpGetAllProducts,
     httpCreateProduct,
     httpGetProductById,
-    httpGetAllProductCount,
-    httpEditProduct
+    httpGetAllProductsCount,
+    httpEditProduct,
+    httpGetAllProductsTitle
 } = require('../controllers/productController');
 const { fileFilter, fileStorage } = require('../utils/multer');
 const { isAuth, isAdmin } = require('../middlewares/auth');
@@ -16,9 +17,10 @@ const { createOrEditProductValidator } = require('../middlewares/validators/prod
 const router = express.Router();
 
 router.get('/', httpGetAllProducts);
-router.get('/count', isAuth, isAdmin, httpGetAllProductCount);
-router.get('/:productId', httpGetProductById);
 router.post('/', isAuth, isAdmin, multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10), createOrEditProductValidator, httpCreateProduct);
+router.get('/:productId', httpGetProductById);
 router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
+router.get('/count', isAuth, isAdmin, httpGetAllProductsCount);
+router.get('/title', httpGetAllProductsTitle);
 
 module.exports = router;

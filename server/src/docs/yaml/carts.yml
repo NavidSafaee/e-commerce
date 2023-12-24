@@ -1,45 +1,5 @@
 paths:
-  /carts:
-    put:
-      summary: The product with given will be added to the cart
-      tags:
-        - carts 
-      security: 
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                productId:
-                  type: string
-                  example: 650b1ed61882fc118a114d19
-      responses: 
-        "200":
-          description: successfully added to cart
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/Cart'
-        "404":
-          description: if there is no product with that id
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'product not found!'            
-        "400":
-          $ref: '#/components/responses/badRequest'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-
+  /carts/me:
     get:
       summary: Returns users cart
       tags:
@@ -64,7 +24,92 @@ paths:
         "403":
           $ref: '#/components/responses/forbidden'
 
-/carts/{productId}:
+  /carts/me/items/{productId}:
+    put:
+      summary: The product with given id will be added to the cart
+      tags:
+        - carts 
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The product ID    
+      responses: 
+        "200":
+          description: successfully added to cart and total quantity returns
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalQuantity:
+                    type: number
+                    example: 5
+        "404":
+          description: if there is no product with that id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'product not found!'            
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+
+    delete:
+      summary: Deletes a product from user cart
+      tags:
+        - carts 
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The product ID    
+      responses: 
+        "200":
+          description: successfully deletes from cart and returns total quantity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalQuantity:
+                    type: number
+                    example: 5
+        "404":
+          description: when no product or cart found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'not found message'            
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+
+/carts/me/{productId}/quantity:
   get:
     summary: Returns cart item quantity
     tags:
@@ -97,6 +142,52 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
+      "401":
+        $ref: '#/components/responses/unauthorized'
+      "403":
+        $ref: '#/components/responses/forbidden'  
+  put:
+    summary: increase/decrease cart item quantity
+    tags:
+      - carts
+    parameters:
+      - in: path
+        name: productId
+        type: string
+        required: true
+        schema:
+          type: string
+          example: 650b1ed61882fc118a114d19
+        description: The product ID   
+      - in: query
+        name: action
+        type: string
+        required: true
+        schema:
+          type: string
+          example: increase/decrease
+        description: action of quantity changing   
+    security: 
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successfully increase/decrease cart item quantity and returns total quantity
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                totalQuantity:
+                  type: number
+                  example: 5    
+      "404":
+        description: when no product or cart found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      "400":
+        $ref: '#/components/responses/badRequest'        
       "401":
         $ref: '#/components/responses/unauthorized'
       "403":

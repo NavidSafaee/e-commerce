@@ -55,7 +55,9 @@ async function httpChangeCartItemQuantity(req, res, next) {
 async function httpGetCartItemQuantity(req, res, next) {
     try {
         const productId = req.params.productId;
-        const response = await getCartItemQuantity(productId);
+        const userId = req.userId;
+
+        const response = await getCartItemQuantity(userId, productId);
         res.status(200).json({quantity: response});
     } catch (error) {
         next(error);

@@ -3,8 +3,7 @@ const {
     getMe,
     changePersonalInfo,
     getCustomersCount,
-    getUsers,
-    // deleteUser
+    getUsers
 } = require('../services/userService');
 
 const { signup } = require('../services/authService');
@@ -21,8 +20,8 @@ async function httpGetMe(req, res, next) {
 async function httpChangePersonalInfo(req, res, next) {
     try {
         validator(req);
-        await changePersonalInfo(req.userId, req.body);
-        res.sendStatus(204);
+        const response = await changePersonalInfo(req.userId, req.body);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }
@@ -59,17 +58,6 @@ async function httpSignupUser(req, res, next) {
     }
 }
 
-// async function httpDeleteUser(req, res, next) {
-//     try {
-//         const userId = req.params.userId;
-//         await deleteUser(userId);
-//         res.sendStatus(204);
-//     } catch (error) {
-//         next(error);
-//     }
-// }
-
-
 
 module.exports = {
     httpGetMe,
@@ -77,5 +65,4 @@ module.exports = {
     httpGetCustomersCount,
     httpGetUsers,
     httpSignupUser
-    // httpDeleteUser
 }

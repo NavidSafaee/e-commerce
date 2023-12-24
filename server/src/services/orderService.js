@@ -33,6 +33,7 @@ async function postOrder(userId, reqBody, role) {
         });
 
         await order.save();
+        return order;
 
     } else if (role === 'CUSTOMER') {
 
@@ -45,8 +46,7 @@ async function postOrder(userId, reqBody, role) {
         }
         await cart.populate('items.product');
 
-        const orderItems = await Promise.all(cart.items.map(async item => {
-
+        for (const item of cart.items) {
             const product = await Product.findById(item.product._id);
             if (product.quantity === 0) {
                 const error = new Error('The product is not available in stock');
@@ -54,18 +54,27 @@ async function postOrder(userId, reqBody, role) {
                 throw error;
             }
             product.quantity -= item.quantity;
+
+            if (product.quantity < 0) {
+                const error = new Error(`The quantity of a product with id ${item.product._id} in your order is more than the number in stock`);
+                error.statusCode = 400;
+                throw error;
+            }
+        }
+
+        const orderItems = await Promise.all(cart.items.map(async item => {
+            const product = await Product.findById(item.product._id);
+            product.quantity -= item.quantity;
             await product.save();
 
             return {
-                product: item.product.toJSON(),
+                product: item.product.restrictInfo(),
                 quantity: item.quantity,
                 _id: item._id
             }
         }));
 
-
         const todayDate = new Date();
-
         const order = new Order({
             user: userId,
             items: orderItems,
@@ -74,6 +83,7 @@ async function postOrder(userId, reqBody, role) {
 
         await order.save();
         await cart.deleteOne();
+        return order;
     }
 }
 

@@ -33,7 +33,7 @@ const productSchema = new Schema({
     discountExpiration: Date
 });
 
-productSchema.methods.toJSON = function () {
+productSchema.methods.restrictInfo = function () {
     var productObj = this.toObject();
     delete productObj.description;
     productObj.imageUrl = productObj.imageUrls[0];

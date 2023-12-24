@@ -1,14 +1,14 @@
 paths: 
   /users/me:
     get:
-      summary: Returns authenticated users info
+      summary: Returns authenticated user info
       tags:
         - users
       security: 
         - bearerAuth: []
       responses:
         "200":
-          description: authenticated user
+          description: returns authenticated user info
           content:
             application/json:
               schema:
@@ -16,6 +16,193 @@ paths:
         "401":
           $ref: '#/components/responses/unauthorized'
         "403":
-          $ref: '#/components/responses/forbidden'        
+          $ref: '#/components/responses/forbidden'  
+
+    patch:
+      summary: Updates authenticated user info 
+      tags:
+        - users
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  properties: 
+                    username:
+                      type: string
+                      example: navid                                
+                - type: object
+                  properties: 
+                    email:
+                      type: string
+                      example: example@gmail.com
+                    OTP:
+                      type: string
+                      example: lb40re
+                - type: object
+                  properties: 
+                    phoneNumber:
+                      type: string
+                      example: 09111111111
+                    OTP:
+                      type: string
+                      example: lb40re
+                - type: object
+                  properties: 
+                    birthDate:
+                      type: string
+                      example: 2010-04-06
+                - type: object
+                  properties: 
+                    oldPassword:
+                      type: string
+                      example: 123456
+                    newPassword:
+                      type: string
+                      example: 111111
+                    confirmNewPassword:
+                      type: string
+                      example: 111111
+      responses:
+        "200":
+          description: updates authenticated user info and returns him/her
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'        
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+
+  /users:
+    get:
+      summary: Returns all customers or admins
+      tags:
+        - users
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: role
+          required: true
+          schema: 
+            type: string
+            example: CUSTOMER/ADMIN
+          description: user role
+      responses:
+        "200":
+          description: returns all admins/customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'        
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+
+    post:
+      summary: Creates a new user
+      tags:
+        - users
+      security: 
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  properties:
+                    username:
+                      type: string
+                      example: navid
+                    phoneNumber:
+                      type: string
+                      example: 09111111111
+                    password:
+                      type: string
+                      example: 123456
+                    confirmPassword:
+                      type: string
+                      example: 123456
+                    OTP:
+                      type: string
+                      example: f43r6d
+                    userRole:
+                      type: string
+                      example: CUSTOMER  
+                - type: object
+                  properties:
+                    username:
+                      type: string
+                      example: navid
+                    email:
+                      type: string
+                      format: email
+                    password:
+                      type: string
+                      example: 123456
+                    confirmPassword:
+                        type: string
+                        example: 123456
+                    OTP:
+                      type: string
+                      example: f43r6d
+                    userRole:
+                      type: string
+                      example: ADMIN     
+      responses:
+        "201":
+          description: creates a new customer/admin
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Tokens'
+                  - type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'        
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'   
+
+  /users/customers/count:
+    get:
+      summary: Returns all customers count
+      tags:
+        - users
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: returns all customers count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 150
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'                
 
                   

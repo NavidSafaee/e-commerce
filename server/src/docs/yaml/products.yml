@@ -28,6 +28,70 @@ paths:
                   totalItems:
                     type: number
                     example: 15      
+    post:
+      summary: Creates a new product
+      tags:
+        - products
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                itemId:
+                  type: integer
+                title:
+                  type: string
+                quantity:
+                  type: number
+                price:
+                  type: number  
+                category:
+                  type: string  
+                description:
+                  type: string  
+                maxQuantityAllowedInCart:
+                  type: number
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary    
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                  example: 65819aaa5cffe695be11eb20  
+                itemId:
+                  type: string
+                  example: 65819aaa5cffe695be11eb21 
+                productId:
+                  type: string
+                  example: 650b1ffc1882fc118a114d1b  
+      responses:
+        "201":
+          description: Returns created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'  
+        "404":
+          description: if order not found / product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+                      
                               
   /products/{productId}:
     get:
@@ -58,3 +122,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  /products/title:
+    get:
+      summary: Returns all products title.
+      tags:
+        - products 
+      responses:
+        "200":
+          description: returns all products title
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example: 'Modern Sofa'
+  /products/count:
+    get:
+      summary: Returns all products count.
+      tags:
+        - products 
+      responses:
+        "200":
+          description: returns all products count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 15 

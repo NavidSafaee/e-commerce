@@ -118,6 +118,9 @@ components:
         email:
           type: string
           example: example@gmail.com
+        birthDate:
+          type: string
+          example: 2010-04-06  
         __v:
           type: number
           example: 2

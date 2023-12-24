@@ -10,7 +10,14 @@ async function getMyCart(userId) {
         throw error;
     }
 
-    return cart.items;
+    const cartItems = cart.items.map(item => {
+        return {
+            product: item.product.restrictInfo(),
+            quantity: item.quantity
+        }
+    });
+
+    return cartItems;
 }
 
 
@@ -78,7 +85,7 @@ async function deleteFromCart(userId, productId) {
         throw error;
     }
     cart.items = cart.items.filter(item => item.product.toString() !== productId);
-    
+
     let totalQuantity = 0;
     if (cart.items.length === 0) {
         await cart.deleteOne();
@@ -118,21 +125,23 @@ async function changeCartItemQuantity(userId, productId, action) {
 
     switch (action) {
         case 'increase':
-            if (product.quantity === 0) {
-                const error = new Error('The product is not available in stock');
-                error.statusCode = 400;
-                throw error;
-            }
-    
+            console.log('hi');
+
             if (cart.items[index].quantity + 1 > product.maxQuantityAllowedInCart) {
                 const error = new Error('You cannot add more than the allowed quantity of this product');
                 error.statusCode = 400;
                 throw error;
             }
-    
+
+            if (cart.items[index].quantity + 1 > product.quantity) {
+                const error = new Error(`The quantity of this product is less than ${cart.items[index].quantity + 1} in stock`);
+                error.statusCode = 400;
+                throw error;
+            }
+
             cart.items[index].quantity += 1;
             break;
-    
+
         case 'decrease':
             if (cart.items[index].quantity === 1) {
                 const error = new Error('There is only one of this product in your shopping cart');
@@ -142,7 +151,7 @@ async function changeCartItemQuantity(userId, productId, action) {
             cart.items[index].quantity -= 1;
             break;
     }
-    
+
     await cart.save();
     await cart.populate('items.product');
 
@@ -153,8 +162,8 @@ async function changeCartItemQuantity(userId, productId, action) {
 
 
 
-async function getCartItemQuantity(productId) {
-    const cart = await Cart.findOne({ 'items.product': productId });
+async function getCartItemQuantity(userId, productId) {
+    const cart = await Cart.findOne({ user: userId, 'items.product': productId });
 
     if (!cart) {
         const error = new Error('Cart or item not found!');
