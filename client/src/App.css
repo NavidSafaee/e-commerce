@@ -4,6 +4,16 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'pac';
+  src: url('./../public/font/Pacifico-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'acm';
+  src: url('./../public/font/Acme-Regular.ttf') format('truetype');
+}
+
 body {
   width: 100%;
   overflow-x: hidden;
@@ -18,6 +28,7 @@ body {
   width: 1rem;
   background-color: #d7fafa;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--main-color);
   border-radius: 10px;

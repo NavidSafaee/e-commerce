@@ -26,7 +26,7 @@ function ProductCard({ _id, title, imageUrl, rate, category, status, discount, p
       <div className="img-wrapper">
           {
             imageLoaded ?
-              <img src={`${baseURL}/public/${imageUrl}`} alt={title} crossOrigin='false' onError={setImageLoaded(false)} />
+              <img src={`${baseURL}/public/${imageUrl}`} alt={title} crossOrigin='false' onError={() => setImageLoaded(false)} />
               :
               <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-off" width="44" height="44" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />

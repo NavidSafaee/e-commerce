@@ -1,4 +1,5 @@
 import './TopBar.scss'
+import { Link } from 'react-router-dom'
 import { ImSearch } from 'react-icons/im'
 import { PiHandbagLight } from 'react-icons/pi'
 import { FiBell } from 'react-icons/fi'
@@ -16,7 +17,7 @@ function TopBar() {
             <div className="top-bar">
                 <div className="brand-box">
                     <img src="../../../../public/general_images/logo.png" alt="logo" />
-                    <strong className='brand-name'>Soft Land</strong>
+                    <Link to={"/"}><strong className='brand-name'>Soft Land</strong></Link>
                 </div>
                 <div className="search-box">
                     <input type="text" placeholder='Search here' />
