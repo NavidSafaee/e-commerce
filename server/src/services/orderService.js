@@ -105,7 +105,10 @@ async function getCustomerOrders() {
                 'user.tokens': 0,
                 'user.password': 0,
                 'user.email': 0,
+                'user.phoneNumber': 0,
                 'user.birthDate': 0,
+                'user.role': 0,
+                'user.__v': 0
             }
         }
     ]);
@@ -117,11 +120,23 @@ async function getMyOrders(userId) {
     return await Order.find({ user: userId });
 }
 
-async function changeDeliveryState(orderId) {
+async function changeDeliveryState(userId, orderId) {
     const order = await Order.findById(orderId).populate({
         path: 'user',
         select: 'role'
     });
+
+    if (!order) {
+        const error = new Error('order not found');
+        error.statusCode = 404;
+        throw error;
+    }
+    
+    if (order.user.toString() !== userId) {
+        const error = new Error('you can\'t change another admins order');
+        error.statusCode = 403;
+        throw error;
+    }
 
     if (order.user.role === 'CUSTOMER') {
         const error = new Error('Access denied');
@@ -156,7 +171,7 @@ async function getCustomerDeliveredOrdersCount() {
 
 async function getLastMonthDeliveredOrders() {
     let currentDate = new Date();
-    const prevMonth = currentDate.setDate(currentDate.getDate() - 2);
+    const prevMonth = currentDate.setMonth(currentDate.getMonth() - 1);
 
     const orders = await Order.aggregate([
         {

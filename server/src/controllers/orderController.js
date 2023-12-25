@@ -12,8 +12,8 @@ const {
 async function httpPostOrder(req, res, next) {
     try {
         validator(req);
-        await postOrder(req.userId, req.body, req.role);
-        res.sendStatus(201);
+        const response = await postOrder(req.userId, req.body, req.role);
+        res.status(201).json(response);
     } catch (error) {
         next(error);
     }
@@ -32,7 +32,8 @@ async function httpGetCustomerOrders(req, res, next) {
 async function httpChangeDeliveryState(req, res, next) {
     try {
         validator(req);
-        await changeDeliveryState(req.params.orderId);
+        const userId = req.userId;
+        await changeDeliveryState(userId, req.params.orderId);
         res.sendStatus(204);
     } catch (error) {
         next(error);

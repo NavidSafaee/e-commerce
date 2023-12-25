@@ -65,17 +65,11 @@ components:
         imageUrl:
           type: string
           example: images\products\11.png
-        rate:
-          type: number
-          example: 4
-        status:
-          type: string
-          example: New
         discount:
           type: number
           example: 0.2
-        discountExpiresAt:
-          type: date
+        discountExpiration:
+          type: string
           example: 2024-03-28T16:33:26.500Z
         __v:
           type: number
@@ -99,6 +93,60 @@ components:
         _id:
           type: string
           example: 650b1ed61882fc118a114d19  
+
+    Order:
+      type: object
+      properties: 
+        _id: 
+          type: string
+          example: 650b1ed61882fc118a114d19
+        user:
+          oneOf: 
+            - type: string
+              example: 650b1ed61882fc118a114d19
+            - type: object
+              properties:
+                _id: 
+                  type: string
+                  example: 650b1ed61882fc118a114d19      
+                username: 
+                  type: string
+                  example: navid      
+        items:
+          type: array
+          items:
+            oneOf: 
+              - type: object
+                properties:
+                  product:
+                    $ref: "#/components/schemas/Product"
+                  quantity:
+                    type: number
+                    example: 10  
+              - type: object
+                properties:
+                  product:
+                    type: object
+                    properties:
+                      productId:
+                        type: string
+                        example: 650b1ed61882fc118a114d19 
+                      title:
+                        type: string
+                        example: Modern Sofa 
+                      price:
+                        type: number
+                        example: 122.99 
+                  quantity:
+                    type: number
+                    example: 10  
+                  isInStock:
+                    type: boolean
+                    example: false  
+        deliveryDate:
+          type: string
+          example: 2024-04-08
+
 
     User:
       type: object
