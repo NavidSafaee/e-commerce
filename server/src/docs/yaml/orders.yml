@@ -1,0 +1,171 @@
+paths:
+  /orders:
+    post:
+      summary: Creates an order for user
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      requestBody:
+        description: Body is required only when admin orders 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product:
+                        type: object
+                        properties:
+                          productId:
+                            type: string
+                            example: 655769ef14b767ea9f0cfe6c
+                            description: if order is from an existing product
+                          title:
+                            type: string
+                            example: Modern sofa
+                          price:
+                            type: number
+                            example: 19.99   
+                      quantity:
+                        type: number
+                        example: 20 
+                deliveryDate:
+                  type: string
+                  example: 2024-04-10
+      responses:
+        "201":
+          description: creates an order for user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"      
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "404":
+          description: when no product or cart found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+  /orders/me:
+    get:
+      summary: returns authenticated user orders
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: returns authenticated user orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"      
+        "401":
+          $ref: '#/components/responses/unauthorized'
+
+  /orders/customer:
+    get:
+      summary: Returns all customer orders
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: returns all customer orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'   
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'  
+
+  /orders/customer/delivered/count:
+    get:
+      summary: Returns all customer orders count
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: returns all customer orders count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 36   
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'  
+
+  /orders/customer/delivered/lastMonth:
+    get:
+      summary: Returns all customer orders in last month
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      responses:
+        "200":
+          description: returns all customer orders in last month
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    deliveryDate:
+                      type: string
+                      example: 2023-12-20  
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'  
+
+  /orders/admin/{orderId}/delivered:
+    put:
+      summary: Changes admin order delivery state 
+      tags:
+        - orders
+      security: 
+        - bearerAuth: []
+      responses:
+        "204":
+          description: changes admin order delivery state
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'  
+        "400":
+          $ref: '#/components/responses/badRequest'
+        "404":
+          description: when no order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+
+     
+
+        
+
