@@ -77,24 +77,25 @@ function LoginPageComponent() {
                 OTP: userOTP,
             }
         }
-        console.log(formInfo);
         fetch(`${baseURL}/auth/login`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
         }).then(res => {
-            console.log(res)
             if (!res.ok) {
                 setFormFlag(false)
             }
             return res.json()
         }).then(data => {
-            console.log(data)
             if (data.message) {
                 showMessage({ title: "Oops!", text: data.message, icon: "error" })
             } else if(data) {
                 authContext.login(data.user, data.accessToken, data.refreshToken)
-                navigate("/")
+                if (data.user.role === "CUSTOMER") {
+                    navigate("/")
+                } else if (data.user.role === "ADMIN") {
+                    navigate("/access-denied")
+                }
             }
         })
     }

@@ -7,17 +7,23 @@ import SignupPage from "./pages/SignupPage"
 import ForgotPassPage from "./pages/ForgotPassPage"
 import ResetPassPage from "./pages/ResetPassPage"
 import ShoppingCartPage from "./pages/ShoppingCartPage"
+import UserProfilePage from "./pages/UserProfilePage"
 
-const routes = [
-    {path: "/", element: <MainPage />},
-    {path: "/login", element: <LoginPage />},
-    {path: "/sign-up", element: <SignupPage />},
-    {path: "/products/:productId", element: <ProductPage />},
-    {path: "/consultation", element: <ConsultationPage />},
-    {path: "/forgot-pass", element: <ForgotPassPage />},
-    {path: "/reset-pass/:userToken", element: <ResetPassPage />},
-    {path: "/checkout/cart/", element: <ShoppingCartPage />},
-    {path: "*", element: <NotFoundPage />}
+const mainRoutes = [
+    { path: "/", element: <MainPage /> },
+    { path: "/login", element: <LoginPage /> },
+    { path: "/sign-up", element: <SignupPage /> },
+    { path: "/products/:productId", element: <ProductPage /> },
+    { path: "/consultation", element: <ConsultationPage /> },
+    { path: "/forgot-pass", element: <ForgotPassPage /> },
+    { path: "/reset-pass/:userToken", element: <ResetPassPage /> },
+    { path: "/checkout/cart/", element: <ShoppingCartPage /> },
+    { path: "/user/profile/", element: <UserProfilePage /> },
+    { path: "*", element: <NotFoundPage /> }
 ]
 
-export default routes
+const profileRoutes = [
+    {path: "/", element: <span></span>}
+]
+
+export { mainRoutes, profileRoutes }

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useRoutes } from "react-router-dom"
-import routes from "./assets/Routes"
+import { mainRoutes } from "./assets/Routes"
 import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
 import { useCallback, useEffect, useState } from "react";
 import baseURL from "./assets/baseURL";
 import { isTokenExpired } from "./assets/functions";
+import ScrollToTop from "./assets/components/ScrollToTop";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
   const [refreshToken, setRefreshToken] = useState(null)
   const [userInfo, setUserInfo] = useState({})
 
-  const router = useRoutes(routes)
+  const router = useRoutes(mainRoutes)
 
   const navigate = useNavigate()
 
@@ -116,6 +117,7 @@ function App() {
       logout,
       writeTokenInStorage
     }}>
+      <ScrollToTop />
       {router}
     </AuthContext.Provider>
   )

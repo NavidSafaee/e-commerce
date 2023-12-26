@@ -2,25 +2,11 @@ import { Link } from "react-router-dom"
 import "./TopStrip.scss"
 import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
-import { FaPowerOff } from "react-icons/fa"
-import { showMessage } from "../../functions"
+import { FaShoppingCart } from "react-icons/fa";
 
 function TopStrip() {
 
   const authContext = useContext(AuthContext)
-
-  const logout = () => {
-    showMessage({
-      title: "Logout",
-      text: "Are you Sure?",
-      icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(select => {
-      if (select) {
-        authContext.logout({ accessToken: authContext.accessToken, refreshToken: authContext.refreshToken })
-      }
-    })
-  }
 
   return (
     <>
@@ -32,12 +18,12 @@ function TopStrip() {
         </div>
         <div className="account-box">
           {authContext.isLoggedIn ?
-            <span className="username-container">{authContext.userInfo?.username}</span> :
+            <span className="username-container"><Link to={"/user/profile"} style={{textDecoration: "none", color: "#fff"}}>{authContext.userInfo?.username}</Link></span> :
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
         </div>
-        {authContext.isLoggedIn && <div className="logout-btn" onClick={logout}>
-          <FaPowerOff />
+        {authContext.isLoggedIn && <div className="cart_btn">
+          <FaShoppingCart />
         </div>}
       </div>
     </>

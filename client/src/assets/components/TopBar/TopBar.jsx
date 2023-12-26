@@ -1,9 +1,6 @@
 import './TopBar.scss'
 import { Link } from 'react-router-dom'
 import { ImSearch } from 'react-icons/im'
-import { PiHandbagLight } from 'react-icons/pi'
-import { FiBell } from 'react-icons/fi'
-import { BiUser } from 'react-icons/bi'
 import { FiArrowDownCircle } from 'react-icons/fi'
 import { useState } from 'react'
 
@@ -42,10 +39,12 @@ function TopBar() {
                     </div>
                     <span className="search-btn"><ImSearch /></span>
                 </div>
-                <div className="user-icons-box">
-                    <span className='user-icon'><span className='badge'>3</span><PiHandbagLight /></span>
-                    <span className='user-icon'><FiBell /></span>
-                    <span className='user-icon'><BiUser /></span>
+
+                <div className="stories_container">
+                    <div className="story_item"><img src="./../../../../public/general_images/story/elon.png" /></div>
+                    <div className="story_item"><img src="./../../../../public/general_images/story/pavel.png" /></div>
+                    <div className="story_item"><img src="./../../../../public/general_images/story/elon.png" /></div>
+                    <div className="story_item"><img src="./../../../../public/general_images/story/pavel.png" /></div>
                 </div>
             </div>
         </>
