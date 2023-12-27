@@ -17,6 +17,10 @@ import Products from './dashboard/panelPages/Products/Products'
 import Product from './dashboard/panelPages/Product/Product'
 import Orders from './dashboard/panelPages/Orders/Orders'
 import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
+import UserActivity from "./components/userProfile/UserActivity/UserActivity"
+import EditProfile from "./components/userProfile/EditProfile/EditProfile"
+import UserComments from "./components/userProfile/UserComments/UserComments"
+import UserHelp from "./components/userProfile/UserHelp/UserHelp"
 
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
@@ -37,7 +41,12 @@ const mainRoutes = [
     { path: "/forgot-pass", element: <ForgotPassPage /> },
     { path: "/reset-pass/:userToken", element: <ResetPassPage /> },
     { path: "/checkout/cart/", element: <ShoppingCartPage /> },
-    { path: "/user/profile/", element: <UserProfilePage></UserProfilePage> },
+
+    { path: "/user/profile/", element: <UserProfilePage><UserActivity /></UserProfilePage> },
+    { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
+    { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
+    { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
+    { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
 ]
 

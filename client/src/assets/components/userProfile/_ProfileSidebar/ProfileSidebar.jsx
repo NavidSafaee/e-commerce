@@ -40,12 +40,12 @@ function ProfileSidebar() {
                     </p>
                 </div>
                 <div className={style.sidebar_list}>
-                    <Link to={"/"}> <GiNotebook /> activities </Link>
-                    <Link to={"/"}> <FaEdit /> edit profile </Link>
+                    <Link to={"/user/profile/"}> <GiNotebook /> activities </Link>
+                    <Link to={"/user/profile/edit"}> <FaEdit /> edit profile </Link>
                     <Link to={"/"}> <FaBoxesStacked /> my orders </Link>
-                    <Link to={"/"}> <AiOutlineComment /> my comments </Link>
-                    <Link to={"/"}> <TiTicket /> tickets </Link>
-                    <Link to={"/"}> <TbHelpHexagon /> help </Link>
+                    <Link to={"/user/profile/comments"}> <AiOutlineComment /> my comments </Link>
+                    <Link to={"/user/profile/ticket"}> <TiTicket /> tickets </Link>
+                    <Link to={"/user/profile/help"}> <TbHelpHexagon /> help </Link>
                     <Link to={""} onClick={logout}> <TbLogout /> logout </Link>
                 </div>
             </aside>
