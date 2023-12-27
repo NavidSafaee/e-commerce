@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+}
+
+.containerMain {
+    background-color: red;
+    display: flex;
+}
+
+.sidBarPosition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    z-index: 999;
+
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.topBarPosition {
+    min-width: 1500px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999;
+}

@@ -13,7 +13,7 @@ function TopBar() {
         <>
             <div className="top-bar">
                 <div className="brand-box">
-                    <img src="../../../../public/general_images/logo.png" alt="logo" />
+                    <img src="/general_images/logo.png" alt="logo" />
                     <Link to={"/"}><strong className='brand-name'>Soft Land</strong></Link>
                 </div>
                 <div className="search-box">

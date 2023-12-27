@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useRoutes } from "react-router-dom"
-import { mainRoutes } from "./assets/Routes"
+import mainRoutes from "./assets/Routes"
 import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
 import { useCallback, useEffect, useState } from "react";

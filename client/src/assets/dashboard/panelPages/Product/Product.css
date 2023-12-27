@@ -1,0 +1,235 @@
+.product {
+  flex: 4;
+  padding: 20px;
+  margin: 60px 0 0 280px;
+  /* background-color: #eafdfa; */
+  background-color: #f3eada;
+  min-height: 100vh;
+}
+
+.productTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.productAddButton {
+  width: 80px;
+  border: none;
+  padding: 5px;
+  color: #fff;
+  background-color: #8f0070;
+  background-color: #06a99d;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.productTop {
+  height: auto;
+
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px -3px 5px 0px #888888;
+
+  background-color: #fff;
+  background-color: #e5fffb;
+  background-color: #eafdfa;
+}
+.productTopRight {
+
+  width: 400px;
+  height: auto;
+  text-align: start;
+  align-items: start;
+}
+
+.productInfiTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productTopLeft {
+  background-color: red;
+
+  width: 400px;
+  height: auto;
+}
+.productTopLeft img {
+  width: 400px;
+  height: 200px;
+}
+
+/* .productInfoImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+} */
+
+.productNmae {
+  font-weight: 600;
+}
+
+.productInfoBottom {
+  margin-top: 10px;
+  /* border: 3px solid rebeccapurple; */
+  /* background-color: yellow; */
+  width: fit-content;
+}
+
+.productInfoItem {
+  /* border: 3px solid red; */
+  border-bottom: 1px solid #06a99d;
+  padding: 5px;
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.productInfoKey {
+  /* font-weight: 600; */
+}
+.productInfoValue {
+  /* font-weight: 300; */
+}
+
+.productBottom {
+  height: auto;
+  padding: 20px 0;
+  margin: 20px;
+  box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px -3px 5px 0px #888888;
+  background-color: #fff;
+  background-color: #e5fffb;
+  background-color: #eafdfa;
+}
+
+.productForm {
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.productFormLeft {
+  width: fit-content;
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+}
+
+.productFormLeft > label {
+  background-color: grey;
+  margin-bottom: 10px;
+}
+
+label {
+  background-color: #00887d;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.productFormLeft > input {
+  margin-bottom: 12px;
+  border: none;
+  height: 40px;
+  /* border-bottom: 1px solid #06a99d;
+  border-bottom: 1px solid #8f0070;
+  box-shadow: 0px 0.6px 5px 0px #8f0070; */
+  box-shadow: 0px 1.5px 2px 0px #8f0070;
+  box-shadow: 0px 1.5px 2px 0px #06a99d;
+  box-shadow: -1px 1px 3px 0px #8f0070;
+
+  background-color: #eafdfa;
+  /* border-bottom: 1px solid #00AA9A; */
+
+  width: 100%;
+  /* background-color: #00AA9A; */
+  border-radius: 4px;
+  color: #000;
+}
+
+#inStock {
+  margin-bottom: 12px;
+  border: none;
+  height: 40px;
+  /* border-bottom: 1px solid #8f0070; */
+  box-shadow: 0px 1.5px 2px 0px #8f0070;
+  box-shadow: -1px 1px 3px 0px #00aa9a;
+  box-shadow: -1px 1px 3px 0px #8f0070;
+  /* border-bottom: 1px solid #00AA9A; */
+  background-color: #eafdfa;
+
+  width: 100%;
+  border-radius: 4px;
+  color: #000;
+}
+.productFormLeft > input:focus {
+  outline: none;
+}
+
+.productFormLeft > select {
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.productFormRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.productUploader {
+  margin: 30px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .productUploaderImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    margin-right: 20px;
+} */
+
+.productUploadButton {
+  font-size: 16px;
+  border: none;
+  width: 170px;
+  border-radius: 0px 5px 5px 0px;
+  /* border-radius: 5px; */
+  background-color: #06a99d;
+  color: #fff;
+  font-weight: 300;
+  cursor: pointer;
+  text-align: center;
+  text-align: center;
+  text-align: center;
+  height: 40px;
+}
+
+option {
+  height: 40px;
+}
+
+#uploadFile {
+  background-color: #06a99d;
+  /* background-color: #8F0070; */
+  width: 250px;
+  padding: 2px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  margin: 20px 0;
+}

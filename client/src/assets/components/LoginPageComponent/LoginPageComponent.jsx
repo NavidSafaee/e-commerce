@@ -94,7 +94,7 @@ function LoginPageComponent() {
                 if (data.user.role === "CUSTOMER") {
                     navigate("/")
                 } else if (data.user.role === "ADMIN") {
-                    navigate("/access-denied")
+                    navigate("/admin-panel")
                 }
             }
         })
