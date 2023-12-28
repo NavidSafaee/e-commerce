@@ -148,7 +148,7 @@ function SignupPageComponent() {
                 } */}
                 <div className="sign-up">
 
-                    <img src="./../../../../public/general_images/logo.png" alt="" />
+                    <img src="general_images/logo.png" alt="" />
                     <div className="form-container">
 
                         <h2 className="form-title">signup</h2>
@@ -181,7 +181,6 @@ function SignupPageComponent() {
                                     required
                                     value={userPass}
                                     onChange={e => setUserPass(e.target.value)}
-                                    maxLength={6}
                                     minLength={6}
                                 /> <i>Password</i>
 
@@ -194,7 +193,6 @@ function SignupPageComponent() {
                                     required
                                     value={userConfirmPass}
                                     onChange={e => setUserConfirmPass(e.target.value)}
-                                    maxLength={6}
                                     minLength={6}
                                 /> <i>Reenter Password</i>
 
@@ -224,7 +222,7 @@ function SignupPageComponent() {
 
                 {showModal && <div className="otp-modal-bg">
                     <div className="otp-modal">
-                        <img src="./../../../../public/general_images/otp_icon.png" alt="password-icon" />
+                        <img src="general_images/otp_icon.png" alt="password-icon" />
                         <span className='otp-title'>Enter OTP code</span>
                         <p className='check-way-text'>Please check your {(userEmail !== undefined) ? "email" : "phone"}</p>
                         <input className='otp-input'

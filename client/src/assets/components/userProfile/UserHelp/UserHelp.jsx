@@ -2,7 +2,7 @@ import style from './UserHelp.module.scss'
 
 function UserHelp() {
   return (
-    <section className={style.editSection}>
+    <section className={style.profileMainSection}>
         hello from <code>help</code> page
     </section>
   )

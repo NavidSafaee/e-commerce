@@ -1,6 +1,87 @@
-.editSection {
-    width: calc(100% - 300px);
+.profileMainSection {
+    width: calc(100% - 280px);
     height: 300px;
     margin: 0 25px;
-    background-color: #26ff00;
+
+    .filedsWrapper {
+        width: 90%;
+        margin: 10px auto 0 auto;
+        border: 1px solid #c8c8c8;
+        border-radius: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding-inline: 10px;
+        animation: showFiledsWrapper .6s linear;
+
+        @keyframes showFiledsWrapper {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .editItem {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 20px;
+            gap: 20px;
+
+            &:nth-child(odd) {
+                border-right: 1px solid #d2d2d2;
+                border-bottom: 1px solid #d2d2d2;
+            }
+
+            &:nth-child(even) {
+                border-bottom: 1px solid #d2d2d2;
+            }
+
+            &:nth-last-child(1), &:nth-last-child(2) {
+                border-bottom: none;
+            }
+
+            .warnIcon {
+                color: #ff5500;
+                font-size: 25px;
+            }
+        }
+
+        .contentSide {
+            width: 80%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+
+            .boxTitle {
+                color: #b0b0b0;
+                font-size: 15px;
+                cursor: default;
+
+                svg {
+                    color: var(--main-color);
+                    font-size: 20px;
+                    transform: translateY(-2px);
+                }
+            }
+
+            .boxValue {
+                font-family: acm;
+                font-size: 19px;
+                font-weight: 600;
+                color: #555;
+                letter-spacing: 1px;
+            }
+        }
+
+        .editBtn {
+            // width: 20%;
+            font-size: 30px;
+            cursor: pointer;
+            color: var(--main-color);
+        }
+    }
 }

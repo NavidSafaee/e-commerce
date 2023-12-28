@@ -12,10 +12,6 @@ function TopStrip() {
     <>
       <div className="top-strip">
         <div className="left-text">Welcome to our online shop!</div>
-        <div className="brand-box">
-          <img src="../../../../public/general_images/logo.png" alt="logo" />
-          <strong className='brand-name'>Soft Land</strong>
-        </div>
         <div className="account-box">
           {authContext.isLoggedIn ?
             <span className="username-container"><Link to={"/user/profile"} style={{textDecoration: "none", color: "#fff"}}>{authContext.userInfo?.username}</Link></span> :
