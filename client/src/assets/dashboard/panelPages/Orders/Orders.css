@@ -1,6 +1,5 @@
 .userList {
   margin: 60px 0 0 280px;
-  /* background-color: #EAFDFA; */
   background-color: #F3EADA;
   min-height: 100vh;
   color: #000 ;
@@ -95,7 +94,6 @@
   border: none;
   border-bottom: 2px solid rgb(155, 155, 155);
   border-bottom: 2px solid #8f0070;
-  /* border-bottom: 1px solid #8F0070; */
   border-radius: 4px;
   height: 40px; 
   margin: 9px 0px;
@@ -110,11 +108,4 @@
 #todo-input-title {
   margin: 9px 10px 9px 0;
 }
-/* #todo-input-price {
-  width: 250px;
-}
-#todo-input-date {
-  width: 250px;
-} */
-/* #todo-input-producterN {
-} */
+

@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+
 import { userRows } from "../../datas";
-import "./Comments.css";
+import "./Tickets.css";
 import DoneIcon from "@mui/icons-material/Done";
 import GradeIcon from "@mui/icons-material/Grade";
-export default function Comments() {
+export default function Tickets() {
   const [userRowsData, setuserRowsData] = useState(userRows);
+ 
 
   return (
     <div className="comments">
       <div className="commentsWrapper">
+
         <div className="commentsBottom">
           <div className="userComments">
             {userRowsData.map((data, index) => (
@@ -37,8 +40,10 @@ export default function Comments() {
                     {data.comments}
                   </div>
                 </div>
+
               </div>
             ))}
+          
           </div>
         </div>
       </div>

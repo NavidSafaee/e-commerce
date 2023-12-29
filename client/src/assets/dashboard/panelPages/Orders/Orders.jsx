@@ -153,7 +153,6 @@ export default function Orders() {
   return (
     <div className="userList">
       <div className="createBtn">
-        {/* <Link to="/NewProduct"> */}
         <button
           id="productAddButton"
           onClick={createNewOrderDisplay}
@@ -161,7 +160,6 @@ export default function Orders() {
         >
           {BtnName}
         </button>
-        {/* </Link> */}
       </div>
 
       {isVisible && (
@@ -180,20 +178,18 @@ export default function Orders() {
                 placeholder="Enter producer name"
               />
             </div>
-              <input
-                type="number"
-                id="todo-input-producterN"
-                placeholder="Enter  count"
-              />
-            {/* <div className="formLeftInputs"> */}
-              <input
-                type="text"
-                id="todo-input-price"
-                maxLength="40"
-                placeholder="Enter the price "
-              />
-              <input type="date" id="todo-input-date" maxLength="40" />
-            {/* </div> */}
+            <input
+              type="number"
+              id="todo-input-producterN"
+              placeholder="Enter  count"
+            />
+            <input
+              type="text"
+              id="todo-input-price"
+              maxLength="40"
+              placeholder="Enter the price "
+            />
+            <input type="date" id="todo-input-date" maxLength="40" />
             <div className="formBtn">
               <button className="todo-button" type="submit">
                 Done
@@ -203,13 +199,13 @@ export default function Orders() {
           </form>
         </div>
       )}
-        <DataGrid className="dataGrid"
-          rows={productsData}
-          columns={columns}
-          disableSelectionOnClick
-          pageSize={3}
-          // checkboxSelection
-        />
+      <DataGrid
+        className="dataGrid"
+        rows={productsData}
+        columns={columns}
+        disableSelectionOnClick
+        pageSize={3}
+      />
     </div>
   );
 }

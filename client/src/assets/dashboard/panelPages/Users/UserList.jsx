@@ -26,7 +26,7 @@ export default function UserLIst() {
       width: 200,
       renderCell: (params) => {
         return (
-          <Link to="/" className="link">
+          <Link to={`/user/${params.row.id}`} className="link">
             <div className='userListUser'>
               {/* <img src={params.row.avatar} className="userListImg" /> */}
               {params.row.username}

@@ -1,5 +1,4 @@
 .userList {
-    /* flex: 4; */
     margin: 100px 0 0 280px;
 }
 
@@ -8,13 +7,6 @@
     align-items: center;
 }
 
-/* .userListImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
-} */
 
 .userListEdit {
     border: none;

@@ -118,7 +118,8 @@ let userRows = [
         avatar: 'images/qadir.jpg',
         status: 'active',
         transaction: '$129.52',
-        email: 'amin@gmail.com'
+        email: 'amin@gmail.com',
+        comments:'thank for your good productsLorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, error.'
     },
     {
         id: 2,
@@ -126,7 +127,9 @@ let userRows = [
         avatar: 'images/amin.jpg',
         status: 'non-active',
         transaction: '$110',
-        email: 'amin@gmail.com'
+        email: 'amin@gmail.com',
+        comments:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus dicta similique nihil iusto beatae! Qui soluta modi sunt accusamus inventore.'
+
 
     },
     {
@@ -135,7 +138,9 @@ let userRows = [
         avatar: 'images/sasan.jpg',
         status: 'active',
         transaction: '$98',
-        email: 'amin@gmail.com'
+        email: 'amin@gmail.com',
+        comments:'thes sofa are so comfortable and you will have good slip with that'
+
 
     },
     {
@@ -144,7 +149,9 @@ let userRows = [
         avatar: 'images/zahra.jpg',
         status: 'active',
         transaction: '$0',
-        email: 'amin@gmail.com'
+        email: 'amin@gmail.com',
+        comments:'thes sofa are so comfortable and you will have good slip with that'
+
     },
     {
         id: 5,
@@ -152,7 +159,9 @@ let userRows = [
         avatar: 'images/hamze.jpg',
         status: 'active',
         transaction: '$55.98',
-        email: 'amin@gmail.com'
+        email: 'amin@gmail.com',
+        comments:'thes sofa are so comfortable and you will have good slip with that'
+
     }
 ]
 
@@ -160,7 +169,7 @@ let products = [
     {
         id: 1,
         title: 'Asus',
-        avatar: 'images/asus.jpeg',
+        avatar: '../images/3.jpg',
         price: 890,
         date:'2003/08/23',
         received:true,
@@ -169,7 +178,7 @@ let products = [
     {
         id: 2,
         title: 'Acer',
-        avatar: 'images/acer.jpg',
+        avatar: '../images/1.jpg',
         price: 890,
         date:'2003/08/23',
         received:true,
@@ -179,7 +188,7 @@ let products = [
     {
         id: 3,
         title: 'HP',
-        avatar: 'images/hp.jpg',
+        avatar: '../images/2.jpg',
         price: 890,
         date:'2003/08/23',
         received:false,
@@ -189,7 +198,7 @@ let products = [
     {
         id: 4,
         title: 'Dell',
-        avatar: 'images/dell.jpg',
+        avatar: '../images/4.jpg',
         price: 890,
         date:'2003/08/23',
         received:true,
