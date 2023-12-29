@@ -1,7 +1,82 @@
 .profileMainSection {
     width: calc(100% - 280px);
-    height: 300px;
+    min-height: 300px;
     margin: 0 25px;
+
+    .modal_wrapper {
+        position: fixed;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #55555599;
+        backdrop-filter: blur(5px);
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .modal_box {
+            background-color: #fff;
+            border-radius: 5px;
+            width: 400px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            animation: showModal .6s linear;
+
+            @keyframes showModal {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .modal_head {
+                width: 100%;
+                height: 50px;
+                border-bottom: 2px solid #e8e7e7;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-family: acm;
+                padding: 0 20px;
+                font-size: 20px;
+                color: #888;
+            }
+            .modal_body {
+                width: 100%;
+                min-height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+                padding-block: 20px;
+
+                .userInput {
+                    border-radius: 5px;
+                    padding: 4px 10px;
+                    border: 2px solid #b0b0b0;
+                    outline: none;
+                    font-family: acm;
+                    font-size: 18px;
+                    letter-spacing: 1px;
+                    width: 70%;
+                }
+                .modal_btns {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                }
+            }
+        }
+    }
 
     .filedsWrapper {
         width: 90%;
@@ -26,8 +101,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: 20px 20px;
-            gap: 20px;
+            padding: 20px 0 20px 20px;
 
             &:nth-child(odd) {
                 border-right: 1px solid #d2d2d2;
@@ -55,6 +129,7 @@
             justify-content: center;
             flex-direction: column;
             gap: 5px;
+            margin-right: 10px;
 
             .boxTitle {
                 color: #b0b0b0;
@@ -78,7 +153,6 @@
         }
 
         .editBtn {
-            // width: 20%;
             font-size: 30px;
             cursor: pointer;
             color: var(--main-color);
