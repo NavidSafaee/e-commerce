@@ -1,4 +1,4 @@
-.slider-section {
+.slider_section {
     width: 100%;
     position: relative;
     display: flex;
@@ -7,7 +7,7 @@
     padding: 30px 0;
     margin-bottom: 50px;
 
-    .slider-box {
+    .slider_box {
         width: 900px;
         height: 500px;
         border-radius: 5px;
@@ -17,7 +17,7 @@
         justify-content: space-between;
 
         .sidebar {
-            width: 150px;
+            width: 100px;
             height: 80%;
             display: flex;
             align-items: center;
@@ -27,7 +27,7 @@
 
             .item {
                 padding: 8px 0 5px 0;
-                height: 27%;
+                height: 22%;
                 width: 70%;
                 border-radius: 5px;
                 display: flex;
@@ -43,7 +43,7 @@
 
                 img {
                     object-fit: cover;
-                    height: 55%;
+                    height: 45%;
                 }
 
                 .price {
@@ -52,15 +52,15 @@
                     font-weight: 700;
                 }
 
-                .product-title {
-                    font-size: 10px;
+                .product_title {
+                    font-size: 8px;
                     font-weight: 700;
                     color: #555;
                 }
             }
         }
 
-        .main-box {
+        .main_box {
             flex: 1;
             height: 100%;
             display: flex;
@@ -73,7 +73,7 @@
                 border-radius: 10px;
             }
 
-            .text-box {
+            .text_box {
                 width: 50%;
                 height: 60%;
                 display: flex;
@@ -83,25 +83,25 @@
                 cursor: default;
                 user-select: none;
 
-                .top-text {
+                .top_text {
                     color: var(--main-color);
                     font-size: 22px;
                     font-weight: 400;
                 }
 
-                .bold-text {
+                .bold_text {
                     text-align: center;
                     font-weight: 700;
                     font-size: 32px;
                 }
 
-                .off-text {
+                .off_text {
                     color: #515151B5;
                     font-size: 22px;
                     font-weight: 600;
                 }
 
-                .buy-btn {
+                .buy_btn {
                     width: 130px;
                     height: 40px;
                     border-radius: 5px;
@@ -115,7 +115,7 @@
             }
         }
 
-        .circles-box {
+        .circles_box {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -147,22 +147,22 @@
 }
 
 @media screen and (max-width: 992px) {
-    .slider-section {
-        .slider-box {
+    .slider_section {
+        .slider_box {
             width: 95%;
             height: 450px;
 
-            .main-box {
-                .text-box {
-                    .top-text {
+            .main_box {
+                .text_box {
+                    .top_text {
                         font-size: 18px;
                     }
 
-                    .bold-text {
+                    .bold_text {
                         font-size: 26px;
                     }
 
-                    .off-text {
+                    .off_text {
                         font-size: 20px;
                     }
                 }
