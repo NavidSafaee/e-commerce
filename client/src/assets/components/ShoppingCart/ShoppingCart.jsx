@@ -73,7 +73,7 @@ function ShoppingCart() {
                     <span className={styles.title}>Shopping cart</span>
                     <div className={styles.line}></div>
                 </div>
-                {!cartProducts.length ?
+                {!cartProducts?.length ?
                     <div className={styles.empty_cart}>
                         <img src="/general_images/empty_cart.png" alt="empty_cart" />
                         <div className={styles.empty_message_box}>
