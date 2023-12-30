@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const Cart = require('../models/cartModel');
 
-async function createCheckoutSessionId(req, userId) {
+async function createCheckoutSessionId(userId) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
 
     const lineItems = cart.items.map(item => ({
