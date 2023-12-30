@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const sendTicketValidator = [
+const ticketChatValidator = [
     body('ticketText')
         .notEmpty()
         .if((value, { req }) => req.role === 'ADMIN')
@@ -11,5 +11,5 @@ const sendTicketValidator = [
 
 
 module.exports = {
-    sendTicketValidator
+    ticketChatValidator
 }
