@@ -1,5 +1,5 @@
 import Footer from "../components/Footer/Footer"
-import ShoppingCart from "../components/ShoppingCart/ShppingCart"
+import ShoppingCart from "../components/ShoppingCart/ShoppingCart"
 import TopBar from "../components/TopBar/TopBar"
 import TopStrip from "../components/TopStrip/TopStrip"
 

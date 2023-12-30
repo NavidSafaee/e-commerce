@@ -63,7 +63,7 @@ function SignupPageComponent() {
             phoneNumber: userPhone,
             confirmPassword: userConfirmPass
         }
-        fetch(`${baseURL}/auth/contact-verification`, {
+        fetch(`${baseURL}/auth/contact-verification?action=signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)

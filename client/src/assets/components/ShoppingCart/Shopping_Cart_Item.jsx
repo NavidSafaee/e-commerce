@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import baseURL from "../../baseURL"
 import styles from "./ShoppingCart.module.scss"
 import { FaPlus } from "react-icons/fa"
@@ -22,10 +22,6 @@ function Shopping_Cart_Item({ img, title, rate, price }) {
       setCount(pre => pre - 1)
     }
   }
-
-  useEffect(() => {
-    console.info(title, count)
-  }, [count])
 
   return (
     <div className={styles.shopping_cart_item}>

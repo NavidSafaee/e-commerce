@@ -52,19 +52,19 @@ function HeroSection() {
                         className="mySwiper"
                     >
                         <SwiperSlide>
-                            <img src="./../../../../public/general_images/heroSwiper/design1.jpg" />
+                            <img src="/general_images/heroSwiper/design1.jpg" />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="./../../../../public/general_images/heroSwiper/design2.jpg" />
+                            <img src="/general_images/heroSwiper/design2.jpg" />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="./../../../../public/general_images/heroSwiper/design3.png" />
+                            <img src="/general_images/heroSwiper/design3.png" />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="./../../../../public/general_images/heroSwiper/design5.png" />
+                            <img src="/general_images/heroSwiper/design5.png" />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="./../../../../public/general_images/heroSwiper/design6.png" />
+                            <img src="/general_images/heroSwiper/design6.png" />
                         </SwiperSlide>
                     </Swiper>
                 </div>

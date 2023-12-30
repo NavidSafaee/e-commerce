@@ -19,7 +19,7 @@ function ProductPageComponent() {
     ]
     // const rate = 4  // this line is for test!
 
-    const [productInfo, setProductInfo] = useState(null)
+    const [productInfo, setProductInfo] = useState({})
     const [rate, setRate] = useState(0)
     const [imageLoaded, setImageLoaded] = useState(true)
     const [mainImageIndex, setMainImageIndex] = useState(0)
@@ -136,7 +136,7 @@ function ProductPageComponent() {
                                 {imageLoaded && productInfo.discount && <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span>}
                                 {imageLoaded ?
                                     // <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' onError={setImageLoaded(false)} />
-                                    <img src={otherImages[mainImageIndex]} alt={productInfo?.title} onLoad={console.log(2)} onError={() => setImageLoaded(false)} />
+                                    <img src={otherImages[mainImageIndex]} alt={productInfo?.title} onError={() => setImageLoaded(false)} />
                                     :
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-off" width="44" height="44" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -225,7 +225,7 @@ function ProductPageComponent() {
                                 <span className={ComponentStyle.time}>December 21</span>
                             </div>
                         </div>
-                        <div className={`${ComponentStyle.commentItem} ${1 == 1 && ComponentStyle.admin}`}>
+                        <div className={`${ComponentStyle.commentItem}`}>
                             <div className={ComponentStyle.row1}>
                                 <div className={ComponentStyle.authorBox}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-headset" width="32" height="32" viewBox="0 0 24 24" strokeWidth="2.5" stroke="#fff" fill="none" strokeLinecap="round" strokeLinejoin="round">
