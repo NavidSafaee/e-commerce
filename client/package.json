@@ -28,7 +28,9 @@
     "react-router-dom": "^6.16.0",
     "recharts": "^2.10.3",
     "sass": "^1.67.0",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "swiper": "^11.0.5",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

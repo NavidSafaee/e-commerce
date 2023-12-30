@@ -89,7 +89,7 @@ function LoginPageComponent() {
         }).then(data => {
             if (data.message) {
                 showMessage({ title: "Oops!", text: data.message, icon: "error" })
-            } else if(data) {
+            } else if (data) {
                 authContext.login(data.user, data.accessToken, data.refreshToken)
                 if (data.user.role === "CUSTOMER") {
                     navigate("/")
@@ -105,7 +105,7 @@ function LoginPageComponent() {
             email: userEmail,
             phoneNumber: userPhone,
         }
-        fetch(`${baseURL}/auth/contact-verification`, {
+        fetch(`${baseURL}/auth/contact-verification?action=login`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
@@ -113,7 +113,14 @@ function LoginPageComponent() {
             if (res.status === 204) {
                 setShowModal(true)
             }
-        })
+            if (res.status === 400) {
+                return res.json()
+            }
+        }).then(data => showMessage({
+            title: 'Oops!',
+            text: data.message,
+            icon: 'error'
+        }).then(val => { setFormFlag(false); setEmailOrPhone(""); setUserEmail(""); setUserPhone(""); setUserPass(""); }))
     }
 
     useEffect(() => {
@@ -125,6 +132,10 @@ function LoginPageComponent() {
             }
         }
     }, [formFlag])
+
+    useEffect(() => {
+        setEmailOrPhone("")
+    }, [loginWay])
 
     return (
         <>
