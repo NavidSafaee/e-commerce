@@ -8,7 +8,7 @@ function AdvantagesSection() {
         {
           advantagesList.advantages.map((adv, i) => (
             <div className="advantage-item" key={i}>
-              <img src={`../../../../public/general_images/${adv.imgFileName}`} alt={adv.title} />
+              <img src={`/general_images/${adv.imgFileName}`} alt={adv.title} />
               <div className="detail-box">
                 <strong className="adv-title">{adv.title}</strong>
                 <p className="adv-message">{adv.message}</p>

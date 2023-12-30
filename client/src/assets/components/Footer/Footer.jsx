@@ -15,7 +15,7 @@ function Footer() {
                 <div className="footer-main-box">
                     <div className="about-us-column">
                         <div className="brand-box">
-                            <img src="../../../../public/general_images/logo.png" alt="logo" />
+                            <img src="/general_images/logo.png" alt="logo" />
                             <strong className='brand-name'>Soft Land</strong>
                         </div>
                         <div className="about-col-text">

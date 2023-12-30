@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import "./ProductsSection.scss"
-// import productsList from "./ProductsList.json"
 import ProductCard from "../ProductCard/ProductCard"
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi'
 import baseURL from "../../baseURL"

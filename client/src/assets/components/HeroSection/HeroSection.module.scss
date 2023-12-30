@@ -1,0 +1,43 @@
+.heroSectionWrapper {
+    width: 100%;
+    padding: 80px 0;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .textWrapper {
+        width: 600px;
+        height: 400px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 50px;
+        flex-direction: column;
+        gap: 10px;
+
+        .mainTitle {
+            margin-bottom: 20px;
+            font-family: pac;
+            color: var(--main-color);
+            font-size: 60px;
+        }
+
+        .message {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .slogan {
+            font-family: acm;
+            font-size: 20px;
+            color: #515151;
+        }
+    }
+
+    .swiperWrapper {
+        width: 500px;
+        height: 400px;
+        position: relative;
+    }
+}

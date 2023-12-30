@@ -5,7 +5,7 @@ function NotFoundComponent() {
     return (
         <>
             <div className={notFoundStyle.errorPagewrapper}>
-                <img src="./../../../../public/general_images/404.png" alt="page not found" className={notFoundStyle.errorImg}/>
+                <img src="/general_images/404.png" alt="page not found" className={notFoundStyle.errorImg}/>
                 <Link to={"/"} className={notFoundStyle.return_btn}>Home Page</Link>
             </div>
         </>

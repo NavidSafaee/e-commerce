@@ -1,22 +1,29 @@
+/* eslint-disable react/no-unknown-property */
 import './TopBar.scss'
 import { Link } from 'react-router-dom'
 import { ImSearch } from 'react-icons/im'
-import { PiHandbagLight } from 'react-icons/pi'
-import { FiBell } from 'react-icons/fi'
-import { BiUser } from 'react-icons/bi'
 import { FiArrowDownCircle } from 'react-icons/fi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function TopBar() {
 
     const [selectedCollection, setSelectedCollection] = useState("Sofa")
     const [selectListOpen, setSelectListOpen] = useState(false)
+    const [storyIndex, setStoryIndex] = useState(null)
+
+    useEffect(() => {
+        if (storyIndex) {
+            setTimeout(() => {
+                setStoryIndex(null)
+            }, 5000);
+        }
+    }, [storyIndex])
 
     return (
         <>
             <div className="top-bar">
                 <div className="brand-box">
-                    <img src="../../../../public/general_images/logo.png" alt="logo" />
+                    <img src="/general_images/logo.png" alt="logo" />
                     <Link to={"/"}><strong className='brand-name'>Soft Land</strong></Link>
                 </div>
                 <div className="search-box">
@@ -34,18 +41,40 @@ function TopBar() {
                             onMouseLeave={() => setSelectListOpen(false)}
                             onMouseEnter={() => setSelectListOpen(true)}
                         >
-                            <li className='filter-item' onClick={() => {setSelectedCollection("Sofa"); setSelectListOpen(false)}}>Sofa</li>
-                            <li className='filter-item' onClick={() => {setSelectedCollection("Lamp"); setSelectListOpen(false)}}>Lamp</li>
-                            <li className='filter-item' onClick={() => {setSelectedCollection("TV"); setSelectListOpen(false)}}>TV</li>
-                            <li className='filter-item' onClick={() => {setSelectedCollection("Kitchen"); setSelectListOpen(false)}}>Kitchen</li>
+                            <li className='filter-item' onClick={() => { setSelectedCollection("Sofa"); setSelectListOpen(false) }}>Sofa</li>
+                            <li className='filter-item' onClick={() => { setSelectedCollection("Lamp"); setSelectListOpen(false) }}>Lamp</li>
+                            <li className='filter-item' onClick={() => { setSelectedCollection("TV"); setSelectListOpen(false) }}>TV</li>
+                            <li className='filter-item' onClick={() => { setSelectedCollection("Kitchen"); setSelectListOpen(false) }}>Kitchen</li>
                         </ul>
                     </div>
                     <span className="search-btn"><ImSearch /></span>
                 </div>
-                <div className="user-icons-box">
-                    <span className='user-icon'><span className='badge'>3</span><PiHandbagLight /></span>
-                    <span className='user-icon'><FiBell /></span>
-                    <span className='user-icon'><BiUser /></span>
+
+                <div className="stories_container">
+                    <div className={`story_item ${storyIndex === 1 && "select"}`} onClick={() => setStoryIndex(1)}>
+                        <img src="/general_images/story/elon.png" />
+                        <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                    </div>
+                    <div className={`story_item ${storyIndex === 2 && "select"}`} onClick={() => setStoryIndex(2)}>
+                        <img src="/general_images/story/pavel.png" />
+                        <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                    </div>
+                    <div className={`story_item ${storyIndex === 3 && "select"}`} onClick={() => setStoryIndex(3)}>
+                        <img src="/general_images/story/elon.png" />
+                        <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                    </div>
+                    <div className={`story_item ${storyIndex === 4 && "select"}`} onClick={() => setStoryIndex(4)}>
+                        <img src="/general_images/story/pavel.png" />
+                        <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                    </div>
                 </div>
             </div>
         </>
