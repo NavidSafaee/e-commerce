@@ -109,12 +109,12 @@
   width: 95%;
 }
 
-.productFormLeft > label {
+.productFormLeft > .myLabel {
   background-color: grey;
   margin-bottom: 10px;
 }
 
-label {
+.myLabel {
   background-color: #00887d;
   width: 40px;
   height: 40px;

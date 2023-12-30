@@ -75,7 +75,7 @@ export default function Product() {
               <option value="no">No</option>
             </select>
             <div className="productUploader">
-              <label>
+              <label className="myLabel">
                 <PublishIcon />
               </label>
               <button className="productUploadButton">Upload (Edit)</button>

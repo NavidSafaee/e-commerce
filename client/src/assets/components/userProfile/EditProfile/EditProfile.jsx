@@ -61,7 +61,7 @@ function EditProfile() {
             {authContext.userInfo.phoneNumber ? <Tooltip title="verified" placement="right" TransitionComponent={Zoom}><b className={style.boxTitle}>Phone number <MdVerified /></b></Tooltip> : <b className={style.boxTitle}>Phone number</b>}
             <span className={style.boxValue}>{authContext.userInfo.phoneNumber ? authContext.userInfo.phoneNumber : "---"}</span>
           </div>
-          <RiEdit2Line className={style.editBtn} />
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("phoneNumber"); setDefault_value(userInfo.phoneNumber)}}/>
           {!authContext.userInfo.phoneNumber ? <Tooltip title="Please fill in this field" placement="top" TransitionComponent={Zoom}><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
         </div>
         <div className={style.editItem}>
@@ -69,7 +69,7 @@ function EditProfile() {
             <b className={style.boxTitle}>Date of birth</b>
             <span className={style.boxValue}>{authContext.userInfo.birthday ? authContext.userInfo.birthday : "---"}</span>
           </div>
-          <RiEdit2Line className={style.editBtn} />
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("birthday"); setDefault_value(userInfo.birthday)}}/>
           {!authContext.userInfo.birthday ? <Tooltip title="Please fill in this field" placement="top" TransitionComponent={Zoom}><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
         </div>
         <div className={style.editItem}>
@@ -77,14 +77,14 @@ function EditProfile() {
             <b className={style.boxTitle}>Password</b>
             <span className={style.boxValue}>* * * * * *</span>
           </div>
-          <RiEdit2Line className={style.editBtn} />
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("password"); setDefault_value(userInfo.password)}}/>
         </div>
         <div className={style.editItem}>
           <div className={style.contentSide}>
             <b className={style.boxTitle}>Address</b>
             <span className={style.boxValue}>{authContext.userInfo.address ? authContext.userInfo.address : "---"}</span>
           </div>
-          <RiEdit2Line className={style.editBtn} />
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("address"); setDefault_value(userInfo.address)}}/>
           {!authContext.userInfo.address ? <Tooltip title="Please fill in this field" placement="top"><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
         </div>
       </div>
