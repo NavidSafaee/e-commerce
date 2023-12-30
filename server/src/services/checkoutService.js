@@ -5,6 +5,8 @@ const Cart = require('../models/cartModel');
 async function createCheckoutSessionId(userId) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
 
+    // console.log(cart.items);
+
     const lineItems = cart.items.map(item => ({
         price_data: {
             currency: 'usd',
@@ -17,6 +19,8 @@ async function createCheckoutSessionId(userId) {
         quantity: item.quantity
     }));
 
+    console.log('nasirrrrr', lineItems[0].price_data.product_data);
+
     const session = await stripe.checkout.sessions.create({
         mode: 'payment',
         payment_method_types: ['card'],
@@ -25,7 +29,9 @@ async function createCheckoutSessionId(userId) {
         cancel_url: `http://localhost:5173/checkout/cancel`
     });
 
-    return { sessionId: session.id };
+    // console.log(session);
+
+    return { id: session.id };
 }
 
 

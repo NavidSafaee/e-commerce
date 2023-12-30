@@ -21,6 +21,7 @@ import UserActivity from "./components/userProfile/UserActivity/UserActivity"
 import EditProfile from "./components/userProfile/EditProfile/EditProfile"
 import UserComments from "./components/userProfile/UserComments/UserComments"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
+import Payment_status_page from "./pages/Payment_status_page"
 
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
@@ -41,6 +42,7 @@ const mainRoutes = [
     { path: "/forgot-pass", element: <ForgotPassPage /> },
     { path: "/reset-pass/:userToken", element: <ResetPassPage /> },
     { path: "/checkout/cart/", element: <ShoppingCartPage /> },
+    { path: "/checkout/:status", element: <Payment_status_page /> },
 
     { path: "/user/profile/", element: <UserProfilePage><UserActivity /></UserProfilePage> },
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },

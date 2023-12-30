@@ -5,6 +5,7 @@ import Shopping_Cart_Item from "./Shopping_Cart_Item"
 import baseURL from "../../baseURL"
 import { isTokenExpired, refreshTokenHandler } from "../../functions"
 import AuthContext from "../Context/AuthContext"
+import { loadStripe } from '@stripe/stripe-js'
 
 function ShoppingCart() {
 
@@ -28,16 +29,42 @@ function ShoppingCart() {
                 }
             })
                 .then(res => {
-                    console.log(res)
-                    return res.json()
+                    if (res.status == 404) {
+                        setCartProducts([])
+                    } else {
+                        return res.json()
+                    }
                 })
-                .then(data => { setCartProducts(data.products); console.log(data); })
+                .then(data => { setCartProducts(data); })
         }
     }
 
     useEffect(() => {
         getCartProducts()
     }, [])
+
+    const paymentHandler = async () => {
+        const stripe = await loadStripe("pk_test_51OADBsJAQSscREhDTDYzbco88RVDobwdKH1LhouY2SaoQNH2OoRGGHgNSTL3l4vWqEpWxEVPOLDNh05ZnAj8F2t100JFeSHssd")
+
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (isTokenExpired(userToken.accessToken)) {
+            refreshTokenHandler()
+                .then(token => {
+                    authContext.writeTokenInStorage(token)
+                    paymentHandler()
+                })
+        } else {
+            fetch(`${baseURL}/checkout/sessionId`, {
+                method: "GET",
+                headers: { Authorization: `Bearer ${userToken.accessToken}` }
+            }).then(res => {
+                console.log(res)
+                return res.json()
+            }).then(data => {
+                stripe.redirectToCheckout({sessionId: data.id})
+            })
+        }
+    }
 
     return (
         <>
@@ -46,7 +73,7 @@ function ShoppingCart() {
                     <span className={styles.title}>Shopping cart</span>
                     <div className={styles.line}></div>
                 </div>
-                {cartProducts ?
+                {!cartProducts.length ?
                     <div className={styles.empty_cart}>
                         <img src="/general_images/empty_cart.png" alt="empty_cart" />
                         <div className={styles.empty_message_box}>
@@ -60,13 +87,13 @@ function ShoppingCart() {
                     <div className={styles.cart_body}>
                         <div className={styles.cart_list}>
                             {
-                                cartProducts?.map(item => (
+                                cartProducts.map(item => (
                                     <Shopping_Cart_Item
-                                        key={item._id}
-                                        img={item.imageUrl}
-                                        title={item.title}
-                                        rate={item.rate}
-                                        price={(item.newPrice) ? item.newPrice : item.price}
+                                        key={item.product._id}
+                                        img={item.product.imageUrl}
+                                        title={item.product.title}
+                                        rate={item.product.rate}
+                                        price={(item.product.newPrice) ? item.product.newPrice : item.product.price}
                                     />
                                 ))
                             }
@@ -101,7 +128,7 @@ function ShoppingCart() {
                                     <span className={styles.itemTitle}>Total:</span>
                                     <span className={`${styles.itemValue} ${styles.finalValue}`}>$118</span>
                                 </div>
-                                <button className={styles.checkout_btn}>Checkout</button>
+                                <button className={styles.checkout_btn} onClick={paymentHandler}>order now</button>
                             </div>
                         </div>
                     </div>
