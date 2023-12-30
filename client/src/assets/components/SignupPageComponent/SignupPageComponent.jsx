@@ -148,7 +148,7 @@ function SignupPageComponent() {
                 } */}
                 <div className="sign-up">
 
-                    <img src="general_images/logo.png" alt="" />
+                    <img src="/general_images/logo.png" alt="" />
                     <div className="form-container">
 
                         <h2 className="form-title">signup</h2>

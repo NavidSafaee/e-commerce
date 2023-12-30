@@ -40,17 +40,16 @@ function ProductPageComponent() {
                     productAdder()
                 })
         } else {
-            let req_body = { "productId": productInfo._id }
-            fetch(`${baseURL}/carts`, {
+            fetch(`${baseURL}/carts/me/items/${productId}`, {
                 method: "PUT",
                 headers: {
-                    Authorization: `Bearer ${userToken.accessToken}`,
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(req_body)
+                    Authorization: `Bearer ${userToken.accessToken}`
+                }
             }).then(res => {
                 console.log(res)
                 return res.json()
+            }).then(data => {
+                console.log(data)
             })
         }
     }

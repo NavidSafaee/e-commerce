@@ -18,9 +18,9 @@ function TopStrip() {
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
         </div>
-        {authContext.isLoggedIn && <div className="cart_btn">
+        {authContext.isLoggedIn && <Link to={"/checkout/cart/"} className="cart_btn">
           <FaShoppingCart />
-        </div>}
+        </Link>}
       </div>
     </>
   )

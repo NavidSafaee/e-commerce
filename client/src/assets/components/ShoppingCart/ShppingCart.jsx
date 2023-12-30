@@ -1,26 +1,42 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import styles from "./ShoppingCart.module.scss"
 import Shopping_Cart_Item from "./Shopping_Cart_Item"
 import baseURL from "../../baseURL"
+import { isTokenExpired, refreshTokenHandler } from "../../functions"
+import AuthContext from "../Context/AuthContext"
 
 function ShoppingCart() {
 
+    const authContext = useContext(AuthContext)
+
     const [cartProducts, setCartProducts] = useState([])
-    const [isEmpty, setIsEmpty] = useState(true)
 
-    useEffect(() => {
-        setIsEmpty(false)
-    }, [])
-
-    useEffect(() => {
-        fetch(`${baseURL}/products`, {
-            method: "GET"
-        })
-            .then(res => {
-                return res.json()
+    const getCartProducts = () => {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (isTokenExpired(userToken.accessToken)) {
+            refreshTokenHandler()
+                .then(token => {
+                    authContext.writeTokenInStorage(token)
+                    getCartProducts()
+                })
+        } else {
+            fetch(`${baseURL}/carts/me`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${userToken.accessToken}`
+                }
             })
-            // .then(data => { setCartProducts(data.products) })
+                .then(res => {
+                    console.log(res)
+                    return res.json()
+                })
+                .then(data => { setCartProducts(data.products); console.log(data); })
+        }
+    }
+
+    useEffect(() => {
+        getCartProducts()
     }, [])
 
     return (
@@ -30,9 +46,9 @@ function ShoppingCart() {
                     <span className={styles.title}>Shopping cart</span>
                     <div className={styles.line}></div>
                 </div>
-                {isEmpty || !cartProducts.length ?
+                {cartProducts ?
                     <div className={styles.empty_cart}>
-                        <img src="./../../../../public/general_images/empty_cart.png" alt="empty_cart" />
+                        <img src="/general_images/empty_cart.png" alt="empty_cart" />
                         <div className={styles.empty_message_box}>
                             <b className={styles.message_title}>Your cart is empty</b>
                             <p className={styles.message_text}>You have no items in your shopping cart.</p>
@@ -50,7 +66,7 @@ function ShoppingCart() {
                                         img={item.imageUrl}
                                         title={item.title}
                                         rate={item.rate}
-                                        price={(item.newPrice)? item.newPrice : item.price}
+                                        price={(item.newPrice) ? item.newPrice : item.price}
                                     />
                                 ))
                             }
