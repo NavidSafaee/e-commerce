@@ -6,7 +6,6 @@ const ticketSchema = new Schema({
         ref: 'User',
         required: true
     },
-
     chat: [{
         role: {
             type: String,
@@ -21,7 +20,12 @@ const ticketSchema = new Schema({
                 required: true
             }
         }
-    }]
+    }],
+    status: {
+        type: String,
+        enum: ['OPEN', 'RESOLVED'],
+        required: true
+    }
 });
 
 module.exports = model('Ticket', ticketSchema);

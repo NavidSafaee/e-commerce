@@ -19,7 +19,6 @@ async function addReview(reqBody, productId, userId) {
     const reviewObj = {
         product: productId,
         user: userId,
-        username: user.username,
         rating,
         review,
         validationStatus: 'PENDING'
@@ -30,7 +29,10 @@ async function addReview(reqBody, productId, userId) {
 }
 
 async function getReviews(productId) {
-    return await Review.find({ product: productId });
+    return await Review.find({ product: productId }).populate({
+        path: 'user',
+        select: 'username'
+    });
 }
 
 
@@ -49,8 +51,15 @@ async function changeValidationStatus(reviewId, validationStatus) {
 async function getPendingReviewsCount() {
     const count = await Review.countDocuments({ validationStatus: 'PENDING' });
     return { count };
-}  
+}
 
+async function getPendingReviews() {
+    const reviews = await Review.find({ validationStatus: 'PENDING' }).populate({
+        path: 'user',
+        select: 'username'
+    });
+    return reviews;
+}
 
 
 module.exports = {
@@ -58,5 +67,6 @@ module.exports = {
     getReviews,
     getMyReviews,
     changeValidationStatus,
+    getPendingReviews,
     getPendingReviewsCount
 }

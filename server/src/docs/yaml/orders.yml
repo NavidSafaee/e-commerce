@@ -142,7 +142,7 @@ paths:
         "403":
           $ref: '#/components/responses/forbidden'  
 
-  /orders/admin/{orderId}/delivered:
+  /orders/{orderId}/delivered:
     put:
       summary: Changes admin order delivery state 
       tags:

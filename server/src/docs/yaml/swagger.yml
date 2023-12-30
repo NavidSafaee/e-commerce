@@ -183,11 +183,17 @@ components:
           type: string
           example: 655769ef14b767ea9f0cfe6c
         user:
-          type: string
-          example: 655769ef14b767ea9f0cfe6c
-        username:
-          type: string
-          example: navid
+          oneOf: 
+            - type: string
+              example: 650b1ed61882fc118a114d19
+            - type: object
+              properties:
+                _id: 
+                  type: string
+                  example: 650b1ed61882fc118a114d19      
+                username: 
+                  type: string
+                  example: navid
         rating:
           type: number
           example: 5

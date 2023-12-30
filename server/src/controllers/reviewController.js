@@ -5,6 +5,7 @@ const {
     getReviews,
     getMyReviews,
     changeValidationStatus,
+    getPendingReviews,
     getPendingReviewsCount
 } = require('../services/reviewService');
 
@@ -53,6 +54,15 @@ async function httpChangeValidationStatus(req, res, next) {
     }
 }
 
+async function httpGetPendingReviews(req, res, next) {
+    try {
+        const response = await getPendingReviews();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function httpGetPendingReviewsCount(req, res, next) {
     try {
         const response = await getPendingReviewsCount();
@@ -68,5 +78,6 @@ module.exports = {
     httpGetReviews,
     httpGetMyReviews,
     httpChangeValidationStatus,
+    httpGetPendingReviews,
     httpGetPendingReviewsCount
 }
