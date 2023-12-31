@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate } from 'react-router-dom';
-import './SignupPageComponent.css';
+import style from './SignupPageComponent.module.scss';
 import { useEffect, useState } from 'react';
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex';
 import baseURL from '../../baseURL';
@@ -10,6 +10,10 @@ import swal from 'sweetalert';
 import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { showMessage } from '../../functions';
+import { CgEditBlackPoint } from "react-icons/cg";
+import { FaUser } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
+import { IoIosLock } from "react-icons/io";
 
 function SignupPageComponent() {
     // const squaresArray = Array.from(Array(260).keys())
@@ -139,14 +143,8 @@ function SignupPageComponent() {
 
     return (
         <>
-            <section className="signup-page-container">
-
-                {/* {
-                    squaresArray.map((sq, i) => (
-                        <span key={i} className="bg-square"></span>
-                    ))
-                } */}
-                <div className="sign-up">
+            <section className={style.form_page_container}>
+                {/* <div className="sign-up">
 
                     <img src="/general_images/logo.png" alt="" />
                     <div className="form-container">
@@ -218,6 +216,66 @@ function SignupPageComponent() {
 
                     </div>
 
+                </div> */}
+                <div className={style.form_bg_container}>
+                    <div className={style.text_container}>
+                        <img src="/general_images/logo.png" alt="logo" className={style.logo} />
+                        <h1 className={style.softland}>Soft Land</h1>
+                        <p className={style.info_text}>
+                            Please pay attention to the following points:
+                        </p>
+                        <ul className={style.rules_list}>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> The username should preferably be real</li>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> Password must have at least 6 characters</li>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> Enter your valid email or phone number</li>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> A verification code will be sent to your email/mobile phone</li>
+                        </ul>
+                    </div>
+                </div>
+                <div className={style.form_container}>
+                    <strong className={style.form_title}>
+                        Signup
+                    </strong>
+                    <div className={style.form_items}>
+                        <div className={style.inputBox}>
+                            <FaUser />
+                            <input type="text"
+                                required
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                            /><i className={style.placeHolder}>Username</i>
+                        </div>
+                        <div className={style.inputBox}>
+                            <FaTelegramPlane />
+                            <input type="text"
+                                required
+                                value={emailOrPhone}
+                                onChange={(e) => setEmailOrPhone(e.target.value)}
+                            /><i className={style.placeHolder}>Email / phone number</i>
+                        </div>
+                        <div className={style.inputBox}>
+                            <IoIosLock />
+                            <input type="password"
+                                required
+                                value={userPass}
+                                onChange={(e) => setUserPass(e.target.value)}
+                                minLength={6}
+                            /><i className={style.placeHolder}>Password</i>
+                        </div>
+                        <div className={style.inputBox}>
+                            <IoIosLock />
+                            <input type="password"
+                                required
+                                value={userConfirmPass}
+                                onChange={(e) => setUserConfirmPass(e.target.value)}
+                                minLength={6}
+                            /><i className={style.placeHolder}>Reenter Password</i>
+                        </div>
+                    </div>
+                    <button className={style.formBtn} onClick={FormChecker}>
+                    {!formFlag ? "continue" : <Spinner animation="grow" variant="light" />}
+                    </button>
+                    <p className={style.question}>Already have an account? <Link to="/login">login</Link></p>
                 </div>
 
                 {showModal && <div className="otp-modal-bg">
