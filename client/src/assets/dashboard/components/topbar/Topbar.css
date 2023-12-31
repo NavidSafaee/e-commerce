@@ -5,15 +5,8 @@
 }
 
 .topbar {
-    background-color: #924C7C;
-    background-color: #8F0070;
-    background-color: #82360A;
-    background-color: #cf480a;
-    background-color: #8F0070;
-    background-color: #F3EADA;
-    
-    /* background-color: #C77BCF; */
-  height: 60px;
+  background-color: #f3eada;
+  height: 100px;
   position: sticky;
   top: 0;
 }
@@ -34,20 +27,6 @@
   color: #555;
 }
 
-
-.topRight {
-  align-items: end;
-  display: flex;
-  align-items: center;
-  padding: 10px 30px;
-}
-
-.topbarIconContainer {
-  position: relative;
-  cursor: pointer;
-  margin-right: 10px;
-  color: #000;
-}
 .topIconBadge {
   width: 15px;
   height: 15px;
@@ -68,4 +47,30 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+  margin: 0  10px ;
+} 
+.topRight {
+  align-items: end;
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  /* background-color: yellow; */
 }
+.topbarIconContainer {
+  /* background-color: firebrick ; */
+  width: fit-content;
+  position: relative;
+  cursor: pointer;
+  margin-right: 0px;
+  color: #000;
+  height: 38px;
+  margin: 5px;
+  padding-top: 8px;
+}
+.adminName {
+  font-size: 16px;
+  margin: 10px 0 0 10px;
+  font-weight: 600;
+}
+
+

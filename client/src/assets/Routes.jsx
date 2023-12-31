@@ -12,7 +12,7 @@ import UserProfilePage from "./pages/UserProfilePage"
 import Panel_main_page from "./dashboard/Panel_main_page"
 import Home from './dashboard/panelPages/home/Home'
 import UserList from './dashboard/panelPages/Users/UserList'
-import Comments from './dashboard/panelPages/Comments/Comments'
+import CustomerOrders from './dashboard/panelPages/CustomerOrders/CustomerOrders'
 import Products from './dashboard/panelPages/Products/Products'
 import Product from './dashboard/panelPages/Product/Product'
 import Orders from './dashboard/panelPages/Orders/Orders'
@@ -29,7 +29,7 @@ const mainRoutes = [
     { path: "/admin-panel", element: <Panel_main_page /> },
     { path: '/admin-panel/', element: <Panel_main_page><Home /></Panel_main_page> },
     { path: '/admin-panel/users', element: <Panel_main_page><UserList /></Panel_main_page> },
-    { path: '/admin-panel/Comments', element: <Panel_main_page><Comments /></Panel_main_page> },
+    { path: '/admin-panel/customerOrders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
     { path: '/admin-panel/products', element: <Panel_main_page><Products /></Panel_main_page> },
     { path: '/admin-panel/product/:productID', element: <Panel_main_page><Product /></Panel_main_page> },
     { path: '/admin-panel/Orders', element: <Panel_main_page><Orders /></Panel_main_page> },

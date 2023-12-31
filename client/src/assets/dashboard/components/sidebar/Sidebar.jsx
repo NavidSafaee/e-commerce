@@ -21,6 +21,13 @@ export default function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
+      <div className="sidebarMenulogoSidebar">
+
+          <img src="..\public\general_images\sidebarLogo.png" className="logoSidebar" alt="" />
+          <h8 className="sidebarTitleLogo">SOFT LAND</h8>
+
+        </div>
+
         <div className="sidebarMenu">
           <h3 className="sidebarTitle"></h3>
           <ul className="sidebarList">
@@ -42,7 +49,7 @@ export default function Sidebar() {
                 Users
               </li>
             </Link>
-            <Link to="/admin-panel/Comments" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/customerOrders" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <PermIdentityIcon className="sidebarIcon" />
                 Reviews & Ratings
@@ -60,7 +67,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Tickets & Comments</h3>
           <ul className="sidebarList">
-            <Link to="/admin-panel/comments" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/customerOrders" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <DynamicFeedIcon className="sidebarIcon" />
                 Tickets
@@ -68,10 +75,10 @@ export default function Sidebar() {
             </Link>
            
 
-            <Link to="/admin-panel/comments" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/CustomerOrders" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <ChatBubbleOutlineIcon className="sidebarIcon" />
-                Commnets
+                CustomerOrders
               </li>
             </Link>
 

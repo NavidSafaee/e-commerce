@@ -1,6 +1,9 @@
 .userList {
     margin: 100px 0 0 280px;
 }
+.userListTableGride{
+    margin: 100px 0;
+}
 
 .userListUser {
     display: flex;

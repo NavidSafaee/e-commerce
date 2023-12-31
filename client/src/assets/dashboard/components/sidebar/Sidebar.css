@@ -2,17 +2,20 @@
   background-color: #06a99d;
   height: calc(100vh);
   position: sticky;
-  padding: 80px 0 0 0;
+  padding: 50px 0 0 0;
   z-index: 999;
 }
 
 .sidebarWrapper {
-  padding: 20px;
+  padding: 0px;
   color: #000000b0;
   color: #fff;
+  
 }
 
 .sidebarMenu {
+  padding-left: 20px;
+
   margin-bottom: 10px;
 }
 
@@ -43,4 +46,24 @@
 .sidebarIcon {
   margin-right: 5px;
   font-size: 20px;
+}
+.logoSidebar{
+  /* background-color: red; */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+.sidebarMenulogoSidebar{
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  /* padding: 0; */
+
+}
+.sidebarTitleLogo{
+  height: 60px;
+  padding-top:30px ;
+  font-weight: 600;
+  
 }

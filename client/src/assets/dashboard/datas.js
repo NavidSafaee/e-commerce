@@ -169,7 +169,7 @@ let products = [
     {
         id: 1,
         title: 'Asus',
-        avatar: '../images/3.jpg',
+        avatar: "../public/general_images/heroSwiper/design1.jpg",
         price: 890,
         date:'2003/08/23',
         received:true,
@@ -178,7 +178,7 @@ let products = [
     {
         id: 2,
         title: 'Acer',
-        avatar: '../images/1.jpg',
+        avatar: "../public/general_images/heroSwiper/design2.jpg",
         price: 890,
         date:'2003/08/23',
         received:true,
@@ -188,7 +188,7 @@ let products = [
     {
         id: 3,
         title: 'HP',
-        avatar: '../images/2.jpg',
+        avatar: "../public/general_images/heroSwiper/design3.png",
         price: 890,
         date:'2003/08/23',
         received:false,
@@ -198,7 +198,7 @@ let products = [
     {
         id: 4,
         title: 'Dell',
-        avatar: '../images/4.jpg',
+        avatar: "../public/general_images/heroSwiper/design4.jpg",
         price: 890,
         date:'2003/08/23',
         received:true,

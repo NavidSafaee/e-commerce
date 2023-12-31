@@ -3,7 +3,6 @@ import "./Topbar.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
-import SearchIcon from '@mui/icons-material/Search';
 
 export default function Topbar() {
   return (
@@ -18,9 +17,10 @@ export default function Topbar() {
         </div>
 
         <div className="topRight">
-        <div className="topbarIconContainer">
-            <SearchIcon />
-          </div>
+        {/* <div className="topbarIconContainer">
+            <SearchIcon  className="SearchIconAdmin"/>
+            <input type="text" className="searchInputAdminPanel"  placeholder="Search"/>
+          </div> */}
           <div className="topbarIconContainer">
             <NotificationsIcon />
             <span className="topIconBadge">2</span>
@@ -32,7 +32,8 @@ export default function Topbar() {
           <div className="topbarIconContainer">
             <SettingsIcon />
           </div>
-          <img src="./images/logoSOFT.png" className="topAvatar" />
+          {/* <img src="..\public\general_images\story\elon.png" className="topAvatar" /> */}
+          <p className="adminName">Elon</p>
         </div>
 
 

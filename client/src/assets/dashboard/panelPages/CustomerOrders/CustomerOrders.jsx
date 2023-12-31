@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { userRows } from "../../datas";
-import "./Comments.css";
+import "./CustomerOrders.css";
 import DoneIcon from "@mui/icons-material/Done";
 import GradeIcon from "@mui/icons-material/Grade";
-export default function Comments() {
+export default function CustomerOrders() {
   const [userRowsData, setuserRowsData] = useState(userRows);
 
   return (

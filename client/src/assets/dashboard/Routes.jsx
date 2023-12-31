@@ -17,6 +17,7 @@ let panel_routes = [
     {path: '/productInfo', element: <ProductInfo />},
     {path: '/user', element: <User />},
     {path: '/tickets', element: <Tickets />},
+    {path: '/productInfo/:productID', element: <ProductInfo />},
     {path: '/products', element: <Products />},
     {path: '/product/:productID', element: <Product />},
     {path: '/Orders', element: <Orders />},

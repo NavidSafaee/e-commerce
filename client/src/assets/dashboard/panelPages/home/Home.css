@@ -1,6 +1,7 @@
 .home{
     margin: 100px 0 0 280px;
     flex: 4;
+    background-color: #F3EADA;
 }
 
 .homeWidgets{
