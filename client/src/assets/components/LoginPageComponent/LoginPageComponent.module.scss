@@ -1,0 +1,131 @@
+.login_way_box {
+    width: 100%;
+    color: #015a54;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1.5rem;
+    font-weight: 700;
+    font-family: acm;
+
+    .login_ways {
+        width: 70%;
+        background-color: #c8bfff;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        border-radius: 20px;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 50%;
+            border-radius: inherit;
+            height: 35px;
+            background-color: #015a54;
+            z-index: 1;
+            transition: .6s;
+        }
+
+        &.pass::after {
+            left: 10px;
+        }
+
+        &.otp::after {
+            left: calc(50%);
+            width: 45%;
+        }
+
+        .login_option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            height: 35px;
+            font-weight: 400;
+            border-radius: inherit;
+            color: #015a54;
+            cursor: pointer;
+            transition: .4s;
+            width: 50%;
+            z-index: 2;
+
+            &.active {
+                font-weight: 500;
+                color: #fff;
+                cursor: default;
+            }
+        }
+    }
+}
+
+.inputBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: scaleY(1) translateY(0);
+    transition: .6s;
+    width: 70%;
+    border-bottom: 2px solid #90cdc9;
+    gap: 0;
+    padding-left: 5px;
+
+    &.move_input {
+        transform: translateY(30px);
+    }
+
+    &.hide_input {
+        transform: scaleY(0);
+    }
+
+    svg {
+        color: #0e7d75;
+    }
+
+    input {
+        width: 90%;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        padding: 3px 10px;
+        font-size: 18px;
+        background-color: unset;
+        font-family: acm;
+        color: #333;
+        font-weight: 600;
+        z-index: 2;
+        background-color: #f0f8ff00;
+
+        &:focus~.placeHolder,
+        &:valid~.placeHolder {
+            left: 0;
+            top: -10px;
+            color: #015a54;
+            font-size: 12px;
+        }
+    }
+
+    .placeHolder {
+        position: absolute;
+        left: 45px;
+        font-size: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #90cdc9;
+        font-weight: 600;
+        transition: .5s;
+        z-index: 1;
+    }
+}
+
+.forgotBtn {
+    text-decoration: none;
+    font-weight: 600;
+    font-family: acm;
+}

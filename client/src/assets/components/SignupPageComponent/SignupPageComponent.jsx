@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { EmailChecker, PhoneChecker } from '../REGEX/Regex';
 import baseURL from '../../baseURL';
 import { Spinner } from 'react-bootstrap';
-import swal from 'sweetalert';
 import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { showMessage } from '../../functions';
@@ -144,79 +143,6 @@ function SignupPageComponent() {
     return (
         <>
             <section className={style.form_page_container}>
-                {/* <div className="sign-up">
-
-                    <img src="/general_images/logo.png" alt="" />
-                    <div className="form-container">
-
-                        <h2 className="form-title">signup</h2>
-
-                        <div className="form">
-
-                            <div className="inputBox">
-
-                                <input type="text"
-                                    required
-                                    value={username}
-                                    onChange={e => setUsername(e.target.value)}
-                                /><i>Username</i>
-
-                            </div>
-
-                            <div className="inputBox">
-
-                                <input type="text"
-                                    required
-                                    value={emailOrPhone}
-                                    onChange={(e) => setEmailOrPhone(e.target.value)}
-                                /><i>Email / phone number</i>
-                            </div>
-
-                            <div className="inputBox">
-
-                                <input
-                                    type="password"
-                                    required
-                                    value={userPass}
-                                    onChange={e => setUserPass(e.target.value)}
-                                    minLength={6}
-                                /> <i>Password</i>
-
-                            </div>
-
-                            <div className="inputBox">
-
-                                <input
-                                    type="password"
-                                    required
-                                    value={userConfirmPass}
-                                    onChange={e => setUserConfirmPass(e.target.value)}
-                                    minLength={6}
-                                /> <i>Reenter Password</i>
-
-                            </div>
-
-
-                            <div className="links"><Link to={"/login"} className='login-link'>Login</Link>
-
-                            </div>
-
-                            <div className="inputBox">
-
-                                <button
-                                    className='form-btn'
-                                    onClick={FormChecker}
-                                >
-                                    {!formFlag ? "continue" : <Spinner animation="grow" variant="dark" />}
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div> */}
                 <div className={style.form_bg_container}>
                     <div className={style.text_container}>
                         <img src="/general_images/logo.png" alt="logo" className={style.logo} />
@@ -273,7 +199,7 @@ function SignupPageComponent() {
                         </div>
                     </div>
                     <button className={style.formBtn} onClick={FormChecker}>
-                    {!formFlag ? "continue" : <Spinner animation="grow" variant="light" />}
+                        {!formFlag ? "continue" : <Spinner animation="grow" variant="light" />}
                     </button>
                     <p className={style.question}>Already have an account? <Link to="/login">login</Link></p>
                 </div>

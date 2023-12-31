@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom"
-import "./LoginPageSection.css"
+import style from "./../SignupPageComponent/SignupPageComponent.module.scss"
+import _style from "./LoginPageComponent.module.scss"
 import { useEffect, useState, useContext } from "react"
 import { EmailChecker, PhoneChecker } from "../REGEX/Regex"
 import baseURL from "../../baseURL"
 import AuthContext from "../Context/AuthContext"
 import { Spinner } from "react-bootstrap"
 import { showMessage } from "../../functions"
-// import { useState } from "react"
+import { CgEditBlackPoint } from "react-icons/cg"
+import { IoIosLock } from "react-icons/io"
+import { FaTelegramPlane } from "react-icons/fa"
 
 function LoginPageComponent() {
 
@@ -20,8 +23,6 @@ function LoginPageComponent() {
     const [userPhone, setUserPhone] = useState("")
     const [emailOrPhone, setEmailOrPhone] = useState("")
     const [showModal, setShowModal] = useState(false)
-
-    // const squaresArray = Array.from(Array(260).keys())
 
     const navigate = useNavigate()
     const authContext = useContext(AuthContext)
@@ -139,61 +140,57 @@ function LoginPageComponent() {
 
     return (
         <>
-            <section className="login-signup-page-container">
+            <section className={style.form_page_container}>
 
-                {/* {
-                    squaresArray.map((sq, i) => (
-                        <span key={i} className="bg-square"></span>
-                    ))
-                } */}
-
-                <div className="login-form-wrapper">
-
-                    <img src="./../../../../public/general_images/logo.png" alt="logo" />
-                    <div className="login-form-content">
-
-                        <h2 className="form-title">Login</h2>
-
-                        <div className="login-way-box">
-                            <span>with</span>
-                            <div className={`login-ways ${loginWay ? "otp" : "pass"}`}>
-                                <span className={`login-option ${!loginWay && "active"}`} onClick={() => setLoginWay(0)}>password</span>
-                                <span className={`login-option ${loginWay && "active"}`} onClick={() => setLoginWay(1)}>OTP</span>
-                            </div>
-                        </div>
-                        <div className="login-form">
-
-                            <div className={`inputBox ${loginWay && "move-input"}`}>
-
-                                <input type="text" required value={emailOrPhone} onChange={e => setEmailOrPhone(e.target.value)} /> <i>Email / Phone number</i>
-
-                            </div>
-
-                            {<div className={`inputBox ${loginWay && "hide-input"}`}>
-
-                                <input type="password" required value={userPass} onChange={e => setUserPass(e.target.value)} /> <i>Password</i>
-
-                            </div>}
-
-                            <div className="links"> <Link to="/forgot-pass" className="forget-btn">Forgot Password</Link> <Link to="/sign-up">Signup</Link>
-
-                            </div>
-
-                            <div className="inputBox">
-
-                                <button
-                                    className="form-btn"
-                                    onClick={FormChecker}
-                                >
-                                    {loginWay ? "Send OTP" : "Login"}
-                                </button>
-
-                            </div>
-
-                        </div>
-
+                <div className={style.form_bg_container}>
+                    <div className={style.text_container}>
+                        <img src="/general_images/logo.png" alt="logo" className={style.logo} />
+                        <h1 className={style.softland}>Soft Land</h1>
+                        <p className={style.info_text}>
+                            Please pay attention to the following points:
+                        </p>
+                        <ul className={style.rules_list}>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> Password must have at least 6 characters</li>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> Enter your valid email or phone number</li>
+                            <li className={style.ruleItem}><CgEditBlackPoint /> A verification code will be sent to your email/mobile phone</li>
+                        </ul>
                     </div>
-
+                </div>
+                <div className={style.form_container}>
+                    <strong className={style.form_title}>
+                        Login
+                    </strong>
+                    <div className={_style.login_way_box}>
+                        <span>with</span>
+                        <div className={`${_style.login_ways} ${loginWay ? _style.otp : _style.pass}`}>
+                            <span className={`${_style.login_option} ${!loginWay && _style.active}`} onClick={() => setLoginWay(0)}>password</span>
+                            <span className={`${_style.login_option} ${loginWay && _style.active}`} onClick={() => setLoginWay(1)}>OTP</span>
+                        </div>
+                    </div>
+                    <div className={style.form_items}>
+                        <div className={`${_style.inputBox} ${loginWay && _style.move_input}`}>
+                            <FaTelegramPlane />
+                            <input type="text"
+                                required
+                                value={emailOrPhone}
+                                onChange={(e) => setEmailOrPhone(e.target.value)}
+                            /><i className={_style.placeHolder}>Email / phone number</i>
+                        </div>
+                        <div className={`${_style.inputBox} ${loginWay && _style.hide_input}`}>
+                            <IoIosLock />
+                            <input type="password"
+                                required
+                                value={userPass}
+                                onChange={(e) => setUserPass(e.target.value)}
+                                minLength={6}
+                            /><i className={_style.placeHolder}>Password</i>
+                        </div>
+                    </div>
+                    <button className={style.formBtn} onClick={FormChecker}>
+                        {loginWay ? "Send OTP" : "Login"}
+                    </button>
+                    <p className={style.question}>{"Don't have an account?"} <Link to="/sign-up">signup</Link></p>
+                    <Link to="/forgot-pass" className={_style.forgotBtn}>Forgot Password</Link>
                 </div>
 
                 {showModal && <div className="otp-modal-bg">
