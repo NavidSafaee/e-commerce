@@ -67,7 +67,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Tickets & Comments</h3>
           <ul className="sidebarList">
-            <Link to="/admin-panel/customerOrders" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/tickets" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <DynamicFeedIcon className="sidebarIcon" />
                 Tickets
