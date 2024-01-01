@@ -1,12 +1,20 @@
 .chart {
-    margin: 20px;
-    padding: 20px;
-    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
-    background-color: #eafdfa;
-    width: 95%;
-
+  margin: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: #eafdfa;
+  background: rgb(243, 234, 218);
+  background: linear-gradient(
+    90deg,
+    rgba(243, 234, 218, 1) 0%,
+    rgba(6, 169, 157, 0.6166841736694677) 50%,
+    rgba(243, 234, 218, 1) 100%
+  );
+  width: 95%;
+  width: 97%;
 }
 
 .chartTitle {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
 }
