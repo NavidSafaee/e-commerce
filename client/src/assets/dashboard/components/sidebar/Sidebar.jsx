@@ -75,10 +75,10 @@ export default function Sidebar() {
             </Link>
            
 
-            <Link to="/admin-panel/CustomerOrders" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/newProduct" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <ChatBubbleOutlineIcon className="sidebarIcon" />
-                CustomerOrders
+                Orders
               </li>
             </Link>
 

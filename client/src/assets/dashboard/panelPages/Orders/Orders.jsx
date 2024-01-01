@@ -110,7 +110,7 @@ export default function Orders() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/product/${params.row.id}`} className="link">
+            <Link to={`/admin-panel/product/${params.row.id}`} className="link">
               <button className="disabled" disabled>
                 Add Product
               </button>

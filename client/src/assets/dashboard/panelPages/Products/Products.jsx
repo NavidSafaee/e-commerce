@@ -65,7 +65,7 @@ export default function Products() {
 
         return (
           <>
-            <Link to={`/productInfo/${params.row.id}`} className="link">
+            <Link to={`/admin-panel/productInfo/${params.row.id}`} className="link">
               <button className="userListEdit">Edit</button>
             </Link>
 

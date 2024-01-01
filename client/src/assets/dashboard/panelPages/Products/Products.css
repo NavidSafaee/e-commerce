@@ -101,6 +101,7 @@
 
 
   .DataGridTable {
+    background-color: #eafdfa;
     width: 100%;
     /* width: fit-content; */
   }
@@ -115,7 +116,8 @@
     padding: 0;
     width: 100%;
     /* text-align: center; */
-    padding: 5px 20px ;
+    /* padding: 5px 20px ; */
+    /* background-color: red; */
   }
   .MuiDataGrid-main {
     background-color: #eafdfa;
@@ -125,6 +127,7 @@
     border: 1px solid black;
   }
   .MuiDataGrid-cell {
+    /* background-color: rebeccapurple; */
     border-top: 1px;
     border-left: 0px;
     border-style: solid;
