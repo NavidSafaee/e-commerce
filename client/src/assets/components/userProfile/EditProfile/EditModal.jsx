@@ -23,32 +23,32 @@ function EditModal({ onHandleModal, modalType, default_value }) {
                 })
         } else {
 
-            let req_body = { ModalType: inputValue }
+            let req_body = { "username": inputValue }
 
             console.log(req_body)
-            // fetch(`${baseURL}/users/me`, {
-            //     method: "PATCH",
-            //     headers: {
-            //         Authorization: `Bearer ${userToken.accessToken}`,
-            //         "Content-type": "application/json"
-            //     },
-            //     body: JSON.stringify(req_body)
-            // })
-            //     .then(res => {
-            //         if (res.ok) {
-            //             return res.json()
-            //         }
-            //     })
-            //     .then(data => {
-            //         showMessage({
-            //             title: "Great",
-            //             text: "Your account updated successfully!",
-            //             icon: "success",
-            //             timer: 5000,
-            //         })
-            //         authContext.login(data, userToken.accessToken, userToken.refreshToken)
-            //         onHandleModal(false)
-            //     })
+            fetch(`${baseURL}/users/me`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${userToken.accessToken}`,
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(req_body)
+            })
+                .then(res => {
+                    if (res.ok) {
+                        return res.json()
+                    }
+                })
+                .then(data => {
+                    showMessage({
+                        title: "Great",
+                        text: "Your account updated successfully!",
+                        icon: "success",
+                        timer: 5000,
+                    })
+                    authContext.login(data, userToken.accessToken, userToken.refreshToken)
+                    onHandleModal(false)
+                })
         }
     }
 
