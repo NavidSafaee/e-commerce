@@ -26,11 +26,11 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    maxQuantityAllowedInCart: Number,
-    rate: Number,
-    status: String,
-    discount: Number,
-    discountExpiration: Date
+    discount: {
+        percentage: { type: Number, default: 0 },
+        expirationDate: Date
+    },
+    maxQuantityAllowedInCart: Number
 });
 
 productSchema.methods.restrictInfo = function () {

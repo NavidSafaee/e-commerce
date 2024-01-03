@@ -2,11 +2,10 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const Cart = require('../models/cartModel');
 
-async function createCheckoutSessionId(userId) {
+async function createCheckoutSessionId(userId, discount) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
-
-    // console.log(cart.items);
-
+    discount = discount || 0;
+    
     const lineItems = cart.items.map(item => ({
         price_data: {
             currency: 'usd',
@@ -14,12 +13,10 @@ async function createCheckoutSessionId(userId) {
                 name: item.product.title,
                 images: [item.product.imageUrls[0]]
             },
-            unit_amount: item.product.price * 100
+            unit_amount: item.product.price * (1 - discount) * 100
         },
         quantity: item.quantity
     }));
-
-    console.log('nasirrrrr', lineItems[0].price_data.product_data);
 
     const session = await stripe.checkout.sessions.create({
         mode: 'payment',
@@ -29,7 +26,6 @@ async function createCheckoutSessionId(userId) {
         cancel_url: `http://localhost:5173/checkout/cancel`
     });
 
-    // console.log(session);
 
     return { id: session.id };
 }

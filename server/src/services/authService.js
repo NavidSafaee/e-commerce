@@ -284,7 +284,7 @@ async function verifyEmail(email) {
 
 async function verifyPhoneNumber(phoneNumber) {
     const OTP = await generateOTP(phoneNumber);
-    sendSms(process.env.SMS_TEXT_ID, phoneNumber, OTP);
+    sendSms(+process.env.SMS_TEXT_ID, phoneNumber, OTP);
 }
 
 async function generateOTP(contactInfo) {

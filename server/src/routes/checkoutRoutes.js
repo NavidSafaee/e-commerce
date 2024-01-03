@@ -5,7 +5,7 @@ const { isAuth, isAdmin, isCustomer } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/sessionId', isAuth, isCustomer, httpCreateCheckoutSessionId);
+router.post('/sessionId', isAuth, isCustomer, httpCreateCheckoutSessionId);
 
 
 module.exports = router;
