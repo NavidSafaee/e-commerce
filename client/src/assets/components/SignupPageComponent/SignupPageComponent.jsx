@@ -214,6 +214,7 @@ function SignupPageComponent() {
                             onChange={e => setUserOTP(e.target.value)}
                             maxLength={6}
                             minLength={6}
+                            onKeyDown={e => {if (e.code === "Enter") {OPTSender()}}}
                         />
                         <button
                             className={`${style.otp_verification_btn} ${(userOTP.length == 6) && style.otp_active_btn}`}
