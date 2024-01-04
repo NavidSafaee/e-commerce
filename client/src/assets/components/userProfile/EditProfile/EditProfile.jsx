@@ -39,7 +39,7 @@ function EditProfile() {
 
   return (
     <section className={style.profileMainSection}>
-      {showModal && <EditModal onHandleModal={ModalCloser} modalType={modalType} default_value={default_value}/>}
+      {showModal && <EditModal ModalCloser={ModalCloser} modalType={modalType} default_value={default_value}/>}
       <div className={style.filedsWrapper}>
         <div className={style.editItem}>
           <div className={style.contentSide}>
@@ -59,7 +59,7 @@ function EditProfile() {
         <div className={style.editItem}>
           <div className={style.contentSide}>
             {authContext.userInfo.phoneNumber ? <Tooltip title="verified" placement="right" TransitionComponent={Zoom}><b className={style.boxTitle}>Phone number <MdVerified /></b></Tooltip> : <b className={style.boxTitle}>Phone number</b>}
-            <span className={style.boxValue}>{authContext.userInfo.phoneNumber ? authContext.userInfo.phoneNumber : "---"}</span>
+            <span className={style.boxValue}>{userInfo.phoneNumber ? userInfo.phoneNumber : "---"}</span>
           </div>
           <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("phoneNumber"); setDefault_value(userInfo.phoneNumber)}}/>
           {!authContext.userInfo.phoneNumber ? <Tooltip title="Please fill in this field" placement="top" TransitionComponent={Zoom}><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
@@ -67,10 +67,10 @@ function EditProfile() {
         <div className={style.editItem}>
           <div className={style.contentSide}>
             <b className={style.boxTitle}>Date of birth</b>
-            <span className={style.boxValue}>{authContext.userInfo.birthday ? authContext.userInfo.birthday : "---"}</span>
+            <span className={style.boxValue}>{userInfo.birthDate ? userInfo.birthDate.slice(0, 10) : "---"}</span>
           </div>
-          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("birthday"); setDefault_value(userInfo.birthday)}}/>
-          {!authContext.userInfo.birthday ? <Tooltip title="Please fill in this field" placement="top" TransitionComponent={Zoom}><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("birthday"); setDefault_value(userInfo.birthDate)}}/>
+          {!authContext.userInfo.birthDate ? <Tooltip title="Please fill in this field" placement="top" TransitionComponent={Zoom}><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
         </div>
         <div className={style.editItem}>
           <div className={style.contentSide}>
@@ -82,7 +82,7 @@ function EditProfile() {
         <div className={style.editItem}>
           <div className={style.contentSide}>
             <b className={style.boxTitle}>Address</b>
-            <span className={style.boxValue}>{authContext.userInfo.address ? authContext.userInfo.address : "---"}</span>
+            <span className={style.boxValue}>{userInfo.address ? userInfo.address : "---"}</span>
           </div>
           <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("address"); setDefault_value(userInfo.address)}}/>
           {!authContext.userInfo.address ? <Tooltip title="Please fill in this field" placement="top"><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
