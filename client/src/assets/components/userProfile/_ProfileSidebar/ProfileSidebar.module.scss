@@ -1,12 +1,12 @@
 .sidebar {
     width: 300px;
-    height: 80vh;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     background: linear-gradient(20deg, #006953, #06a99d);
-    padding-top: 40px;
+    padding-block: 40px;
     border-radius: 12px;
     color: #fff;
 
