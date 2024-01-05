@@ -35,7 +35,7 @@ function ShoppingCart() {
                         return res.json()
                     }
                 })
-                .then(data => { setCartProducts(data); })
+                .then(data => { setCartProducts(data); console.log(data); })
         }
     }
 
@@ -90,10 +90,12 @@ function ShoppingCart() {
                                 cartProducts.map(item => (
                                     <Shopping_Cart_Item
                                         key={item.product._id}
+                                        id={item.product._id}
                                         img={item.product.imageUrl}
                                         title={item.product.title}
                                         rate={item.product.rate}
-                                        price={(item.product.newPrice) ? item.product.newPrice : item.product.price}
+                                        price={item.product.price}
+                                        quantity={item.quantity}
                                     />
                                 ))
                             }

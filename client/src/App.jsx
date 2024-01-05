@@ -3,9 +3,9 @@ import { useNavigate, useRoutes } from "react-router-dom"
 import mainRoutes from "./assets/Routes"
 import AuthContext from "./assets/components/Context/AuthContext";
 import './App.css';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import baseURL from "./assets/baseURL";
-import { isTokenExpired } from "./assets/functions";
+import { isTokenExpired, refreshTokenHandler } from "./assets/functions";
 import ScrollToTop from "./assets/components/ScrollToTop";
 
 function App() {
@@ -49,7 +49,7 @@ function App() {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
 
     if (userToken) {
-      if (isTokenExpired(userToken.accessToken)) {
+      if (isTokenExpired(userToken?.accessToken)) {
         refreshTokenHandler()
           .then(userToken => {
             getMe(userToken);
@@ -60,21 +60,6 @@ function App() {
     }
   }, [])
 
-  const refreshTokenHandler = useCallback(() => {
-    const userToken = JSON.parse(localStorage.getItem("userToken"))
-    if (userToken.refreshToken) {
-      return fetch(`${baseURL}/auth/refresh-token`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({ token: userToken.refreshToken })
-      })
-        .then(res => {
-          return res.json()
-        })
-    }
-  }, [])
 
   const logout = async () => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
