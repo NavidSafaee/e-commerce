@@ -2,6 +2,7 @@ import style from "./HeroSection.module.scss"
 import Typewriter from 'typewriter-effect'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Link } from "react-router-dom"
 
 // Import Swiper styles
 import 'swiper/css';
@@ -38,6 +39,10 @@ function HeroSection() {
                                 deleteSpeed: 10
                             }}
                         />
+                    </div>
+                    <div className={style.btn_box}>
+                        <Link to={"/"} className={style.btn}>Shop now</Link>
+                        <Link to={"/soft-land-plus"} className={style.btn}>SoftLand plus+</Link>
                     </div>
                 </div>
                 <div className={style.swiperWrapper}>
