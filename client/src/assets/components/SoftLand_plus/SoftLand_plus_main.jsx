@@ -3,21 +3,26 @@ import st from "./SoftLand_plus_main.module.scss"
 import { Link } from "react-router-dom"
 import { IoSnow } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
+import { GiSnowman } from "react-icons/gi";
+import { TbWorldPin } from "react-icons/tb";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import store from "./models.json"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 function SoftLand_plus_main() {
 
     AOS.init({
-        offset: 250,
-        duration: 500
+        duration: 500,
+        offset: 10
     })
 
     const randomPosition = () => {
+        let delay = Math.floor((Math.random() * 10000) + 1000)
         let left = Math.floor(Math.random() * window.innerWidth)
-        let top = Math.floor(Math.random() * window.innerHeight - 50)
-        let opacity = Math.random() * .5 + .5
-        return { left, top, opacity }
+        let top = Math.floor(Math.random() * window.innerHeight / 2 - 50)
+        let fontSize = Math.floor(Math.random() * 20 + 10)
+        return { left, top, animationDelay: `${delay}ms`, fontSize }
     }
 
     return (
@@ -29,7 +34,7 @@ function SoftLand_plus_main() {
                 </nav>
                 <div className={st.hero_section}>
                     {
-                        Array.from(Array(20).keys()).map((item, i) => (
+                        Array.from(Array(100).keys()).map((item, i) => (
                             <IoSnow key={i} className={st.snow} style={randomPosition()} />
                         ))
                     }
@@ -58,11 +63,56 @@ function SoftLand_plus_main() {
                     </div>
                     <div className={st.ring1}></div>
                     <div className={st.ring2}></div>
-                    <div className={st.ring3}></div>
+                    <IoSnow className={st.snow} />
+                    <GiSnowman className={st.snowman} />
                 </article>
                 <div className={st.gallery}>
-                <div className="sketchfab-embed-wrapper" style={{width: 700}}> <iframe style={{width: 500, height: 300, borderRadius: 20}} title="Victorian Sofa Set" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/3d-models/the-great-drawing-room-feb9ad17e042418c8e759b81e3b2e5d7/embed"> </iframe> </div>
-                <div className="sketchfab-embed-wrapper" style={{width: 700}}> <iframe style={{width: 500, height: 300, borderRadius: 20}} title="Victorian Sofa Set" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/3d-models/home-sweet-home-8ba655c4bf2547cf9246efa865a54b3c/embed"> </iframe> </div>
+                    <h3 className={st.title}>Gallery</h3>
+                    <div className={st.items}>
+                    {
+                            store.products.map((item, i) => (
+                                <div className={st.gallery_item} key={i}>
+                                    <div className="sketchfab-embed-wrapper"> <iframe data-aos="zoom-out" style={{ width: 500, height: 300, borderRadius: 20 }} title={item.title} frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src={`https://sketchfab.com/${item.url}/embed`}> </iframe> </div>
+                                    <div className={st.product_details}>
+                                        <strong data-aos="fade-down" data-aos-delay="200" className={st.product_name}>{item.title}</strong>
+                                        <p data-aos="fade-down" data-aos-delay="500" className={st.product_description}>
+                                            {item.description}
+                                        </p>
+                                        <div data-aos="fade-down" data-aos-delay="800" className={st.option_box}>
+                                            <span className={st.option_label}><TbWorldPin /> Made in </span><b className={st.value}>{item.made}</b>
+                                        </div>
+                                        <div data-aos="fade-down" data-aos-delay="1000" className={st.option_box}>
+                                            <span className={st.option_label}><RiMoneyDollarCircleLine /> Price: </span><b className={st.value}>$ {item.fee}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+                <div className={st.gallery}>
+                    <h3 className={st.title}>Virtual Reality</h3>
+                    <div className={st.items}>
+                        {
+                            store.models.map((item, i) => (
+                                <div className={st.gallery_item} key={i}>
+                                    <div className="sketchfab-embed-wrapper"> <iframe data-aos="zoom-out" style={{ width: 500, height: 300, borderRadius: 20 }} title={item.title} frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src={`https://sketchfab.com/${item.url}/embed`}> </iframe> </div>
+                                    <div className={st.product_details}>
+                                        <strong data-aos="fade-down" data-aos-delay="200" className={st.product_name}>{item.title}</strong>
+                                        <p data-aos="fade-down" data-aos-delay="500" className={st.product_description}>
+                                            {item.description}
+                                        </p>
+                                        <div data-aos="fade-down" data-aos-delay="800" className={st.option_box}>
+                                            <span className={st.option_label}><TbWorldPin /> Made in </span><b className={st.value}>{item.made}</b>
+                                        </div>
+                                        <div data-aos="fade-down" data-aos-delay="1000" className={st.option_box}>
+                                            <span className={st.option_label}><RiMoneyDollarCircleLine /> Price: </span><b className={st.value}>$ {item.fee}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
             </section>
         </>

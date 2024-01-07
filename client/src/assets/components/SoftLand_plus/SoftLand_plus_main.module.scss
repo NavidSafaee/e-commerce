@@ -27,7 +27,7 @@
 
         .home_btn {
             text-decoration: none;
-            color: #f6f5f8;
+            color: #fff;
             position: absolute;
             right: 40px;
             top: 20px;
@@ -45,20 +45,27 @@
         .snow {
             position: absolute;
             color: #fff;
-            font-size: 40px;
-            animation: snow 4s infinite linear;
+            animation: snow 10s infinite linear;
+            opacity: 0;
+            cursor: grab;
 
+            &:hover {
+                animation-play-state: paused;
+            }
             @keyframes snow {
                 0% {
-                    transform: rotate(0) scale(1);
+                    transform: scale(1) translateY(0);
+                    opacity: 0;
                 }
 
-                50% {
-                    transform: rotate(70deg) scale(1.5);
+                20% {
+                    transform: scale(1.5) translateY(80px);
+                    opacity: 1;
                 }
 
                 100% {
-                    transform: rotate(180deg) scale(1);
+                    transform: scale(1) translateY(400px);
+                    opacity: 0;
                 }
             }
         }
@@ -159,69 +166,14 @@
         }
 
         .ring1 {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             border: 8px solid;
             position: absolute;
             right: -100px;
             top: 50px;
-            animation: anim1 8s infinite linear;
-
-            &:hover {
-                animation-play-state: paused;
-            }
-
-            @keyframes anim1 {
-                0% {
-                    top: 50px;
-                    border-color: #64e4dc;
-                    box-shadow: #64e4dc -4px 4px 10px, #64e4dc -4px -4px 10px, #64e4dc -4px 4px 10px, #64e4dc 4px -4px 10px;
-                    background-color: lighten($color: #64e4dc, $amount: 30%);
-                }
-
-                15% {
-                    top: 120px;
-                    border-color: #64e480;
-                    box-shadow: #64e480 -4px 4px 10px, #64e480 -4px -4px 10px, #64e480 -4px 4px 10px, #64e480 4px -4px 10px;
-                    background-color: lighten($color: #64e480, $amount: 30%);
-                }
-
-                30% {
-                    top: 220px;
-                    border-color: #e4e064;
-                    box-shadow: #e4e064 -4px 4px 10px, #e4e064 -4px -4px 10px, #e4e064 -4px 4px 10px, #e4e064 4px -4px 10px;
-                    background-color: lighten($color: #e4e064, $amount: 30%);
-                }
-
-                50% {
-                    top: 300px;
-                    border-color: #ffb514;
-                    box-shadow: #ffb514 -4px 4px 10px, #ffb514 -4px -4px 10px, #ffb514 -4px 4px 10px, #ffb514 4px -4px 10px;
-                    background-color: lighten($color: #ffb514, $amount: 30%);
-                }
-
-                70% {
-                    top: 200px;
-                    border-color: #ff7c11;
-                    box-shadow: #ff7c11 -4px 4px 10px, #ff7c11 -4px -4px 10px, #ff7c11 -4px 4px 10px, #ff7c11 4px -4px 10px;
-                    background-color: lighten($color: #ff7c11, $amount: 30%);
-                }
-
-                80% {
-                    top: 150px;
-                    border-color: #c264e4;
-                    box-shadow: #c264e4 -4px 4px 10px, #c264e4 -4px -4px 10px, #c264e4 -4px 4px 10px, #c264e4 4px -4px 10px;
-                    background-color: lighten($color: #c264e4, $amount: 30%);
-                }
-
-                100% {
-                    top: 50px;
-                    border-color: #64e4dc;
-                    box-shadow: #64e4dc -4px 4px 10px, #64e4dc -4px -4px 10px, #64e4dc -4px 4px 10px, #64e4dc 4px -4px 10px;
-                    background-color: lighten($color: #64e4dc, $amount: 30%);
-                }
-            }
+            border: 5px solid var(--main-color);
         }
 
         .ring2 {
@@ -232,57 +184,121 @@
             right: unset;
             border-color: #ffb514;
             left: -100px;
-            animation-delay: 1s;
-            animation: anim2 6s infinite linear;
         }
-        @keyframes anim2 {
-            0% {
-                top: 300px;
-                border-color: #64e4dc;
-                box-shadow: #64e4dc -4px 4px 10px, #64e4dc -4px -4px 10px, #64e4dc -4px 4px 10px, #64e4dc 4px -4px 10px;
-                background-color: lighten($color: #64e4dc, $amount: 30%);
-            }
 
-            15% {
-                top: 350px;
-                border-color: #64e480;
-                box-shadow: #64e480 -4px 4px 10px, #64e480 -4px -4px 10px, #64e480 -4px 4px 10px, #64e480 4px -4px 10px;
-                background-color: lighten($color: #64e480, $amount: 30%);
-            }
+        .snow {
+            position: absolute;
+            right: 200px;
+            top: 60px;
+            font-size: 200px;
+            color: var(--main-color);
+            z-index: -1;
+            opacity: 0.4;
+            animation: rotation 5s infinite linear;
 
-            30% {
-                top: 300px;
-                border-color: #e4e064;
-                box-shadow: #e4e064 -4px 4px 10px, #e4e064 -4px -4px 10px, #e4e064 -4px 4px 10px, #e4e064 4px -4px 10px;
-                background-color: lighten($color: #e4e064, $amount: 30%);
+            @keyframes rotation {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(180deg)
+                }
             }
+        }
 
-            50% {
-                top: 220px;
-                border-color: #ffb514;
-                box-shadow: #ffb514 -4px 4px 10px, #ffb514 -4px -4px 10px, #ffb514 -4px 4px 10px, #ffb514 4px -4px 10px;
-                background-color: lighten($color: #ffb514, $amount: 30%);
-            }
+        .snowman {
+            @extend .snow;
+            animation: unset;
+            right: unset;
+            top: 400px;
+            left: 100px;
+            font-size: 200px;
+            color: #070057;
+            opacity: 0.3;
+        }
+    }
 
-            70% {
-                top: 150px;
-                border-color: #ff7c11;
-                box-shadow: #ff7c11 -4px 4px 10px, #ff7c11 -4px -4px 10px, #ff7c11 -4px 4px 10px, #ff7c11 4px -4px 10px;
-                background-color: lighten($color: #ff7c11, $amount: 30%);
-            }
+    .gallery {
+        @include flex();
+        flex-direction: column;
+        width: 100%;
+        min-height: 100px;
+        gap: 80px;
+        padding-top: 50px;
+        margin: 60px 0 100px 0;
 
-            80% {
-                top: 200px;
-                border-color: #c264e4;
-                box-shadow: #c264e4 -4px 4px 10px, #c264e4 -4px -4px 10px, #c264e4 -4px 4px 10px, #c264e4 4px -4px 10px;
-                background-color: lighten($color: #c264e4, $amount: 30%);
-            }
+        .title {
+            font-family: lemon;
+            font-size: 50px;
+            margin-bottom: 50px;
+        }
 
-            100% {
-                top: 300px;
-                border-color: #64e4dc;
-                box-shadow: #64e4dc -4px 4px 10px, #64e4dc -4px -4px 10px, #64e4dc -4px 4px 10px, #64e4dc 4px -4px 10px;
-                background-color: lighten($color: #64e4dc, $amount: 30%);
+        .items {
+            @include flex();
+            justify-content: flex-start;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100px;
+            gap: 200px;
+            
+            .gallery_item {
+                width: 1000px;
+                @include flex();
+                justify-content: space-between;
+                transform: translateX(-100px);
+                gap: 50px;
+
+                &:nth-child(even) {
+                    transform: translateX(100px);
+                    flex-direction: row-reverse;
+                    gap: 50px;
+                }
+
+                .product_details {
+                    width: 500px;
+                    @include flex();
+                    // align-items: flex-start;
+                    flex-direction: column;
+                    gap: 20px;
+
+                    .product_name {
+                        text-align: center;
+                        font-weight: 600;
+                        font-size: 30px;
+                        font-family: lemon;
+                        color: #03877f;
+                    }
+
+                    .product_description {
+                        width: 400px;
+                        text-align: center;
+                        font-family: acm;
+                        font-size: 18px;
+                        color: #555;
+                    }
+
+                    .option_box {
+                        @include flex();
+                        gap: 20px;
+
+                        .option_label {
+                            @include flex();
+                            gap: 5px;
+                            color: #555;
+                            font-family: acm;
+
+                            svg {
+                                font-size: 30px;
+                            }
+                        }
+
+                        .value {
+                            font-family: lemon;
+                            font-size: 20px;
+                            color: var(--main-color);
+                        }
+                    }
+                }
             }
         }
     }
