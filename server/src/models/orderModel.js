@@ -14,7 +14,8 @@ const orderSchema = new Schema({
         quantity: {
             type: Number,
             required: true
-        }
+        },
+        isInStock: Boolean
     }],
     isDelivered: Boolean,
     deliveryDate: {

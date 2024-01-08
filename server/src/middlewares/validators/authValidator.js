@@ -167,7 +167,8 @@ const resetPasswordValidator = [
 const contactValidator = [
     body().custom((value, { req }) => {
         const action = req.query.action;
-        if (action !== 'edit' && action !== 'login' && action !== 'signup') throw new Error('Bad Request');
+        if (action !== 'edit' && action !== 'login' && action !== 'signup') 
+            throw new Error('Please specify the action');
         return true;
     }),
 

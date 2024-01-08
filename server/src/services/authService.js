@@ -241,6 +241,11 @@ async function refreshToken(refreshToken) {
             throw error;
         }
 
+        // const accessTokens = user.tokens.map(tokenObj => tokenObj.accessToken);
+        // for (const accessToken of accessTokens) {
+        //     await revokeToken(accessToken);    
+        // }
+        
         user.tokens = [];
         await user.save();
 

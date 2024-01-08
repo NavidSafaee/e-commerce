@@ -19,6 +19,10 @@ const ticketSchema = new Schema({
                 type: Date,
                 required: true
             }
+        },
+        date: {
+            type: Date,
+            required: true,
         }
     }],
     status: {

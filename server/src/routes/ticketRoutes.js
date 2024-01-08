@@ -17,9 +17,9 @@ const router = express.Router();
 
 
 router.get('/me', isAuth, isCustomer, httpGetMyTickets);
-router.put('/me', isAuth, isCustomer, ticketChatValidator, httpSendTicket);
 router.get('/me/open', isAuth, isCustomer, httpGetMyOpenTicket);
 router.get('/me/resolved', isAuth, isCustomer, httpGetMyResolvedTicket);
+router.put('/me', isAuth, isCustomer, ticketChatValidator, httpSendTicket);
 router.put('/:ticketId/reply', isAuth, isAdmin, ticketChatValidator, httpReplyToTicket);
 router.patch('/:ticketId/resolved', isAuth, isAdmin, httpChangeTicketStatus);
 

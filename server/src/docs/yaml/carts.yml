@@ -109,7 +109,7 @@ paths:
         "403":
           $ref: '#/components/responses/forbidden'
 
-/carts/me/{productId}/quantity:
+/carts/me/items/{productId}/quantity:
   get:
     summary: Returns cart item quantity
     tags:
