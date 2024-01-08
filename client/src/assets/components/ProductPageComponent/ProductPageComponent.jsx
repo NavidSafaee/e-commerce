@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai"
 import { BiDollar } from 'react-icons/bi'
-import { MdOutlineContentCopy } from "react-icons/md";
+import { MdOutlineContentCopy } from "react-icons/md"
+import { MdCheckCircle } from "react-icons/md"
 import ComponentStyle from "./ProductPageComponent.module.scss"
 import { useContext, useEffect, useState } from "react"
 import baseURL from "../../baseURL"
@@ -9,6 +10,7 @@ import Rating from '@mui/material/Rating';
 import { useParams } from "react-router-dom"
 import { calcDiscountedPrice, isTokenExpired, refreshTokenHandler, showMessage } from "../../functions"
 import AuthContext from "../Context/AuthContext"
+import { EmailIcon, EmailShareButton, TelegramIcon, WhatsappIcon, WhatsappShareButton, RedditIcon, RedditShareButton, LinkedinIcon, LinkedinShareButton, TelegramShareButton } from "react-share"
 
 function ProductPageComponent() {
 
@@ -29,6 +31,7 @@ function ProductPageComponent() {
     const [commentFlag, setCommentFlag] = useState(false)
     const [myRate, setMyRate] = useState(0)
     const [isRated, setIsRated] = useState(false)
+    const [isCopied, setIsCopied] = useState(false)
     const { productId } = useParams()
 
     const authContext = useContext(AuthContext)
@@ -158,6 +161,14 @@ function ProductPageComponent() {
         }
     }, [commentFlag])
 
+    useEffect(() => {
+        if (isCopied) {
+            setTimeout(() => {
+                setIsCopied(false)
+            }, 2000)
+        }
+    }, [isCopied])
+
     return (
         <>
             <section className={ComponentStyle.ProductDetailSection}>
@@ -206,10 +217,27 @@ function ProductPageComponent() {
                                 <span className={ComponentStyle.review}>29 reviews</span>
                             </div>
                             <div className={ComponentStyle.share_box}>
-                                <h5>share this product</h5>
+                                <h5 className={ComponentStyle.title}>share this product</h5>
                                 <div className={ComponentStyle.url_box}>
-                                    <MdOutlineContentCopy />
-                                    <div className={ComponentStyle.url}>{document.URL}</div>
+                                    {isCopied ? <MdCheckCircle className={ComponentStyle.checked} /> : <MdOutlineContentCopy className={ComponentStyle.copy_icon} onClick={() => { navigator.clipboard.writeText(document.URL); setIsCopied(true) }} />}
+                                    <div className={`${ComponentStyle.url} ${isCopied && ComponentStyle.success}`}>{isCopied ? "Copied" : document.URL}</div>
+                                </div>
+                                <div className={ComponentStyle.social_icons}>
+                                    <TelegramShareButton url={document.URL}>
+                                        <TelegramIcon size={32} round={true}/>
+                                    </TelegramShareButton>
+                                    <EmailShareButton url={document.URL}>
+                                        <EmailIcon size={32} round={true}/>
+                                    </EmailShareButton>
+                                    <WhatsappShareButton url={document.URL}>
+                                        <WhatsappIcon size={32} round={true}/>
+                                    </WhatsappShareButton>
+                                    <LinkedinShareButton url={document.URL}>
+                                        <LinkedinIcon size={32} round={true}/>
+                                    </LinkedinShareButton>
+                                    <RedditShareButton url={document.URL}>
+                                        <RedditIcon size={32} round={true}/>
+                                    </RedditShareButton>
                                 </div>
                             </div>
                             <div className={ComponentStyle.description}>
