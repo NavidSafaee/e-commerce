@@ -116,8 +116,8 @@
         flex-direction: column;
         padding-block: 20px;
         border-radius: 10px;
-        box-shadow: 8px 8px 10px #99efe9, -8px 8px 10px #99efe9, 8px -8px 10px #99efe9, -8px -8px 10px #99efe9;
-        background-color: aliceblue;
+        box-shadow: 4px 4px 10px #e9fdfb, -4px 4px 10px #e9fdfb, 4px -4px 10px #e9fdfb, -4px -4px 10px #e9fdfb;
+        background-color: #ffffff;
         animation: showForm 1s linear;
 
         @keyframes showForm {
@@ -148,6 +148,7 @@
                 background-color: var(--main-color);
             }
         }
+
         .form_items {
             width: 100%;
             display: flex;
@@ -170,6 +171,7 @@
                 svg {
                     color: #0e7d75;
                 }
+
                 input {
                     width: 90%;
                     border-radius: 5px;
@@ -183,15 +185,17 @@
                     font-weight: 600;
                     z-index: 2;
                     background-color: #f0f8ff00;
+                    letter-spacing: 1px;
 
-                    &:focus ~ .placeHolder,
-                    &:valid ~ .placeHolder {
+                    &:focus~.placeHolder,
+                    &:valid~.placeHolder {
                         left: 0;
                         top: -10px;
                         color: #015a54;
                         font-size: 12px;
                     }
                 }
+
                 .placeHolder {
                     position: absolute;
                     left: 45px;
@@ -205,6 +209,7 @@
                 }
             }
         }
+
         .formBtn {
             width: 200px;
             border: none;
@@ -216,6 +221,7 @@
             padding: 5px 0;
             margin-top: 40px;
         }
+
         .question {
             color: #555;
             font-weight: 600;
@@ -225,6 +231,70 @@
 
             a {
                 text-decoration: none;
+            }
+        }
+    }
+
+    .otp_modal_bg {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #015a547f;
+        backdrop-filter: blur(10px);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .otp_modal {
+            width: 400px;
+            border-radius: 10px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            padding-block: 30px;
+            gap: 10px;
+
+            .otp_title {
+                font-family: acm;
+                font-size: 22px;
+                font-weight: 600;
+            }
+
+            .check_way_text {
+                color: #555;
+                font-family: acm;
+                font-weight: 500;
+            }
+
+            .otp_input {
+                border-radius: 5px;
+                padding: 5px;
+                outline: none;
+                border: 1px solid #c0c0c0;
+                text-align: center;
+                font-size: 20px;
+                color: #015a54;
+                font-family: acm;
+                font-weight: 600;
+                letter-spacing: 5px;
+            }
+
+            .otp_verification_btn {
+                width: 180px;
+                border-radius: 10px;
+                padding: 5px 10px;
+                border: none;
+                background-color: #015a54;
+                color: #fff;
+                font-weight: 600;
+                font-family: acm;
+                margin-top: 10px;
+                font-size: 18px;
             }
         }
     }

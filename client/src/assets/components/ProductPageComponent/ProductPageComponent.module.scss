@@ -140,6 +140,74 @@
                 }
             }
 
+            .share_box {
+                width: 100%;
+                background-color: #e9f0ef;
+                border-radius: 5px;
+                @include flex(column);
+                gap: 10px;
+                padding: 10px;
+
+                .title {
+                    font-family: acm;
+                }
+                .url_box {
+                    @include flex();
+                    gap: 10px;
+
+                    .copy_icon {
+                        cursor: pointer;
+                        color: #555;
+                        font-size: 30px;
+                    }
+                    .checked {
+                        color: #009b00;
+                        font-size: 30px;
+                    }
+                    .url {
+                        width: 300px;
+                        font-weight: 600;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        background-color: #fff;
+                        overflow-x: hidden;
+                        position: relative;
+                        color: #555;
+
+                        &.success {
+                            color: #009b00;
+                            font-weight: 700;
+                        }
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            right: 0;
+                            top: 0;
+                            bottom: 0;
+                            width: 100px;
+                            z-index: 1;
+                            height: 100%;
+                            border-radius: 0 5px 5px 0;
+                            background: linear-gradient(to left, #fff, #ffffffe9, #ffffff00);
+                        }
+                    }
+                }
+                .social_icons {
+                    @include flex();
+                    gap: 10px;
+                    width: 100%;
+
+                    svg {
+                        transition: .5s;
+                        cursor: pointer;
+
+                        &:hover {
+                            transform: scale(1.2);
+                        }
+                    }
+                }
+            }
+
             .description {
                 padding: 15px 0;
                 position: relative;
@@ -298,19 +366,6 @@
                 background: linear-gradient(45deg, #f3f3f3, #fffefb);
                 box-shadow: 7px -7px 22px #e2e2e2,
                     -7px 7px 22px #ffffff;
-                transform: translateX(-50px);
-
-                &.admin {
-                    transform: translateX(50px);
-                    background: #06a99d;
-                    box-shadow: -7px -7px 22px #e2e2e2,
-                    7px 7px 22px #ffffff;
-                    color: #fff;
-
-                    .bodyPart {
-                        color: #eee;
-                    }
-                }
 
                 .row1 {
                     width: 90%;
@@ -347,7 +402,7 @@
                 .bodyPart {
                     font-family: acm;
                     color: #777;
-                    font-size: 22px;
+                    font-size: 18px;
                     text-align: justify;
                     text-indent: 30px;
                 }

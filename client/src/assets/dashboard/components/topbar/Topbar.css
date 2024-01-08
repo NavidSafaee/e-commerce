@@ -6,9 +6,11 @@
 
 .topbar {
   background-color: #f3eada;
+  background-color: #fff;
   height: 100px;
   position: sticky;
   top: 0;
+ 
 }
 
 #logoSidebar {

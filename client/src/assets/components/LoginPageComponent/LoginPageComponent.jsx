@@ -193,23 +193,24 @@ function LoginPageComponent() {
                     <Link to="/forgot-pass" className={_style.forgotBtn}>Forgot Password</Link>
                 </div>
 
-                {showModal && <div className="otp-modal-bg">
-                    <div className="otp-modal">
-                        <img src="./../../../../public/general_images/otp_icon.png" alt="password-icon" />
-                        <span className='otp-title'>Enter OTP code</span>
-                        <p className='check-way-text'>Please check your {(userEmail !== undefined) ? "email" : "phone"}</p>
-                        <input className='otp-input'
+                {showModal && <div className={style.otp_modal_bg}>
+                    <div className={style.otp_modal}>
+                        <img src="/general_images/otp_icon.png" alt="password-icon" />
+                        <span className={style.otp_title}>Enter OTP code</span>
+                        <p className={style.check_way_text}>Please check your {(userEmail !== undefined) ? "email" : "phone"}</p>
+                        <input className={style.otp_input}
                             type="text"
                             value={userOTP}
                             onChange={e => setUserOTP(e.target.value)}
                             maxLength={6}
                             minLength={6}
+                            onKeyDown={e => {if (e.code === "Enter") {FormSender(1); setOTP_Flag(true)}}}
                         />
                         <button
-                            className={`otp-verification-btn ${(userOTP.length == 6) && "otp-active-btn"}`}
+                            className={`${style.otp_verification_btn} ${(userOTP.length == 6) && style.otp_active_btn}`}
                             onClick={() => { FormSender(1); setOTP_Flag(true) }}
                         >
-                            {!OTP_Flag ? "Verify OTP" : <Spinner animation="grow" variant="dark" />}
+                            {!OTP_Flag ? "Verify OTP" : <Spinner animation="grow" variant="light" />}
                         </button>
                     </div>
                 </div>}

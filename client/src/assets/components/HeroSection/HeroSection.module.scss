@@ -14,7 +14,7 @@
         justify-content: flex-start;
         padding-top: 50px;
         flex-direction: column;
-        gap: 10px;
+        gap: 20px;
 
         .mainTitle {
             margin-bottom: 20px;
@@ -32,6 +32,39 @@
             font-family: acm;
             font-size: 20px;
             color: #515151;
+        }
+
+        .btn_box {
+            margin-top: 20px;
+            width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+
+            .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 150px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                background-color: var(--main-color);
+                text-decoration: none;
+                color: #fff;
+                font-weight: 700;
+                font-size: 18px;
+                box-shadow: 2px 2px 10px #a9a9a9;
+                transition: .3s;
+
+                &:hover {
+                    box-shadow: 2px 2px 10px #016ce6, -2px -2px 10px #016ce6;
+                }
+
+                &:nth-child(2) {
+                    background: linear-gradient(20deg, #1f0165, #01e6d6);
+                }
+            }
         }
     }
 

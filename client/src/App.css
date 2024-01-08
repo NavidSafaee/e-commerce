@@ -14,6 +14,11 @@
   src: url('/font/Acme-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'lemon';
+  src: url('/font/Lemon-Regular.ttf') format('truetype');
+}
+
 body {
   width: 100%;
   overflow-x: hidden;
