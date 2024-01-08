@@ -49,7 +49,7 @@ function App() {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
 
     if (userToken) {
-      if (isTokenExpired(userToken?.accessToken)) {
+      if (isTokenExpired(userToken.accessToken)) {
         refreshTokenHandler()
           .then(userToken => {
             getMe(userToken);

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai"
 import { BiDollar } from 'react-icons/bi'
+import { MdOutlineContentCopy } from "react-icons/md";
 import ComponentStyle from "./ProductPageComponent.module.scss"
 import { useContext, useEffect, useState } from "react"
 import baseURL from "../../baseURL"
@@ -203,6 +204,13 @@ function ProductPageComponent() {
                                     }
                                 </div>}
                                 <span className={ComponentStyle.review}>29 reviews</span>
+                            </div>
+                            <div className={ComponentStyle.share_box}>
+                                <h5>share this product</h5>
+                                <div className={ComponentStyle.url_box}>
+                                    <MdOutlineContentCopy />
+                                    <div className={ComponentStyle.url}>{document.URL}</div>
+                                </div>
                             </div>
                             <div className={ComponentStyle.description}>
                                 Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
