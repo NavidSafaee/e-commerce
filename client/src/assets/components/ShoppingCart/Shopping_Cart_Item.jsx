@@ -9,9 +9,12 @@ import { Multiplier, isTokenExpired, refreshTokenHandler } from "../../functions
 import { Link } from "react-router-dom"
 import { FaTrashCan } from "react-icons/fa6";
 import AuthContext from "../Context/AuthContext"
-import { useContext } from "react"
+import { useContext, useState } from "react"
+import { Spinner } from "react-bootstrap"
 
-function Shopping_Cart_Item({ id, img, title, rate, price, quantity }) {
+function Shopping_Cart_Item({ id, img, title, rate, price, quantity, onChange }) {
+
+  const [buttonPending, setButtonPending] = useState(false)
 
   let coloredStars = Array.from(Array(rate).keys())
   let greyStars = Array.from(Array(5 - rate).keys())
@@ -26,19 +29,56 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity }) {
           changeQuantity(type)
         })
     } else {
+      if (type === "increase") {
+        setButtonPending(1)
+      } else {
+        setButtonPending(-1)
+      }
       fetch(`${baseURL}/carts/me/items/${id}/quantity?action=${type}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${userToken.accessToken}`
         }
       }).then(res => {
-        console.log(res)
+        if (res.ok) {
+          if (type === "increase") {
+            authContext.productsCountCalculator(1)
+          } else {
+            authContext.productsCountCalculator(-1)
+          }
+          setButtonPending(0)
+          onChange()
+        }
+      })
+    }
+  }
+
+  const productRemoveHandler = (id) => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"))
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler()
+        .then(token => {
+          authContext.writeTokenInStorage(token)
+          productRemoveHandler(id)
+        })
+    } else {
+      fetch(`${baseURL}/carts/me/items/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${userToken.accessToken}`
+        }
+      }).then(res => {
+        if (res.ok) {
+          console.log("4566666");
+          onChange()
+        }
       })
     }
   }
 
   return (
     <div className={styles.shopping_cart_item}>
+      <FaTrashCan className={styles.removeBtn} onClick={() => productRemoveHandler(id)}/>
       {/* <img src={`${baseURL}/public/${img}`} alt={title} crossOrigin='false' className={styles.image} /> */}
       <Link to={`/products/${id}`}><img className={styles.image} src="https://www.housingunits.co.uk/media/catalog/product/cache/60968cec045f20fb06ab5f7720001507/b/3/b3b902eece620811430206db7d3ac32c.jpg" alt="" /></Link>
       <div className={styles.product_detail}>
@@ -58,21 +98,33 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity }) {
           }
         </div>}
         <div className={styles.price_box}>$ {Multiplier(price, quantity)}</div>
-        <div className={styles.countBox}>
-          <button
-            className={styles.count_btn}
-            onClick={() => {quantity === 1 ? productRemoveHandler() : changeQuantity("decrease")}}
-          >
-            {quantity === 1 ? <FaTrashCan /> : <FaMinus />}
-          </button>
-          <input className={styles.count_show} disabled value={quantity} />
-          <button
-            className={`${styles.count_btn} ${quantity == 5 && styles.disabled}`}
-            disabled={quantity == 5}
-            onClick={() => changeQuantity("increase")}
-          >
-            <FaPlus />
-          </button>
+        <div className={styles.btnBox}>
+          {quantity ?
+            <div className={styles.countBox}>
+              <button
+                className={styles.count_btn}
+                onClick={() => { quantity === 1 ? productRemoveHandler(id) : changeQuantity("decrease") }}
+              >
+                {
+                  (buttonPending === -1) ? <Spinner animation="grow" variant="light" /> :
+                    (quantity === 1 && buttonPending !== -1) ? <FaTrashCan />
+                      :
+                      ((quantity > 1) && (buttonPending !== -1)) ? <FaMinus /> : null
+                }
+              </button>
+              <input className={styles.count_show} disabled value={quantity} />
+              <button
+                className={`${styles.count_btn} ${quantity == 5 && styles.disabled}`}
+                disabled={quantity == 5}
+                onClick={() => changeQuantity("increase")}
+              >
+                {(buttonPending === 1) && <Spinner animation="grow" variant="light" />}
+                {(buttonPending !== 1) && <FaPlus />}
+              </button>
+            </div>
+            :
+            null
+          }
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@
     background-color: var(--main-color);
     color: #fff;
     position: relative;
+    font-weight: 600;
 
     .left-text {
         font-weight: 600;
@@ -16,16 +17,12 @@
         cursor: default;
     }
 
-    .brand-box {
-        display: none;
-    }
-
     .account-box {
         position: absolute;
-        right: 70px;
+        right: 90px;
         width: 160px;
         background-color: #ffbf00;
-        padding: 6px 20px;
+        padding: 3px 10px;
         border-radius: 10px;
         display: flex;
         align-items: center;
@@ -36,10 +33,15 @@
         .username-container {
             cursor: pointer;
             font-weight: 700;
-            color: #fff;
+            font-family: lemon;
             font-size: 18px;
             letter-spacing: 1px;
+
+            a {
+                text-decoration: none;
+            }
         }
+
         .login-btn,
         .sign-up {
             transition: .4s;
@@ -55,39 +57,51 @@
 
     .cart_btn {
         cursor: pointer;
-        font-size: 22px;
+        font-size: 26px;
         color: #fff;
+        position: relative;
+        right: 10px;
+
+        &.shake {
+            animation: shake .6s linear;
+
+            @keyframes shake {
+                0% {
+                    transform: scale(1) rotate(0);
+                }
+
+                25% {
+                    transform: scale(1.2) rotate(10deg);
+                }
+
+                50% {
+                    transform: scale(1.5) rotate(0);
+                }
+
+                75% {
+                    transform: scale(1.2) rotate(-10deg);
+                }
+
+                100% {
+                    transform: scale(1) rotate(0);
+                }
+            }
+        }
     }
-}
 
-@media screen and (max-width: 670px) {
-    .top-strip {
-        padding: 0 20px;
-
-        .left-text {
-            display: none;
-        }
-
-        .brand-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-
-            img {
-                transform: scale(.8);
-            }
-
-            strong {
-                font-weight: 700;
-                font-size: 22px;
-                cursor: pointer;
-                color: #fff;
-            }
-        }
-
-        .account-box {
-            right: 20px;
-        }
+    .cart_badge {
+        position: absolute;
+        right: -10px;
+        top: 0;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: #ffe100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000c38;
+        font-size: 12px;
+        font-weight: 700;
     }
 }

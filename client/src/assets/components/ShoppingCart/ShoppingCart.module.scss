@@ -82,13 +82,13 @@
     .cart_body {
         @include flex();
         align-items: flex-start;
-        width: 80%;
+        width: 100%;
         gap: 10px;
         padding-top: 20px;
 
         .cart_list {
             @include flex(c);
-            width: 700px;
+            width: 800px;
             border: 2px solid #e1dede;
             border-radius: 20px;
 
@@ -100,13 +100,22 @@
                 padding-left: 30px;
                 gap: 30px;
                 border-bottom: 1px solid #e1dede;
+                position: relative;
+
+                .removeBtn {
+                    color: red;
+                    font-size: 20px;
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
+                    cursor: pointer;
+                }
 
                 .image {
                     width: 300px;
                     height: 220px;
                     object-fit: cover;
                     border-radius: 10px
-
                 }
 
                 .product_detail {
@@ -120,6 +129,7 @@
                         margin: 0;
                         font-weight: 700;
                         color: #333;
+                        text-align: center;
                     }
 
                     .rate_box {
@@ -146,9 +156,10 @@
 
                     .countBox {
                         @include flex();
+                        width: 90%;
 
                         .count_btn {
-                            width: 45px;
+                            width: 60px;
                             height: 45px;
                             border: none;
                             background-color: var(--main-color);
@@ -185,8 +196,7 @@
         }
 
         .checkout_box {
-            width: 30%;
-            // height: 300px;
+            width: 250px;
             position: sticky;
             top: 10px;
             gap: 10px;
@@ -252,14 +262,6 @@
 
                     .itemValue {
                         font-size: 18px;
-
-                        &.red {
-                            color: red;
-                        }
-
-                        &.green {
-                            color: green;
-                        }
 
                         &.finalValue {
                             font-size: 24px;

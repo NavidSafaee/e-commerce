@@ -98,7 +98,6 @@ function ProductPageComponent() {
                     },
                     body: JSON.stringify(req_body)
                 }).then(res => {
-                    console.log(res)
                     if (res.ok) {
                         showMessage({
                             title: "Thanks!! 😍",
@@ -123,14 +122,14 @@ function ProductPageComponent() {
         })
     }
 
-    const getProductQuantity = (id) => {
+    const getProductQuantityInCart = (id) => {
         const userToken = JSON.parse(localStorage.getItem("userToken"))
         if (userToken) {
             if (isTokenExpired(userToken?.accessToken)) {
                 refreshTokenHandler()
                     .then(token => {
                         authContext.writeTokenInStorage(token)
-                        getProductQuantity()
+                        getProductQuantityInCart(id)
                     })
             } else {
                 fetch(`${baseURL}/carts/me/items/${id}/quantity`, {
@@ -171,8 +170,10 @@ function ProductPageComponent() {
             }).then(res => {
                 if (res.ok) {
                     if (type === "increase") {
+                        authContext.productsCountCalculator(1)
                         setProductCountInCart(pre => pre + 1)
                     } else {
+                        authContext.productsCountCalculator(-1)
                         setProductCountInCart(pre => pre - 1)
                     }
                 }
@@ -218,7 +219,7 @@ function ProductPageComponent() {
 
     useEffect(() => {
         if (productInfo._id) {
-            getProductQuantity(productInfo._id)
+            getProductQuantityInCart(productInfo._id)
         }
     }, [productInfo])
 

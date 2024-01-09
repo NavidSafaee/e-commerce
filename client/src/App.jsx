@@ -11,6 +11,7 @@ import ScrollToTop from "./assets/components/ScrollToTop";
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [productsCountInCart, setProductsCountInCart] = useState(0)
   const [accessToken, setAccessToken] = useState(null)
   const [refreshToken, setRefreshToken] = useState(null)
   const [userInfo, setUserInfo] = useState({})
@@ -23,6 +24,18 @@ function App() {
     setAccessToken(token.accessToken)
     setRefreshToken(token.refreshToken)
     localStorage.setItem("userToken", JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken }))
+  }
+
+  const productsCountCalculator = inp => {  // inp can be a bipolar_number or an array
+    if (typeof inp == "number") {
+      setProductsCountInCart(sum => sum + inp)
+    } else {
+      let sum = 0
+      inp.map(item => {
+        sum += item.quantity
+      })
+      setProductsCountInCart(sum)
+    }
   }
 
   const login = (userInfo, accessToken, refreshToken) => {
@@ -95,12 +108,14 @@ function App() {
   return (
     <AuthContext.Provider value={{
       isLoggedIn,
+      productsCountInCart,
       accessToken,
       refreshToken,
       userInfo,
       login,
       logout,
-      writeTokenInStorage
+      writeTokenInStorage,
+      productsCountCalculator
     }}>
       <ScrollToTop />
       {router}
