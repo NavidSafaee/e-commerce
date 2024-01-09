@@ -90,7 +90,7 @@ function EditModal({ ModalCloser, modalType, default_value }) {
             refreshTokenHandler()
                 .then(token => {
                     authContext.writeTokenInStorage(token)
-                    editHandler()
+                    editHandler(obj)
                 })
         } else {
             fetch(`${baseURL}/users/me`, {

@@ -19,8 +19,11 @@ const isTokenExpired = (token) => {
 
 const calcDiscountedPrice = product => {
     if (product.discount) {
-        product.newPrice = (product.price * (1 - product.discount)).toFixed(2)
-        return product.newPrice
+        let newPrice = (product.price * (1 - product.discount)).toFixed(2)
+        if (newPrice == Math.floor(newPrice)) {
+            newPrice = Math.floor(newPrice)
+        }
+        return newPrice
     } else {
         return product.price
     }

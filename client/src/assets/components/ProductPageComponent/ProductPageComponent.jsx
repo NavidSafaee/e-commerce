@@ -11,6 +11,9 @@ import { useParams } from "react-router-dom"
 import { calcDiscountedPrice, isTokenExpired, refreshTokenHandler, showMessage } from "../../functions"
 import AuthContext from "../Context/AuthContext"
 import { EmailIcon, EmailShareButton, TelegramIcon, WhatsappIcon, WhatsappShareButton, RedditIcon, RedditShareButton, LinkedinIcon, LinkedinShareButton, TelegramShareButton } from "react-share"
+import { FaPlus, FaTrashCan } from "react-icons/fa6"
+import { FaMinus } from "react-icons/fa"
+import { Spinner } from "react-bootstrap"
 
 function ProductPageComponent() {
 
@@ -32,6 +35,8 @@ function ProductPageComponent() {
     const [myRate, setMyRate] = useState(0)
     const [isRated, setIsRated] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
+    const [productCountInCart, setProductCountInCart] = useState(0)
+    const [buttonPending, setButtonPending] = useState(false)
     const { productId } = useParams()
 
     const authContext = useContext(AuthContext)
@@ -59,6 +64,9 @@ function ProductPageComponent() {
                     }
                 }).then(res => {
                     console.log(res)
+                    if (res.ok) {
+                        setProductCountInCart(1)
+                    }
                 })
             }
         }
@@ -115,25 +123,84 @@ function ProductPageComponent() {
         })
     }
 
-    const getProductQuantity = () => {
+    const getProductQuantity = (id) => {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (userToken) {
+            if (isTokenExpired(userToken?.accessToken)) {
+                refreshTokenHandler()
+                    .then(token => {
+                        authContext.writeTokenInStorage(token)
+                        getProductQuantity()
+                    })
+            } else {
+                fetch(`${baseURL}/carts/me/items/${id}/quantity`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${userToken?.accessToken}`
+                    }
+                }).then(res => {
+                    return res.json()
+                }).then(data => {
+                    if (data.quantity) {
+                        setProductCountInCart(data.quantity)
+                    }
+                })
+            }
+        }
+    }
+
+    const changeQuantity = (type) => {
         const userToken = JSON.parse(localStorage.getItem("userToken"))
         if (isTokenExpired(userToken.accessToken)) {
             refreshTokenHandler()
                 .then(token => {
                     authContext.writeTokenInStorage(token)
-                    getProductQuantity()
+                    changeQuantity(type)
                 })
         } else {
-            fetch(`${baseURL}/carts/me/${productInfo._id}/quantity`, {
-                method: "GET",
+            if (type === "increase") {
+                setButtonPending(1)
+            } else {
+                setButtonPending(-1)
+            }
+            fetch(`${baseURL}/carts/me/items/${productInfo._id}/quantity?action=${type}`, {
+                method: "PUT",
                 headers: {
                     Authorization: `Bearer ${userToken.accessToken}`
                 }
             }).then(res => {
-                console.log(res)
+                if (res.ok) {
+                    if (type === "increase") {
+                        setProductCountInCart(pre => pre + 1)
+                    } else {
+                        setProductCountInCart(pre => pre - 1)
+                    }
+                }
+                setButtonPending(0)
             })
         }
+    }
 
+    const productRemoveHandler = (id) => {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (isTokenExpired(userToken.accessToken)) {
+            refreshTokenHandler()
+                .then(token => {
+                    authContext.writeTokenInStorage(token)
+                    productRemoveHandler(id)
+                })
+        } else {
+            fetch(`${baseURL}/carts/me/items/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${userToken.accessToken}`
+                }
+            }).then(res => {
+                if (res.ok) {
+                    setProductCountInCart(0)
+                }
+            })
+        }
     }
 
     useEffect(() => {
@@ -150,8 +217,8 @@ function ProductPageComponent() {
     }, [])
 
     useEffect(() => {
-        if (authContext?.isLoggedIn) {
-            getProductQuantity()
+        if (productInfo._id) {
+            getProductQuantity(productInfo._id)
         }
     }, [productInfo])
 
@@ -176,7 +243,7 @@ function ProductPageComponent() {
                     <div className={ComponentStyle.productPart}>
                         <div className={ComponentStyle.imagesWrapper}>
                             <div className={ComponentStyle.mainImgContainer}>
-                                {imageLoaded && productInfo.discount && <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span>}
+                                {imageLoaded && productInfo.discount ? <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span> : null}
                                 {imageLoaded ?
                                     // <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' onError={setImageLoaded(false)} />
                                     <img src={otherImages[mainImageIndex]} alt={productInfo?.title} onError={() => setImageLoaded(false)} />
@@ -193,7 +260,7 @@ function ProductPageComponent() {
                             </div>
                             {otherImages.length ? <div className={ComponentStyle.otherImages}>
                                 {otherImages.map((item, i) => (
-                                    <img src={otherImages[i]} key={i} onClick={() => setMainImageIndex(i)} alt="product" className={i == mainImageIndex && ComponentStyle.active} />
+                                    <img src={otherImages[i]} key={i} onClick={() => setMainImageIndex(i)} alt="product" className={i == mainImageIndex ? ComponentStyle.active : undefined} />
                                 ))}
                             </div> : null}
                         </div>
@@ -201,7 +268,7 @@ function ProductPageComponent() {
                             <h4 className={ComponentStyle.productCategory}>{productInfo?.category}</h4>
                             <h3 className={ComponentStyle.ProductTitle}>{productInfo?.title}</h3>
                             <div className={ComponentStyle.detailRow}>
-                                <span className={ComponentStyle.price}><BiDollar />{calcDiscountedPrice(productInfo)}</span>
+                                {productInfo?.title && <span className={ComponentStyle.price}><BiDollar />{calcDiscountedPrice(productInfo)}</span>}
                                 {rate && <div className={ComponentStyle.starsBox}>
                                     {
                                         Array.from(Array(productInfo.rate).keys())?.map((star, i) => (
@@ -214,29 +281,29 @@ function ProductPageComponent() {
                                         ))
                                     }
                                 </div>}
-                                <span className={ComponentStyle.review}>29 reviews</span>
+                                <span className={ComponentStyle.review}>29 reviews {productCountInCart}</span>
                             </div>
                             <div className={ComponentStyle.share_box}>
                                 <h5 className={ComponentStyle.title}>share this product</h5>
                                 <div className={ComponentStyle.url_box}>
                                     {isCopied ? <MdCheckCircle className={ComponentStyle.checked} /> : <MdOutlineContentCopy className={ComponentStyle.copy_icon} onClick={() => { navigator.clipboard.writeText(document.URL); setIsCopied(true) }} />}
-                                    <div className={`${ComponentStyle.url} ${isCopied && ComponentStyle.success}`}>{isCopied ? "Copied" : document.URL}</div>
+                                    <div className={`${ComponentStyle.url} ${isCopied ? ComponentStyle.success : undefined}`}>{isCopied ? "Copied" : document.URL}</div>
                                 </div>
                                 <div className={ComponentStyle.social_icons}>
                                     <TelegramShareButton url={document.URL}>
-                                        <TelegramIcon size={32} round={true}/>
+                                        <TelegramIcon size={32} round={true} />
                                     </TelegramShareButton>
                                     <EmailShareButton url={document.URL}>
-                                        <EmailIcon size={32} round={true}/>
+                                        <EmailIcon size={32} round={true} />
                                     </EmailShareButton>
                                     <WhatsappShareButton url={document.URL}>
-                                        <WhatsappIcon size={32} round={true}/>
+                                        <WhatsappIcon size={32} round={true} />
                                     </WhatsappShareButton>
                                     <LinkedinShareButton url={document.URL}>
-                                        <LinkedinIcon size={32} round={true}/>
+                                        <LinkedinIcon size={32} round={true} />
                                     </LinkedinShareButton>
                                     <RedditShareButton url={document.URL}>
-                                        <RedditIcon size={32} round={true}/>
+                                        <RedditIcon size={32} round={true} />
                                     </RedditShareButton>
                                 </div>
                             </div>
@@ -244,7 +311,31 @@ function ProductPageComponent() {
                                 Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
                             </div>
                             <div className={ComponentStyle.btnBox}>
-                                <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
+                                {!productCountInCart ?
+                                    <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
+                                    :
+                                    <div className={ComponentStyle.countBox}>
+                                        <button
+                                            className={ComponentStyle.count_btn}
+                                            onClick={() => { productCountInCart === 1 ? productRemoveHandler(productInfo._id) : changeQuantity("decrease") }}
+                                        >
+                                            {
+                                                (buttonPending === -1) ? <Spinner animation="grow" variant="light" /> :
+                                                    (productCountInCart === 1 && buttonPending !== -1) ? <FaTrashCan />
+                                                        :
+                                                        ((productCountInCart > 1) && (buttonPending !== -1)) ? <FaMinus /> : null
+                                            }
+                                        </button>
+                                        <input className={ComponentStyle.count_show} disabled value={productCountInCart} />
+                                        <button
+                                            className={`${ComponentStyle.count_btn} ${productCountInCart == 5 && ComponentStyle.disabled}`}
+                                            disabled={productCountInCart == 5}
+                                            onClick={() => changeQuantity("increase")}
+                                        >
+                                            {(buttonPending === 1) && <Spinner animation="grow" variant="light" />}
+                                            {(buttonPending !== 1) && <FaPlus />}
+                                        </button>
+                                    </div>}
                             </div>
                         </div>
                     </div>

@@ -151,6 +151,7 @@
                 .title {
                     font-family: acm;
                 }
+
                 .url_box {
                     @include flex();
                     gap: 10px;
@@ -160,10 +161,12 @@
                         color: #555;
                         font-size: 30px;
                     }
+
                     .checked {
                         color: #009b00;
                         font-size: 30px;
                     }
+
                     .url {
                         width: 300px;
                         font-weight: 600;
@@ -178,6 +181,7 @@
                             color: #009b00;
                             font-weight: 700;
                         }
+
                         &::after {
                             content: "";
                             position: absolute;
@@ -192,6 +196,7 @@
                         }
                     }
                 }
+
                 .social_icons {
                     @include flex();
                     gap: 10px;
@@ -261,6 +266,46 @@
                     color: #fff;
                     background: linear-gradient(30deg, #003500, #009b00);
                     background: var(--main-color);
+                }
+
+                .countBox {
+                    @include flex();
+                    width: 90%;
+
+                    .count_btn {
+                        @include flex();
+                        width: 60px;
+                        height: 45px;
+                        font-size: 24px;
+                        border: none;
+                        background-color: var(--main-color);
+                        color: #fff;
+
+                        &:nth-child(1) {
+                            border-radius: 5px 0 0 5px;
+                        }
+
+                        &:nth-child(3) {
+                            border-radius: 0 5px 5px 0;
+                        }
+
+                        &.disabled {
+                            opacity: .7;
+                            cursor: not-allowed;
+                        }
+                    }
+
+                    .count_show {
+                        width: 150px;
+                        height: 45px;
+                        background-color: #f1f0f0;
+                        text-align: center;
+                        outline: none;
+                        color: #333;
+                        font-weight: 700;
+                        font-size: 24px;
+                        font-family: acm;
+                    }
                 }
             }
         }

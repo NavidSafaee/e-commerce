@@ -26,7 +26,7 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity }) {
           changeQuantity(type)
         })
     } else {
-      fetch(`${baseURL}/carts/me/${id}/quantity?action=${type}`, {
+      fetch(`${baseURL}/carts/me/items/${id}/quantity?action=${type}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userToken.accessToken}`
