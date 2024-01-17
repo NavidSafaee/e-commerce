@@ -86,7 +86,7 @@ function ProductPageComponent() {
                 refreshTokenHandler()
                     .then(token => {
                         authContext.writeTokenInStorage(token)
-                        productAdder()
+                        sendComment()
                     })
             } else {
                 let req_body = { "review": userComment, "rating": myRate }

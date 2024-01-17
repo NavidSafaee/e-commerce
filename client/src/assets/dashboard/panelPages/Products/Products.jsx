@@ -1,112 +1,105 @@
-import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { products } from "../../datas";
 import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import "./Products.css";
+import st from "./Products.module.css";
 import SearchIcon from "@mui/icons-material/Search";
+import { useContext, useEffect, useState } from "react";
+import baseURL from "../../../baseURL";
+import {
+  calcDiscountedPrice,
+  isTokenExpired,
+  refreshTokenHandler,
+} from "../../../functions";
+import AuthContext from "../../../components/Context/AuthContext";
+import PreLoader from "../../../components/PreLoader/PreLoader";
 
 var productIdPage = null;
 
 export default function Products() {
-  const [productsData, setProductsData] = useState(products);
+  const authContext = useContext(AuthContext);
 
-  const productDelete = (productID) => {
-    setProductsData(productsData.filter((product) => product.id != productID));
+  const [isContentReady, setIsContentReady] = useState(false);
+  const [productsDatas, setProductsDatas] = useState([]);
+
+  const getAllProducts = () => {
+    // const userToken = JSON.parse(localStorage.getItem("userToken"));
+    // if (isTokenExpired(userToken.accessToken)) {
+    //   refreshTokenHandler().then((token) => {
+    //     authContext.writeTokenInStorage(token);
+    //     getAllProducts();
+    //   });
+    // } else {
+    fetch(`${baseURL}/products`, {
+      method: "GET",
+      // headers: {
+      //   Authorization: `Bearer ${userToken.accessToken}`,
+      // },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setProductsDatas(data.products);
+        setIsContentReady(true);
+      });
+    // }
   };
 
-  const columns = [
-    // {
-    //   field: "id",
-    //   headerName: "ID",
-    //   width: 90,
-    // },
-    {
-      field: "avatar",
-      headerName: "Avatar",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <Link to={`/productInfo/${params.row.id}`} className="link">
-            <div className="userListUser">
-              <img src={params.row.avatar} className="userListImg" />
-            </div>
-          </Link>
-        );
-      },
-    },
-    {
-      field: "title",
-      headerName: "Name",
-      width: 120,
-    },
-   
-    {
-      field: "price",
-      headerName: "Price",
-      width: 120,
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 180,
-    },
-    {
-      field: "received",
-      headerName: "Received",
-      width: 120,
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        productIdPage = params.row.id;
-
-        return (
-          <>
-            <Link to={`/admin-panel/productInfo/${params.row.id}`} className="link">
-              <button className="userListEdit">Edit</button>
-            </Link>
-
-            {/* <DeleteOutlineIcon
-              className="userListDelete"
-              onClick={() => productDelete(params.row.id)}
-            /> */}
-          </>
-        );
-      },
-    },
-  ];
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   return (
     <>
-      <div className="userList">
-        <div className="productNavigationBar">
-          <div className="categoryButtons">
-            <button className="categoryBtns">Sofa</button>
-            <button className="categoryBtns">chairLavender</button>
-            <button className="categoryBtns">cabinet Console</button>
-            <button className="categoryBtns">Ceiling</button>
-            <button className="categoryBtns">Lamp shades</button>
+      {!isContentReady && <PreLoader />}
+      {isContentReady && (
+        <div className={st.userList}>
+          <div className={st.productNavigationBar}>
+            <div className={st.categoryButtons}>
+              <button className={st.categoryBtns}>Sofa</button>
+              <button className={st.categoryBtns}>chairLavender</button>
+              <button className={st.categoryBtns}>cabinet Console</button>
+              <button className={st.categoryBtns}>Ceiling</button>
+              <button className={st.categoryBtns}>Lamp shades</button>
+            </div>
+            <div className={st.topbarSearchContainer}>
+              <input
+                type={st.text}
+                className={st.searchInputAdminPanel}
+                placeholder={st.Search}
+              />
+              <SearchIcon className={st.SearchIconAdmin} />
+            </div>
           </div>
-          <div className="topbarSearchContainer">
-            <input
-              type="text"
-              className="searchInputAdminPanel"
-              placeholder="Search"
-            />
-            <SearchIcon className="SearchIconAdmin" />
-          </div>
+
+          <table className={st.userListTable}>
+            <thead className={st.table_header}>
+              <th>id</th>
+              <th>title</th>
+              <th>category</th>
+              <th>price</th>
+              <th>rate</th>
+              <th>productImage</th>
+              <th>Discount</th>
+            </thead>
+            <tbody className={st.table_body}>
+              {productsDatas?.map((product, i) => (
+                <tr key={product._id}>
+                  <td>{i + 1}</td>
+                  <td>{product.title}</td>
+                  <td>{product.category}</td>
+                  <td>{calcDiscountedPrice(product)}</td>
+                  <td>{product.rate}</td>
+                  <td>
+                    <img src={product.imageUrl} alt="image " />
+                  </td>
+                  <td>{product.discount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <DataGrid className="DataGridTable"
-          rows={productsData}
-          columns={columns}
-          disableSelectionOnClick
-          pageSize={3}
-          // checkboxSelection
-        />
-      </div>
+      )}
     </>
   );
 }

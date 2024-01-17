@@ -132,3 +132,46 @@
   margin: 20px;
   object-fit: cover;
 }
+
+
+/* table styles  */
+
+.userListTable {
+  width: 100%;
+  background-color: #f9fffd;
+  animation: 0.5s linear show;
+}
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.userListTable .table_header th {
+  background-color: var(--main-color);
+  font-family: acm;
+  font-size: 22px;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-right: 3px solid #e5e5e5;
+}
+.userListTable .table_body tr {
+  border-top: 3px solid #fff;
+}
+.userListTable .table_body tr:hover {
+  background-color: #ecfffb;
+}
+.userListTable .table_body tr td {
+  font-family: acm;
+  font-size: 18px;
+  color: #555;
+  padding: 15px 0;
+  text-align: center;
+}
+.userListTable .table_body tr td:nth-child(1) {
+  background-color: var(--main-color);
+  color: #fff;
+} /*# sourceMappingURL=UserList.css.map */
