@@ -41,7 +41,7 @@ const mainRoutes = [
     { path: '/admin-panel/product/:productID', element: <Panel_main_page><Product /></Panel_main_page> },
     { path: '/admin-panel/user/:userID', element: <Panel_main_page><User /></Panel_main_page> },
     { path: '/admin-panel/ProductInfo/:productID', element: <Panel_main_page><ProductInfo /></Panel_main_page> },
-    { path: '/admin-panel/Orders', element: <Panel_main_page><Orders /></Panel_main_page> },
+    { path: '/admin-panel/customers/orders', element: <Panel_main_page><Orders /></Panel_main_page> },
 
     { path: "/login", element: <LoginPage /> },
     { path: "/sign-up", element: <SignupPage /> },

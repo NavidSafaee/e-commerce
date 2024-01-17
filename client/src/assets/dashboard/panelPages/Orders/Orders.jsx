@@ -1,205 +1,119 @@
-import { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { products } from "../../datas";
-import { Link } from "react-router-dom";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import "./Orders.css";
+import { useContext, useEffect, useState } from "react";
+import st from "./Orders.module.css";
+import PreLoader from "../../../components/PreLoader/PreLoader";
+import { isTokenExpired, refreshTokenHandler } from "../../../functions";
+import AuthContext from "../../../components/Context/AuthContext";
+import baseURL from "../../../baseURL";
 
 export default function Orders() {
 
+  const authContext = useContext(AuthContext)
+
   const [isContentReady, setIsContentReady] = useState(false)
-  const [productsData, setProductsData] = useState(products)
+  const [ordersData, setOrdersData] = useState([])
+  const [showModal, setShowModal] = useState(false)
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [BtnName, setBtnName] = useState("Create");
-  const [BtnColor, setBtnColor] = useState({ backgroundColor: "#06a99d" });
-
-  const productDelete = async (productID) => {
-    await setIsVisible(true);
-    setBtnName("Discord");
-    setBtnColor({ backgroundColor: "red" });
-    productsData.forEach((pro) => {
-      if (pro.id == productID) {
-        document.querySelector("#todo-input-title").value = pro.title;
-        document.querySelector("#todo-input-price").value = pro.price;
-        document.querySelector("#todo-input-date").value = pro.date;
-      }
-    });
-
-    setProductsData(productsData.filter((product) => product.id != productID));
-  }
-
-  const addTodo = (event) => {
-    event.preventDefault();
-    let productID;
-    productsData.forEach((pro) => {
-      if (pro.id === productsData.length + 1) {
-        productID = productsData.length + 2;
-      } else {
-        productID = productsData.length + 1;
-      }
-    });
-
-    const newPro = {
-      id: productID,
-      title: document.querySelector("#todo-input-title").value,
-      avatar: "images/acer.jpg",
-      price: document.querySelector("#todo-input-price").value,
-      date: document.querySelector("#todo-input-date").value,
-      received: true,
-    };
-
-    const newItems = [...productsData, newPro];
-    setProductsData(newItems);
-    document.querySelector("#todo-input-title").value = "";
-    document.querySelector("#todo-input-price").value = "";
-    document.querySelector("#todo-input-date").value = "";
-  }
-
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 90,
-    },
-    {
-      field: "producterN",
-      headerName: "producter-Name",
-      width: 150,
-    },
-    {
-      field: "re",
-      headerName: "Received",
-      width: 90,
-      renderCell: () => {
-        return (
-          <div id="chekingChekeBox">
-            <input
-              type="checkbox"
-              className="userListChecked"
-              onClick={(event) => check(event)}
-            />
-          </div>
-        );
-      },
-    },
-    {
-      field: "title",
-      headerName: "Name",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <Link to={`/product/${params.row.id}`} className="link">
-            <div className="userListUser">{params.row.title}</div>
-          </Link>
-        );
-      },
-    },
-    {
-      field: "price",
-      headerName: "Price",
-      width: 120,
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 120,
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/admin-panel/product/${params.row.id}`} className="link">
-              <button className="disabled" disabled>
-                Add Product
-              </button>
-            </Link>
-            <ModeEditIcon
-              className="userListDelete"
-              onClick={() => productDelete(params.row.id)}
-            />
-          </>
-        );
-      },
-    },
-  ]
-
-  const check = (event) => {
-
-    document.querySelectorAll(".disabled").forEach((btn) => {
-      if (
-        btn.getBoundingClientRect().top < event.clientY + 20 &&
-        btn.getBoundingClientRect().top > event.clientY - 20
-      ) {
-        btn.style.opacity = 1;
-        btn.disabled = false;
-      }
-    })
-  }
-
-  const createNewOrderDisplay = () => {
-    setIsVisible(!isVisible)
-    if (BtnName == "Create") {
-      setBtnName("Discord");
-      setBtnColor({ backgroundColor: "red" });
+  const getAllOrders = () => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"))
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler()
+        .then(token => {
+          authContext.writeTokenInStorage(token)
+          getAllOrders()
+        })
     } else {
-      setBtnName("Create");
-      setBtnColor({ backgroundColor: "#3bb077" });
+      fetch(`${baseURL}/orders/customer`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken.accessToken}`
+        }
+      }).then(res => res.json())
+        .then(data => { console.log(data); setOrdersData(data); setIsContentReady(true) })
     }
-  };
+  }
+
+  useEffect(() => {
+    getAllOrders()
+  }, [])
 
   return (
-    <div className="userList">
-      <div className="createBtn">
-        <button
-          id="productAddButton"
-          onClick={createNewOrderDisplay}
-          style={BtnColor}
-        >
-          {BtnName}
-        </button>
-      </div>
+    <>
+      {!isContentReady && <PreLoader />}
+      {
+        isContentReady &&
+        <div className={st.pageContentWrapper}>
 
-      {isVisible && (
-        <div className="OrderFormContainer">
-          <form onSubmit={addTodo} className="OrderForm">
-            <div className="formRightInputs">
-              <input
-                type="text"
-                id="todo-input-title"
-                maxLength="40"
-                placeholder="Enter products title"
-              />
-              <input
-                type="text"
-                id="todo-input-producterN"
-                placeholder="Enter producer name"
-              />
+          {showModal && <>
+            <div className={st.modal_bg}>
+              <form onSubmit={() => console.log(2)} className={st.OrderForm}>
+                <h2 className={st.form_title}>New product info</h2>
+                <div className={st.formInputsRow}>
+                  <input
+                    type="text"
+                    placeholder="Enter products title"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter producer name"
+                  />
+                </div>
+                <div className={st.formInputsRow}>
+                  <input
+                    type="number"
+                    placeholder="How many products have arrived?"
+                  />
+                  <input
+                    type="text"
+                    placeholder="product's price "
+                  />
+                </div>
+                <div className={st.formInputsRow}>
+                  <input type="date" />
+                </div>
+                <div className={st.formInputsRow}>
+                  <input className={st.submit_btn} value={"Done"} type="submit" />
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className={st.cancelBtn}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
-            <input
-              type="number"
-              id="todo-input-producterN"
-              placeholder="Enter  count"
-            />
-            <input
-              type="text"
-              id="todo-input-price"
-              maxLength="40"
-              placeholder="Enter the price "
-            />
-            <input type="date" id="todo-input-date" maxLength="40" />
-            <div className="formBtn">
-              <button className="todo-button" type="submit">
-                Done
-                <i className="fas fa-plus-square"></i>
-              </button>
-            </div>
-          </form>
+          </>}
+
+          <button
+            className={st.newOrderBtn}
+            onClick={() => setShowModal(true)}
+          >
+            Create new Order
+          </button>
+
+          <table className={st.userListTable}>
+            <thead className={st.table_header}>
+              <th>id</th>
+              <th>username</th>
+              <th>email</th>
+              <th>birthday</th>
+              <th>phone number</th>
+              <th>address</th>
+            </thead>
+            <tbody className={st.table_body}>
+              {ordersData?.map((user, i) => (
+                <tr key={user._id}>
+                  <td>{i + 1}</td>
+                  <td>{user.username}</td>
+                  <td>{user.email ? user.email : "---"}</td>
+                  <td>{user.birthDate ? user.birthDate.slice(0, 10) : "---"}</td>
+                  <td>{user.phoneNumber ? user.phoneNumber : "---"}</td>
+                  <td>{user.address ? user.address.slice(0, 40) : "---"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
-    </div>
+      }
+    </>
   )
 }
