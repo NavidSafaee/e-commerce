@@ -1,11 +1,8 @@
 .userList {
-  margin: 80px 0 0 280px;
-  background-color: #F3EADA;
+  padding-inline: 30px;
   min-height: 100vh;
   color: #000 ;
-
 }
-
 
 .userListEdit {
   border: none;

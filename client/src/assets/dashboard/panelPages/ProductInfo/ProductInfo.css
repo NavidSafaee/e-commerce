@@ -14,8 +14,6 @@
   .user {
     flex: 4;
     padding: 20px;
-    margin: 60px 0 0 280px;
-    background-color: #f3eada;
     min-height: 100vh;
   }
   
@@ -27,11 +25,7 @@
   
   .productTop {
     height: auto;
-    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px -3px 5px 0px #888888;
-  
-    background-color: #fff;
-    background-color: #e5fffb;
     background-color: #eafdfa;
   }
   .productTopRight {

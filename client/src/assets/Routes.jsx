@@ -18,9 +18,6 @@ import Products from './dashboard/panelPages/Products/Products'
 import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
 import ProductInfo from './dashboard/panelPages/ProductInfo/ProductInfo'
 
-
-
-
 import Tickets from './dashboard/panelPages/Tickets/Tickets'
 import Product from './dashboard/panelPages/Product/Product'
 import Orders from './dashboard/panelPages/Orders/Orders'
@@ -35,7 +32,6 @@ import SoftLand_Plus_page from "./pages/SoftLand_Plus_page"
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
 
-    { path: "/admin-panel", element: <Panel_main_page /> },
     { path: '/admin-panel/', element: <Panel_main_page><Home /></Panel_main_page> },
     { path: '/admin-panel/users', element: <Panel_main_page><UserList /></Panel_main_page> },
     { path: '/admin-panel/customerOrders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
@@ -46,8 +42,6 @@ const mainRoutes = [
     { path: '/admin-panel/user/:userID', element: <Panel_main_page><User /></Panel_main_page> },
     { path: '/admin-panel/ProductInfo/:productID', element: <Panel_main_page><ProductInfo /></Panel_main_page> },
     { path: '/admin-panel/Orders', element: <Panel_main_page><Orders /></Panel_main_page> },
-    // { path: '/admin-panel/NewProduct', element: <Panel_main_page><NewProduct /></Panel_main_page> },
-
 
     { path: "/login", element: <LoginPage /> },
     { path: "/sign-up", element: <SignupPage /> },

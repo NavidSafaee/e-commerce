@@ -5,9 +5,9 @@
 }
 
 .topbar {
-  background-color: #f3eada;
-  background-color: #fff;
+  background-color: #edfff7;
   height: 100px;
+  box-shadow: 2px 2px 10px #d9d9d9;
   position: sticky;
   top: 0;
  

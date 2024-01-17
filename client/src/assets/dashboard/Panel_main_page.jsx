@@ -5,7 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import "./Panel_main_page.css";
 
 export default function Panel_main_page(props) {
-    // let router = useRoutes(mainRoutes);
+    
 
     return (
         <>
@@ -15,7 +15,9 @@ export default function Panel_main_page(props) {
             <div className="sidBarPosition">
                 <Sidebar />
             </div>
-            {props.children}
+            <div className="adminPanelContentContainer">
+                {props.children}
+            </div>
         </>
     )
 }

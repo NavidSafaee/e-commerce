@@ -6,7 +6,9 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import "./Orders.css";
 
 export default function Orders() {
-  const [productsData, setProductsData] = useState(products);
+
+  const [isContentReady, setIsContentReady] = useState(false)
+  const [productsData, setProductsData] = useState(products)
 
   const [isVisible, setIsVisible] = useState(false);
   const [BtnName, setBtnName] = useState("Create");
@@ -25,7 +27,7 @@ export default function Orders() {
     });
 
     setProductsData(productsData.filter((product) => product.id != productID));
-  };
+  }
 
   const addTodo = (event) => {
     event.preventDefault();
@@ -52,7 +54,7 @@ export default function Orders() {
     document.querySelector("#todo-input-title").value = "";
     document.querySelector("#todo-input-price").value = "";
     document.querySelector("#todo-input-date").value = "";
-  };
+  }
 
   const columns = [
     {
@@ -123,10 +125,9 @@ export default function Orders() {
         );
       },
     },
-  ];
+  ]
 
   const check = (event) => {
-    console.log(event);
 
     document.querySelectorAll(".disabled").forEach((btn) => {
       if (
@@ -136,11 +137,11 @@ export default function Orders() {
         btn.style.opacity = 1;
         btn.disabled = false;
       }
-    });
-  };
+    })
+  }
 
   const createNewOrderDisplay = () => {
-    setIsVisible(!isVisible);
+    setIsVisible(!isVisible)
     if (BtnName == "Create") {
       setBtnName("Discord");
       setBtnColor({ backgroundColor: "red" });
@@ -199,13 +200,6 @@ export default function Orders() {
           </form>
         </div>
       )}
-      <DataGrid
-        className="dataGrid"
-        rows={productsData}
-        columns={columns}
-        disableSelectionOnClick
-        pageSize={3}
-      />
     </div>
-  );
+  )
 }

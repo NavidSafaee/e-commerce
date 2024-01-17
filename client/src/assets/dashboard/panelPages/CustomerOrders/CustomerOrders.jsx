@@ -12,7 +12,7 @@ export default function CustomerOrders() {
         <div className="commentsBottom">
           <div className="userComments">
             {userRowsData.map((data, index) => (
-              <div id="commentBox">
+              <div id="commentBox" key={index}>
                 <div id="commentBoxHeader">
                   <div id="commentBoxUsername" key={index}>
                     <GradeIcon className="ratingIcon"></GradeIcon>
