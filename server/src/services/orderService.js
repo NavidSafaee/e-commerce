@@ -36,7 +36,7 @@ async function postOrder(userId, reqBody, role) {
         return order;
 
     } else if (role === 'CUSTOMER') {
-
+        const { discountPercentage } = reqBody;
         const cart = await Cart.findOne({ user: userId });
 
         if (!cart) {
@@ -78,6 +78,7 @@ async function postOrder(userId, reqBody, role) {
         const order = new Order({
             user: userId,
             items: orderItems,
+            discountPercentage,
             deliveryDate: todayDate.setDate(todayDate.getDate() + 2)
         });
 
@@ -131,7 +132,7 @@ async function changeDeliveryState(userId, orderId) {
         error.statusCode = 404;
         throw error;
     }
-    
+
     if (order.user.toString() !== userId) {
         const error = new Error('you can\'t change another admins order');
         error.statusCode = 403;

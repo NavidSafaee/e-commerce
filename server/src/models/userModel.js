@@ -14,6 +14,7 @@ const userSchema = new Schema({
         enum: ['CUSTOMER', 'ADMIN'],
         required: true
     },
+    address: String,
     email: String,
     phoneNumber: String,
     birthDate: Date,

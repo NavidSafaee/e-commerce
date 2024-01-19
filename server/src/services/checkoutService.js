@@ -4,6 +4,19 @@ const Cart = require('../models/cartModel');
 
 async function createCheckoutSessionId(userId, discount) {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
+
+    if (!cart) {
+        const error = new Error('Cart not found');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (cart.items.length === 0) {
+        const error = new Error('Cart items not found');
+        error.statusCode = 404;
+        throw error;
+    }
+
     discount = discount || 0;
     
     const lineItems = cart.items.map(item => ({

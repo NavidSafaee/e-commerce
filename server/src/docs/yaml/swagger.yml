@@ -10,7 +10,6 @@ servers:
 
 
 components:
-
   responses:
     unauthorized:
         description: when authorization errors occur (jwt errors)

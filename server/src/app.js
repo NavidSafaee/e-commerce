@@ -11,6 +11,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const checkOutRoutes = require('./routes/checkoutRoutes');
+const userDiscountRoutes = require('./routes/userDiscountRoutes');
 const { errorHandler } = require('./controllers/errorController');
 
 
@@ -35,6 +36,7 @@ app.use('/orders', orderRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/checkout', checkOutRoutes);
+app.use('/userDiscounts', userDiscountRoutes);
 app.use(errorHandler);
 
 // static serve

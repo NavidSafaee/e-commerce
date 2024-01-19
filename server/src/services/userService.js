@@ -17,6 +17,7 @@ async function changePersonalInfo(userId, reqBody) {
         phoneNumber,
         newPassword,
         birthDate,
+        address,
         OTP: otp
     } = reqBody;
 
@@ -57,6 +58,9 @@ async function changePersonalInfo(userId, reqBody) {
 
         case Boolean(birthDate):
             return await User.findByIdAndUpdate(userId, { birthDate }, { new: true });
+
+        case Boolean(address):
+            return await User.findByIdAndUpdate(userId, { address }, { new: true });
 
         default:
             error = new Error('Bad Request');

@@ -59,7 +59,11 @@ const changePersonalInfoValidator = [
     body('newPassword', 'The password must be at least 6 characters')
         .if(body('newPassword').exists())
         .trim()
-        .isLength({ min: 6 }),
+        .isLength({ min: 6 })
+        .custom((value, { req }) => {
+            if (value === req.body.oldPassword) 
+                throw new Error('The new password must not be the same as the previous password');
+        }),
 
     body('confirmNewPassword', 'Passwords have to match')
         .if(body('newPassword').exists())
@@ -83,6 +87,11 @@ const changePersonalInfoValidator = [
             }
             return true;
         }),
+
+    body('address', 'address should not be empty')
+        .if(body('address').exists())
+        .trim()
+        .notEmpty(),
 
     body('OTP', 'please enter a valid OTP')
         .if((value, { req }) => req.url === '/me')

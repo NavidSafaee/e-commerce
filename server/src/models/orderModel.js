@@ -18,6 +18,7 @@ const orderSchema = new Schema({
         isInStock: Boolean
     }],
     isDelivered: Boolean,
+    discountPercentage: Number,
     deliveryDate: {
         type: Date,
         required: true

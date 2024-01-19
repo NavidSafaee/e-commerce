@@ -13,7 +13,7 @@ const {
 const User = require('../models/userModel');
 const OTP = require('../models/OTPModel');
 const RevokedToken = require('../models/revokedTokenModel');
-const sendSms = require('../utils/sms');
+const { sendOTPSms } = require('../utils/sms');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -289,15 +289,19 @@ async function verifyEmail(email) {
 
 async function verifyPhoneNumber(phoneNumber) {
     const OTP = await generateOTP(phoneNumber);
-    sendSms(+process.env.SMS_TEXT_ID, phoneNumber, OTP);
+    sendOTPSms(+process.env.SMS_OTP_TEXT_ID, phoneNumber, OTP);
 }
 
 async function generateOTP(contactInfo) {
     const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
-    let hashedRandomInt = crypto.createHash('md5').update(randomInt).digest("hex");
-    const oneTimePassword = hashedRandomInt.slice(0, 6);
+    let hashedRandomInt = crypto.createHash('sha512').update(randomInt).digest("hex");
+    const oneTimePassword = hashedRandomInt.slice(0, 6).toUpperCase();
 
     const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
+
+    const OTPwithSameHash = await OTP.findOne({ OTP: hashedOTP });
+    if (OTPwithSameHash) return await generateOTP();
+    
     const otp = new OTP({
         OTP: hashedOTP,
         contactInfo

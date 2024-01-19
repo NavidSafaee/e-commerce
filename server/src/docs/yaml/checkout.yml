@@ -1,0 +1,39 @@
+/checkout/sessionId:
+  post:
+    summary: Returns stripe session id
+    tags:
+      - checkout
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              discount:
+                type: number
+                example: 0.2 
+    responses:
+      "200":
+        description: returns stripe session id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      "400":
+        $ref: '#/components/responses/badRequest'
+      "401":
+        $ref: '#/components/responses/unauthorized'
+      "403":
+        $ref: '#/components/responses/forbidden'
+      "404":
+        description: if user has no cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'              
