@@ -58,17 +58,27 @@ function App() {
     })
   }
 
+  const get_my_cart = (token) => {
+    fetch(`${baseURL}/carts/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token.accessToken}`
+      }
+    }).then(res => res.json()).then(data => productsCountCalculator(data))
+  }
+
   useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("userToken"))
-
     if (userToken) {
       if (isTokenExpired(userToken.accessToken)) {
         refreshTokenHandler()
           .then(userToken => {
-            getMe(userToken);
+            getMe(userToken)
+            get_my_cart(userToken)
           })
       } else {
         getMe(userToken)
+        get_my_cart(userToken)
       }
     }
   }, [])
@@ -96,6 +106,7 @@ function App() {
         if (res.ok) {
           setAccessToken("")
           setIsLoggedIn(false)
+          setProductsCountInCart(0)
           setRefreshToken("")
           setUserInfo(null)
           localStorage.removeItem("userToken")

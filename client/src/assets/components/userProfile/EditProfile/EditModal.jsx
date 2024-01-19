@@ -8,6 +8,7 @@ import { Spinner } from 'react-bootstrap'
 import baseURL from '../../../baseURL'
 import { isTokenExpired, refreshTokenHandler, showMessage } from '../../../functions'
 import { EmailChecker, PhoneChecker } from '../../REGEX/Regex'
+import cities from "./cities.json"
 
 function EditModal({ ModalCloser, modalType, default_value }) {
 
@@ -21,6 +22,7 @@ function EditModal({ ModalCloser, modalType, default_value }) {
     const [oldPassword, setOldPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmNewPassword, setConfirmNewPassword] = useState("")
+    const [userCity, setUserCity] = useState("Tabriz")
 
     const Function_Identifier = () => {
         switch (modalType) {
@@ -30,7 +32,6 @@ function EditModal({ ModalCloser, modalType, default_value }) {
             case "birthday":
                 editHandler({ "birthDate": inputValue })
                 break;
-
             case "email":
                 if (EmailChecker(inputValue)) {
                     verification_handler({ "email": inputValue })
@@ -59,6 +60,10 @@ function EditModal({ ModalCloser, modalType, default_value }) {
                 break;
             case "password":
                 editHandler({ oldPassword, newPassword, confirmNewPassword })
+                break;
+            case "address":
+                // editHandler({ address: `${userCity} - ${inputValue}` })
+                console.log({ address: `${userCity} - ${inputValue}` });
                 break;
             default:
                 break;
@@ -105,7 +110,6 @@ function EditModal({ ModalCloser, modalType, default_value }) {
                     return res.json()
                 })
                 .then(data => {
-                    console.log(data)
                     if (data.message) {
                         showMessage({
                             title: "Oops!",
@@ -134,24 +138,41 @@ function EditModal({ ModalCloser, modalType, default_value }) {
         <div className={style.modal_wrapper}>
             {!showSecondModal && <div className={style.modal_box}>
                 <div className={style.modal_head}>
-                    <span>change {modalType}</span>
+                    <span>change of {modalType}</span>
                     <MdClose onClick={() => ModalCloser()} style={{ cursor: "pointer" }} />
                 </div>
                 <div className={style.modal_body}>
                     {
                         (modalType === "email" || modalType === "username" || modalType === "phoneNumber")
                         &&
-                        <input className={style.userInput} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={e => {if (e.code === "Enter") {Function_Identifier()}}} />
+                        <input className={style.userInput} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={e => { if (e.code === "Enter") { Function_Identifier() } }} />
                     }
                     {
-                        (modalType === "birthday") && <input className={style.userInput} type="date" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={e => {if (e.code === "Enter") {Function_Identifier()}}}/>
+                        (modalType === "birthday") && <input className={style.userInput} type="date" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={e => { if (e.code === "Enter") { Function_Identifier() } }} />
                     }
                     {
                         (modalType === "password" && (
                             <>
-                                <input type="password" className={style.userInput} placeholder='old password' value={oldPassword} onChange={e => setOldPassword(e.target.value)}/>
-                                <input type="password" className={style.userInput} placeholder='new password' value={newPassword} onChange={e => setNewPassword(e.target.value)}/>
-                                <input type="password" className={style.userInput} placeholder='reenter new password' value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)}/>
+                                <input type="password" className={style.userInput} placeholder='old password' value={oldPassword} onChange={e => setOldPassword(e.target.value)} />
+                                <input type="password" className={style.userInput} placeholder='new password' value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+                                <input type="password" className={style.userInput} placeholder='reenter new password' value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)} />
+                            </>
+                        ))
+                    }
+                    {
+                        (modalType === "address" && (
+                            <>
+                                <h4>select your city</h4>
+                                <select className={style.userInput} value={userCity} onChange={e => setUserCity(e.target.value)}>
+                                    {
+                                        cities.map((city, i) => (
+                                            <option value={city} key={i} >{city}</option>
+                                        ))
+                                    }
+                                </select>
+                                <br />
+                                <h4>exact home address</h4>
+                                <textarea type="text" className={style.userInput} onChange={e => setInputValue(e.target.value)} style={{ resize: "none", fontSize: 15 }} rows={4} placeholder='For example: Clock Square - Main Street - No. 3' />
                             </>
                         ))
                     }

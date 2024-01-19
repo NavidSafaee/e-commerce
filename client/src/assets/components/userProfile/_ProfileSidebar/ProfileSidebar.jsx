@@ -3,7 +3,6 @@ import { useContext } from "react"
 import AuthContext from '../../Context/AuthContext'
 import { PiHandWavingFill } from "react-icons/pi";
 import { Link } from "react-router-dom"
-import { GiNotebook } from "react-icons/gi";
 import { FaBoxesStacked } from "react-icons/fa6";
 import { AiOutlineComment } from "react-icons/ai";
 import { TbLogout } from "react-icons/tb";
@@ -35,12 +34,11 @@ function ProfileSidebar() {
                 <div className={style.sidebar_header}>
                     <p className={style.message}>
                         Hi
-                        <strong className={style.username}>{authContext.userInfo?.username}</strong>
+                        <strong className={style.username}>{authContext.userInfo?.username} Heidar gholizadeh asl</strong>
                         <PiHandWavingFill style={{ fontSize: 40, margin: 10 }} />
                     </p>
                 </div>
                 <div className={style.sidebar_list}>
-                    <Link to={"/user/profile/"}> <GiNotebook /> activities </Link>
                     <Link to={"/user/profile/edit"}> <FaEdit /> edit profile </Link>
                     <Link to={"/"}> <FaBoxesStacked /> my orders </Link>
                     <Link to={"/user/profile/comments"}> <AiOutlineComment /> my comments </Link>

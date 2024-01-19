@@ -22,7 +22,6 @@ import Tickets from './dashboard/panelPages/Tickets/Tickets'
 import Product from './dashboard/panelPages/Product/Product'
 import Orders from './dashboard/panelPages/Orders/Orders'
 // import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
-import UserActivity from "./components/userProfile/UserActivity/UserActivity"
 import EditProfile from "./components/userProfile/EditProfile/EditProfile"
 import UserComments from "./components/userProfile/UserComments/UserComments"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
@@ -53,11 +52,10 @@ const mainRoutes = [
     { path: "/checkout/:status", element: <Payment_status_page /> },
     { path: "/soft-land-plus", element: <SoftLand_Plus_page /> },
 
-    { path: "/user/profile/", element: <UserProfilePage><UserActivity /></UserProfilePage> },
+    { path: "/user/profile/", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
     { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
-    { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
 ]
 

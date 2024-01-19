@@ -6,13 +6,13 @@
     justify-content: flex-start;
     flex-direction: column;
     background: linear-gradient(20deg, #006953, #06a99d);
-    padding-block: 40px;
+    padding: 20px 0 40px 0;
     border-radius: 12px;
     color: #fff;
 
     .sidebar_header {
         width: 100%;
-        height: 80px;
+        min-height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -33,14 +33,16 @@
         }
 
         .message {
+            width: 100%;
             display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            text-align: center;
 
             .username {
                 font-family: acm;
-                font-size: 35px;
+                font-size: 24px;
             }
 
         }

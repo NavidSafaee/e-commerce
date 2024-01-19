@@ -66,6 +66,7 @@ function ProductPageComponent() {
                     console.log(res)
                     if (res.ok) {
                         setProductCountInCart(1)
+                        authContext.productsCountCalculator(1)
                     }
                 })
             }
@@ -199,6 +200,7 @@ function ProductPageComponent() {
             }).then(res => {
                 if (res.ok) {
                     setProductCountInCart(0)
+                    authContext.productsCountCalculator(-1)
                 }
             })
         }
