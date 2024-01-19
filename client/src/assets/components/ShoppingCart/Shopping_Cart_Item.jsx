@@ -69,8 +69,8 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity, onChange })
         }
       }).then(res => {
         if (res.ok) {
-          console.log("4566666");
           onChange()
+          authContext.productsCountCalculator(-quantity)
         }
       })
     }
