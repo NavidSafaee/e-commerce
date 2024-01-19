@@ -57,6 +57,11 @@ paths:
                       example: 2010-04-06
                 - type: object
                   properties: 
+                    address:
+                      type: string
+                      example: Tabriz, rajaee shahr
+                - type: object
+                  properties: 
                     oldPassword:
                       type: string
                       example: 123456

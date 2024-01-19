@@ -141,7 +141,10 @@ components:
                     example: 10  
                   isInStock:
                     type: boolean
-                    example: false  
+                    example: false
+        discountPercentage:
+          type: number
+          example: 0.2              
         deliveryDate:
           type: string
           example: 2024-04-08
@@ -168,6 +171,9 @@ components:
         birthDate:
           type: string
           example: 2010-04-06  
+        address:
+          type: string
+          example: Tabriz, rajaee shahr  
         __v:
           type: number
           example: 2
