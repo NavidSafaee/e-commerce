@@ -3,7 +3,6 @@
 }
 
 .containerMain {
-    background-color: red;
     display: flex;
 }
 
@@ -22,9 +21,18 @@
 }
 
 .topBarPosition {
-    min-width: 1500px;
+    width: 100vw;
     position: fixed;
     top: 0;
     right: 0;
     z-index: 999;
+}
+
+.adminPanelContentContainer {
+    width: calc(100vw - 280px);
+    min-height: calc(100vh - 100px);
+    position: absolute;
+    right: 0;
+    top: 100px;
+    padding: 50px 30px;
 }

@@ -1,83 +1,68 @@
-import { useState } from 'react'
-import { DataGrid } from '@mui/x-data-grid';
-import { userRows } from '../../datas'
-import { Link } from 'react-router-dom'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useContext, useEffect, useState } from 'react'
+import baseURL from '../../../baseURL'
 
-import './UserList.css'
+import st from './UserList.module.scss'
+import { isTokenExpired, refreshTokenHandler } from '../../../functions';
+import AuthContext from '../../../components/Context/AuthContext';
+import PreLoader from '../../../components/PreLoader/PreLoader';
 
 export default function UserLIst() {
 
-  const [userDatas, setUserDatas] = useState(userRows)
+  const authContext = useContext(AuthContext)
 
-  const userDelete = userID  => {
-    setUserDatas(userDatas.filter(user => user.id != userID))
+  const [isContentReady, setIsContentReady] = useState(false)
+  const [userDatas, setUserDatas] = useState([])
+
+  const getAllUsers = () => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"))
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler()
+        .then(token => {
+          authContext.writeTokenInStorage(token)
+          getAllUsers()
+        })
+    } else {
+      fetch(`${baseURL}/users?role=CUSTOMER`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken.accessToken}`
+        }
+      }).then(res => res.json())
+        .then(data => { console.log(data); setUserDatas(data); setIsContentReady(true) })
+    }
   }
 
-  const columns = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 90
-    },
-    {
-      field: 'user',
-      headerName: 'User',
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <Link to={`/user/${params.row.id}`} className="link">
-            <div className='userListUser'>
-              {/* <img src={params.row.avatar} className="userListImg" /> */}
-              {params.row.username}
-            </div>
-          </Link>
-        )
-      }
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 200
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 120
-    },
-    {
-      field: 'transaction',
-      headerName: 'Transaction',
-      width: 160
-    }, 
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/admin-panel/user/${params.row.id}`} className="link">
-              <button className='userListEdit'>Edit</button>
-            </Link>
-            <DeleteOutlineIcon
-              className="userListDelete"
-              onClick={() => userDelete(params.row.id)}
-            />
-          </>
-        )
-      }
-    }
-  ]
+  useEffect(() => {
+    getAllUsers()
+  }, [])
 
   return (
-    <div className='userList'>
-      <DataGrid className='userListTableGride'
-        rows={userDatas}
-        columns={columns}
-        disableSelectionOnClick
-        pageSize={4}
-      />
-    </div>
-  );
+    <>
+      {!isContentReady && <PreLoader />}
+      {isContentReady &&
+        <table className={st.userListTable}>
+          <thead className={st.table_header}>
+            <th>id</th>
+            <th>username</th>
+            <th>email</th>
+            <th>birthday</th>
+            <th>phone number</th>
+            <th>address</th>
+          </thead>
+          <tbody className={st.table_body}>
+            {userDatas?.map((user, i) => (
+              <tr key={user._id}>
+                <td>{i+1}</td>
+                <td>{user.username}</td>
+                <td>{user.email ? user.email : "---"}</td>
+                <td>{user.birthDate ? user.birthDate.slice(0, 10) : "---"}</td>
+                <td>{user.phoneNumber ? user.phoneNumber : "---"}</td>
+                <td>{user.address ? user.address.slice(0, 40) : "---"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
+    </>
+  )
 }

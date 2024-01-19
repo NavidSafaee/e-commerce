@@ -1,6 +1,6 @@
 .top-strip {
     width: 100%;
-    height: 50px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,8 +20,8 @@
     .account-box {
         position: absolute;
         right: 90px;
-        width: 160px;
-        background-color: #ffbf00;
+        min-width: 60px;
+        background-color: #ffea00;
         padding: 3px 10px;
         border-radius: 10px;
         display: flex;

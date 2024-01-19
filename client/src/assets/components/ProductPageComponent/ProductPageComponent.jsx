@@ -66,6 +66,7 @@ function ProductPageComponent() {
                     console.log(res)
                     if (res.ok) {
                         setProductCountInCart(1)
+                        authContext.productsCountCalculator(1)
                     }
                 })
             }
@@ -86,7 +87,7 @@ function ProductPageComponent() {
                 refreshTokenHandler()
                     .then(token => {
                         authContext.writeTokenInStorage(token)
-                        productAdder()
+                        sendComment()
                     })
             } else {
                 let req_body = { "review": userComment, "rating": myRate }
@@ -199,6 +200,7 @@ function ProductPageComponent() {
             }).then(res => {
                 if (res.ok) {
                     setProductCountInCart(0)
+                    authContext.productsCountCalculator(-1)
                 }
             })
         }

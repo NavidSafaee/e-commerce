@@ -18,14 +18,10 @@ import Products from './dashboard/panelPages/Products/Products'
 import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
 import ProductInfo from './dashboard/panelPages/ProductInfo/ProductInfo'
 
-
-
-
 import Tickets from './dashboard/panelPages/Tickets/Tickets'
 import Product from './dashboard/panelPages/Product/Product'
 import Orders from './dashboard/panelPages/Orders/Orders'
 // import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
-import UserActivity from "./components/userProfile/UserActivity/UserActivity"
 import EditProfile from "./components/userProfile/EditProfile/EditProfile"
 import UserComments from "./components/userProfile/UserComments/UserComments"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
@@ -35,7 +31,6 @@ import SoftLand_Plus_page from "./pages/SoftLand_Plus_page"
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
 
-    { path: "/admin-panel", element: <Panel_main_page /> },
     { path: '/admin-panel/', element: <Panel_main_page><Home /></Panel_main_page> },
     { path: '/admin-panel/users', element: <Panel_main_page><UserList /></Panel_main_page> },
     { path: '/admin-panel/customerOrders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
@@ -45,9 +40,7 @@ const mainRoutes = [
     { path: '/admin-panel/product/:productID', element: <Panel_main_page><Product /></Panel_main_page> },
     { path: '/admin-panel/user/:userID', element: <Panel_main_page><User /></Panel_main_page> },
     { path: '/admin-panel/ProductInfo/:productID', element: <Panel_main_page><ProductInfo /></Panel_main_page> },
-    { path: '/admin-panel/Orders', element: <Panel_main_page><Orders /></Panel_main_page> },
-    // { path: '/admin-panel/NewProduct', element: <Panel_main_page><NewProduct /></Panel_main_page> },
-
+    { path: '/admin-panel/customers/orders', element: <Panel_main_page><Orders /></Panel_main_page> },
 
     { path: "/login", element: <LoginPage /> },
     { path: "/sign-up", element: <SignupPage /> },
@@ -59,11 +52,10 @@ const mainRoutes = [
     { path: "/checkout/:status", element: <Payment_status_page /> },
     { path: "/soft-land-plus", element: <SoftLand_Plus_page /> },
 
-    { path: "/user/profile/", element: <UserProfilePage><UserActivity /></UserProfilePage> },
+    { path: "/user/profile/", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
     { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
-    { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
 ]
 

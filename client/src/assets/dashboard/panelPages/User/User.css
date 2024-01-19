@@ -1,125 +1,120 @@
 #userImage {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    margin: 30px;
-  }
-  #userImage:hover {
-    transform: scale(1.4, 1.4);
-  
-    transition: all 2s;
-  }
-  
-  .user {
-    flex: 4;
-    padding: 20px;
-    margin: 60px 0 0 280px;
-    background-color: #f3eada;
-    min-height: 100vh;
-  }
-  
-  .productTitleContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .userTop {
-    height: auto;
-    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px -3px 5px 0px #888888;
-  
-    background-color: #fff;
-    background-color: #e5fffb;
-    background-color: #eafdfa;
-  }
-  .userTopRight {
-    margin-top: 20px;
-    width: fit-content;
-    height: fit-content;
-    text-align: start;
-    align-content: start;
-  }
-  .userInfiTop {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-content: start;
-    display: flex;
-    align-content: start;
-  }
-  .userInfiTopLeft {
-    margin-top: 20px;
-  }
-  
-  .productNmae {
-    font-weight: 600;
-  }
-  
-  .userInfoBottom {
-  }
-  .userListUser {
-  }
-  
-  .userListImg {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  
-  .userBottom {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    height: auto;
-    padding: 30px 0;
-    margin: 20px;
-    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px -3px 5px 0px #888888;
-    background-color: #fff;
-    background-color: #e5fffb;
-    background-color: #eafdfa;
-  }
-  .userOrders {
-    text-align: center;
-  }
-  .userComments {
-  }
-  
-  .userInfoItemRow {
-    border-right: 1px solid rgb(226, 226, 226);
-    border-bottom: 1px solid rgb(226, 226, 226);
-    border-top: 1px solid rgb(226, 226, 226);
-    width: 450px;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 30px;
-    margin: 0px;
-  }
-  
-  .productInfoKey {
-  }
-  .productInfoValue {
-  }
-  
-  .blockBtn {
-    text-align: center;
-    margin-top: 30px;
-  }
-  
-  .block,
-  .unblock {
-    background-color: #06a99d;
-    margin: 10px;
-    border: none;
-    font-size: 16px;
-    padding: 5px;
-    width: 80px;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-  }
-  .block {
-    background-color: rgba(255, 0, 0, 0.651);
-  }
-  
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  margin: 30px;
+}
+
+#userImage:hover {
+  transform: scale(1.4, 1.4);
+  transition: all 2s;
+}
+
+.user {
+  flex: 4;
+  min-height: 100vh;
+}
+
+.productTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userTop {
+  height: auto;
+  box-shadow: 0px -3px 5px 0px #888888;
+  background-color: #fff;
+}
+
+.userTopRight {
+  margin-top: 20px;
+  width: fit-content;
+  height: fit-content;
+  text-align: start;
+  align-content: start;
+}
+
+.userInfiTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: start;
+  display: flex;
+  align-content: start;
+}
+
+.userInfiTopLeft {
+  margin-top: 20px;
+}
+
+.productNmae {
+  font-weight: 600;
+}
+
+.userInfoBottom {}
+
+.userListUser {}
+
+.userListImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.userBottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: auto;
+  padding: 30px 0;
+  margin: 20px;
+  box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px -3px 5px 0px #888888;
+  background-color: #fff;
+  background-color: #e5fffb;
+  background-color: #eafdfa;
+}
+
+.userOrders {
+  text-align: center;
+}
+
+.userComments {}
+
+.userInfoItemRow {
+  border-right: 1px solid rgb(226, 226, 226);
+  border-bottom: 1px solid rgb(226, 226, 226);
+  border-top: 1px solid rgb(226, 226, 226);
+  width: 450px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  margin: 0px;
+}
+
+.productInfoKey {}
+
+.productInfoValue {}
+
+.blockBtn {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.block,
+.unblock {
+  background-color: #06a99d;
+  margin: 10px;
+  border: none;
+  font-size: 16px;
+  padding: 5px;
+  width: 80px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.block {
+  background-color: rgba(255, 0, 0, 0.651);
+}

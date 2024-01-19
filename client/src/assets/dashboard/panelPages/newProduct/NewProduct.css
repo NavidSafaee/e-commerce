@@ -1,8 +1,6 @@
 .customerOrdersList {
   flex: 4;
   padding: 20px;
-  margin: 80px 0 0 280px;
-  background-color: #f3eada;
   min-height: 100vh;
 }
 
@@ -13,10 +11,7 @@
   height: auto;
   padding: 20px 0;
   margin: 15px 0px;
-  box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -3px 5px 0px #888888;
-  background-color: #fff;
-  background-color: #e5fffb;
   background-color: #eafdfa;
   /* background-color: yellow; */
 }
@@ -24,26 +19,4 @@
 .customerOrdersListOrders {
   background-color: #eafdfa;
   text-align: center;
-}
-.customerOrdersListOrders {
-  /* background-color: red; */
-}
-
-.css-204u17-MuiDataGrid-main {
-  /* background-color: pink; */
-  /* width: fit-content; */
-}
-.MuiDataGrid-columnHeaders {
-  /* background-color: purple; */
-  /* width: fit-content; */
-}
-
-.MuiDataGrid-row{
-    /* background-color: darkblue; */
-}
-.MuiDataGrid-row > .MuiDataGrid-cell{
-    /* background-color: rebeccapurple; */
-}
-.MuiDataGrid-cellContent{
-    /* background-color: rgb(255, 31, 31); */
 }

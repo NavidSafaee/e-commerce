@@ -1,37 +1,26 @@
 .home {
-  margin: 100px 0 0 280px;
   flex: 4;
-  background-color: #f3eada;
   background-color: #fff;
   min-height: 100vh;
 }
 
 .HomeCards {
   display: flex;
-  margin: 60px 20px 0px 20px;
-  background-color: #eafdfa;
-  background-color: #f3eada;
   background-color: #fff;
   flex-direction: row;
   justify-content: space-evenly;
   height: auto;
   width: 95%;
   flex-wrap: wrap;
-  padding: 10px;
-  
- 
+  padding: 20px 10px;
 }
 
 .HomeCard {
-  /* background-color: yellow; */
   width: 200px;
   border: 1px solid rgb(197, 197, 197);
   border-radius: 15px 5px 15px 5px;
-  margin: 20px 60px 30px 60px;
-  background-color: #eafdfa;
+  /* margin: 20px 60px 30px 60px; */
   background-color: #f3eada;
-  
- 
 }
 
 .HomeCardHeader {
@@ -41,20 +30,14 @@
   padding: 10px;
   border-bottom: 1px solid rgb(197, 197, 197);
   background-color: #06a99d;
-  /* background-color: #ffe5ff; */
   color: #fff;
   font-weight: 400;
 }
 .HomeCardHeaderTitle {
-  /* background-color: orange; */
   margin-left: 10px;
-}
-.HomeCardHeaderIcon {
-  /* background-color: palevioletred; */
 }
 
 .HomeCardValue {
-  /* background-color: teal; */
   width: 100%;
   padding: 10px 0px;
 }
@@ -65,6 +48,5 @@
   font-weight: 900;
   letter-spacing: 1px;
   transform: scale(1.5, 1.5);
-  color: #06a99d;
   color: #949494;
 }

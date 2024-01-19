@@ -1,7 +1,6 @@
 .tickets {
   flex: 4;
   padding: 20px;
-  margin: 60px 0 0 280px;
   background-color: #f3eada;
   min-height: 100vh;
 }

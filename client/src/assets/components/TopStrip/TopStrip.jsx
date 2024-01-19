@@ -4,7 +4,8 @@ import { useContext, useEffect, useState } from "react"
 import AuthContext from "../Context/AuthContext"
 import { FaShoppingCart } from "react-icons/fa";
 import baseURL from "../../baseURL";
-import { isTokenExpired, refreshTokenHandler } from "../../functions";
+import { isTokenExpired, refreshTokenHandler } from "../../functions"
+import { FaUser } from "react-icons/fa"
 
 function TopStrip() {
 
@@ -59,7 +60,7 @@ function TopStrip() {
         <div className="left-text">Welcome to our online shop!</div>
         <div className="account-box">
           {authContext?.isLoggedIn ?
-            <span className="username-container"><Link to={"/user/profile"} style={{ color: "#009", fontSize: 24 }}>{authContext.userInfo?.username}</Link></span> :
+            <span className="username-container"><Link to={"/user/profile"} style={{ color: "#009", fontSize: 24 }}><FaUser style={{fontSize: 20}}/></Link></span> :
             (<span><Link className="login-btn" to={"/login"}>Login</Link> | <Link to={"/sign-up"} className="sign-up">sign up</Link></span>)
           }
         </div>

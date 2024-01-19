@@ -9,19 +9,19 @@ import { Link } from "react-router-dom";
 
 import "./Sidebar.css";
 
-const clickedSidebar=(event)=>{
+const clickedSidebar = (event) => {
 
-  document.querySelectorAll('.sidebarListItem').forEach(element=>{
-    element.className="sidebarListItem";
+  document.querySelectorAll('.sidebarListItem').forEach(element => {
+    element.className = "sidebarListItem";
   })
-  event.target.className="sidebarListItem active";
+  event.target.className = "sidebarListItem active";
 }
 
 export default function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
-      <div className="sidebarMenulogoSidebar">
+        <div className="sidebarMenulogoSidebar">
 
           <img src="..\public\general_images\sidebarLogo.png" className="logoSidebar" alt="" />
           <h8 className="sidebarTitleLogo">SOFT LAND</h8>
@@ -73,12 +73,12 @@ export default function Sidebar() {
                 Tickets
               </li>
             </Link>
-           
 
-            <Link to="/admin-panel/newProduct" className="link" onClick={clickedSidebar}>
+
+            <Link to="/admin-panel/customers/orders" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <ChatBubbleOutlineIcon className="sidebarIcon" />
-                Orders
+                Customer Orders
               </li>
             </Link>
 
