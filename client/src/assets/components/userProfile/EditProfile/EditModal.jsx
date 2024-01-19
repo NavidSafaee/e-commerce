@@ -3,7 +3,7 @@ import style from './EditProfile.module.scss'
 import AuthContext from '../../Context/AuthContext'
 import Button from '@mui/material/Button'
 import { MdClose } from 'react-icons/md'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
 import baseURL from '../../../baseURL'
 import { isTokenExpired, refreshTokenHandler, showMessage } from '../../../functions'
@@ -22,7 +22,7 @@ function EditModal({ ModalCloser, modalType, default_value }) {
     const [oldPassword, setOldPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmNewPassword, setConfirmNewPassword] = useState("")
-    const [userCity, setUserCity] = useState("Tabriz")
+    const [userCity, setUserCity] = useState(inputValue.slice(0, inputValue.indexOf(" ")))
 
     const Function_Identifier = () => {
         switch (modalType) {
@@ -62,8 +62,7 @@ function EditModal({ ModalCloser, modalType, default_value }) {
                 editHandler({ oldPassword, newPassword, confirmNewPassword })
                 break;
             case "address":
-                // editHandler({ address: `${userCity} - ${inputValue}` })
-                console.log({ address: `${userCity} - ${inputValue}` });
+                editHandler({ address: `${userCity} - ${inputValue}` })
                 break;
             default:
                 break;
@@ -172,7 +171,7 @@ function EditModal({ ModalCloser, modalType, default_value }) {
                                 </select>
                                 <br />
                                 <h4>exact home address</h4>
-                                <textarea type="text" className={style.userInput} onChange={e => setInputValue(e.target.value)} style={{ resize: "none", fontSize: 15 }} rows={4} placeholder='For example: Clock Square - Main Street - No. 3' />
+                                <textarea type="text" className={style.userInput} defaultValue={inputValue.slice(inputValue.indexOf("-")+2)} onChange={e => setInputValue(e.target.value)} style={{ resize: "none", fontSize: 15 }} rows={4} placeholder='For example: Clock Square - Main Street - No. 3' />
                             </>
                         ))
                     }
