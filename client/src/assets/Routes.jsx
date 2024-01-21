@@ -33,14 +33,14 @@ const mainRoutes = [
 
     { path: '/admin-panel/', element: <Panel_main_page><Home /></Panel_main_page> },
     { path: '/admin-panel/users', element: <Panel_main_page><UserList /></Panel_main_page> },
-    { path: '/admin-panel/customerOrders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
+    { path: '/admin-panel/orders', element: <Panel_main_page><Orders /></Panel_main_page> },
     { path: '/admin-panel/products', element: <Panel_main_page><Products /></Panel_main_page> },
     { path: '/admin-panel/newProduct', element: <Panel_main_page><NewProduct /></Panel_main_page> },
     { path: '/admin-panel/Tickets', element: <Panel_main_page><Tickets /></Panel_main_page> },
     { path: '/admin-panel/product/:productID', element: <Panel_main_page><Product /></Panel_main_page> },
     { path: '/admin-panel/user/:userID', element: <Panel_main_page><User /></Panel_main_page> },
     { path: '/admin-panel/ProductInfo/:productID', element: <Panel_main_page><ProductInfo /></Panel_main_page> },
-    { path: '/admin-panel/customers/orders', element: <Panel_main_page><Orders /></Panel_main_page> },
+    { path: '/admin-panel/customers/orders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
 
     { path: "/login", element: <LoginPage /> },
     { path: "/sign-up", element: <SignupPage /> },

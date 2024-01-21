@@ -23,8 +23,8 @@ export default function Sidebar() {
       <div className="sidebarWrapper">
         <div className="sidebarMenulogoSidebar">
 
-          <img src="..\public\general_images\sidebarLogo.png" className="logoSidebar" alt="" />
-          <h8 className="sidebarTitleLogo">SOFT LAND</h8>
+          <img src="/general_images/logo.png" className="logoSidebar" alt="" />
+          <h6 className="sidebarTitleLogo">SOFT LAND</h6>
 
         </div>
 
@@ -74,21 +74,19 @@ export default function Sidebar() {
               </li>
             </Link>
 
-
             <Link to="/admin-panel/customers/orders" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <ChatBubbleOutlineIcon className="sidebarIcon" />
                 Customer Orders
               </li>
             </Link>
-
           </ul>
         </div>
 
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Orders</h3>
           <ul className="sidebarList">
-            <Link to="/admin-panel/Orders" className="link">
+            <Link to="/admin-panel/orders" className="link">
               <li className="sidebarListItem">
                 <WorkOutlineIcon className="sidebarIcon" />
                 Admin Orders

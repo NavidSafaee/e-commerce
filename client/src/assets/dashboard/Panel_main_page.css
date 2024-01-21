@@ -12,12 +12,6 @@
     left: 0;
     width: 280px;
     z-index: 999;
-
-}
-
-.link {
-    text-decoration: none;
-    color: inherit;
 }
 
 .topBarPosition {

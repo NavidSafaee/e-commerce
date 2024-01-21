@@ -57,7 +57,7 @@ export default function UserLIst() {
                 <td>{user.email ? user.email : "---"}</td>
                 <td>{user.birthDate ? user.birthDate.slice(0, 10) : "---"}</td>
                 <td>{user.phoneNumber ? user.phoneNumber : "---"}</td>
-                <td>{user.address ? user.address.slice(0, 40) : "---"}</td>
+                <td title={`${user.address ? user.address : " "}`} style={{cursor: "help"}}>{user.address ? user.address.slice(0, user.address.indexOf(" ")) : "---"}</td>
               </tr>
             ))}
           </tbody>
