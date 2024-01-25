@@ -1,78 +1,33 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.topbar {
+.panel-topbar {
   background-color: #edfff7;
   height: 100px;
   box-shadow: 2px 2px 10px #d9d9d9;
-  position: sticky;
+  position: fixed;
   top: 0;
- 
-}
-
-#logoSidebar {
-  width: 40px;
-}
-
-.topbarWrapper {
-  height: 100%;
+  right: 0;
+  padding-left: 30px;
+  width: calc(100vw - 280px);
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
-.topLeft {
-  height: 100%;
-  background-color: #b3c9cc;
-  color: #555;
+
+.panel-topbar .admin-name {
+  font-family: lemon;
+  text-transform: capitalize;
 }
 
-.topIconBadge {
-  width: 15px;
-  height: 15px;
+.panel-topbar .theme_btn {
   position: absolute;
-  top: -5px;
-  right: 0;
-  background-color: red;
-  color: #fff;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: gainsboro;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  border-radius: 50%;
-}
-
-.topAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   cursor: pointer;
-  margin: 0  10px ;
-} 
-.topRight {
-  align-items: end;
-  display: flex;
-  align-items: center;
-  padding: 10px 30px;
-  /* background-color: yellow; */
 }
-.topbarIconContainer {
-  /* background-color: firebrick ; */
-  width: fit-content;
-  position: relative;
-  cursor: pointer;
-  margin-right: 0px;
-  color: #000;
-  height: 38px;
-  margin: 5px;
-  padding-top: 8px;
-}
-.adminName {
-  font-size: 16px;
-  margin: 10px 0 0 10px;
-  font-weight: 600;
-}
-
-

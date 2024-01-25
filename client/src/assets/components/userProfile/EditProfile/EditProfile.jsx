@@ -77,12 +77,12 @@ function EditProfile() {
             <b className={style.boxTitle}>Password</b>
             <span className={style.boxValue}>* * * * * *</span>
           </div>
-          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("password"); setDefault_value(userInfo?.password)}}/>
+          <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("password"); setDefault_value("")}}/>
         </div>
         <div className={style.editItem}>
           <div className={style.contentSide}>
             <b className={style.boxTitle}>Address</b>
-            <span className={style.boxValue}>{userInfo?.address ? userInfo?.address : "---"}</span>
+            <span className={style.boxValue}>{userInfo?.address ? userInfo?.address.slice(0, userInfo?.address.indexOf(" ")) : "---"}</span>
           </div>
           <RiEdit2Line className={style.editBtn} onClick={() => {setModalType("address"); setDefault_value(userInfo?.address)}}/>
           {!userInfo?.address ? <Tooltip title="Please fill in this field" placement="top"><Button><PiWarningFill className={style.warnIcon} /></Button></Tooltip> : null}
