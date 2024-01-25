@@ -1,0 +1,10 @@
+.git
+
+*/node_modules
+
+server/src/docs
+
+server/test
+
+server/public/*
+!server/public/images/
