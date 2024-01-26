@@ -20,7 +20,6 @@ function ProductPageComponent() {
     const otherImages = [
         "https://img.etimg.com/thumb/width-1200,height-900,imgsize-78972,resizemode-75,msid-99739108/top-trending-products/furniture/sofas/best-premium-sofa-sets-to-experience-luxurious-comfort.jpg",
         "https://cdn.barwefurniture.com/wp-content/uploads/2023/10/Mauck2070quot20Velvet20Squ-1276.jpg",
-        "https://img.etimg.com/thumb/width-1200,height-900,imgsize-78972,resizemode-75,msid-99739108/top-trending-products/furniture/sofas/best-premium-sofa-sets-to-experience-luxurious-comfort.jpg",
         "https://5.imimg.com/data5/SELLER/Default/2023/9/348287983/AW/LN/XO/115688690/l-shape-sofa-set-luxury-500x500.jpg",
     ]
     // const rate = 4  // this line is for test!
@@ -119,7 +118,7 @@ function ProductPageComponent() {
         }).then(res => {
             return res.json()
         }).then(data => {
-            setProductComments(data)
+            setProductComments(data.filter(com => com.validationStatus !== "PENDING"))
         })
     }
 
@@ -206,7 +205,7 @@ function ProductPageComponent() {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => { // get user info
         fetch(`${baseURL}/products/${productId}`, {
             method: "GET",
             headers: { "Content-type": "application/json" }
@@ -359,7 +358,7 @@ function ProductPageComponent() {
                     <button onClick={() => setCommentFlag(true)} className={ComponentStyle.showBtn}>Send</button>
                 </div>}
                 <div className={ComponentStyle.commentsWrapper}>
-                    <h3 className={ComponentStyle.commentsHeader}>Product Comments</h3>
+                    {productComments?.length ? <h3 className={ComponentStyle.commentsHeader}>Product Comments</h3> : <h3>No Comment yet!</h3>}
                     <div className={ComponentStyle.commentsContainer}>
                         {
                             productComments.map((comment, i) => (
@@ -390,7 +389,7 @@ function ProductPageComponent() {
                                 </div>
                             ))
                         }
-                        <div className={ComponentStyle.commentItem}>
+                        {/* <div className={ComponentStyle.commentItem}>
                             <div className={ComponentStyle.row1}>
                                 <div className={ComponentStyle.authorBox}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-hipchat" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -439,7 +438,7 @@ function ProductPageComponent() {
                             <div className={ComponentStyle.end}>
                                 <span className={ComponentStyle.time}>October 16</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

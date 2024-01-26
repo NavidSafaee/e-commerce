@@ -317,7 +317,7 @@
         justify-content: flex-start;
         flex-direction: column;
         width: 60%;
-        min-height: 100px;
+        min-height: 200px;
         margin-top: 50px;
 
         h4 {
@@ -326,16 +326,16 @@
         }
 
         textarea {
-            width: 70%;
-            min-height: 50px;
+            width: 80%;
+            min-height: 120px;
             resize: none;
             appearance: none;
             border: none;
             outline: none;
-            background-color: #c0f9f5;
+            background-color: #e1fffd;
             border-radius: 10px;
             padding: 14px;
-            border: #06a99d 4px groove;
+            border: #06a99d 2px solid;
             font-size: 18px;
             clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
             transition: .5s;
