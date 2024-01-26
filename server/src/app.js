@@ -27,7 +27,7 @@ app.use(cors({
     allowedHeaders: 'Content-type, Authorization'
 }));
 app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 
 app.use('/users', userRoutes);
@@ -45,8 +45,8 @@ app.use(errorHandler);
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
-})  
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
+// })  
 
 module.exports = app;

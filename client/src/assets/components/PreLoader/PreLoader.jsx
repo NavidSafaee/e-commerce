@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Hourglass, RotatingSquare } from 'react-loader-spinner'
+import { Hourglass, RotatingSquare, Comment } from 'react-loader-spinner'
 import './PreLoader.css'
 
 function PreLoader({ type }) {
     return (
-        <div className="LoaderWrapper">
+        <div className={`LoaderWrapper ${type==="comment" && "pin-to-top"}`}>
             {type === undefined &&
                 <Hourglass
                     visible={true}
@@ -27,6 +27,19 @@ function PreLoader({ type }) {
                     wrapperStyle={{}}
                     wrapperClass=""
                     visible={true}
+                />
+            }
+            {
+                type === "comment" &&
+                <Comment
+                    visible={true}
+                    height="300"
+                    width="300"
+                    ariaLabel="comment-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="comment-wrapper"
+                    color="#fff"
+                    backgroundColor="#06a99d"
                 />
             }
             <h3 className='loader-title'>Please wait ...</h3>
