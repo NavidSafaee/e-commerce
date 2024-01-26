@@ -52,7 +52,7 @@ function UserComments() {
               (
                 <>
                   <div className={s.commentsContainer}>
-                    {myComments?.map((comment, i) => (
+                    {myComments?.reverse().map((comment, i) => (
                       <div className={s.commentItem} key={i}>
                         <div className={s.imgContainer}>
                           <Link to={`/products/${comment.product._id}`}>
