@@ -1,0 +1,136 @@
+.pageContentContainer {
+    width: 100%;
+    min-height: 700px;
+    background-color: #faf7f2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-top: 20px;
+
+    .commentsContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        gap: 40px;
+        margin-top: 50px;
+
+        .commentItem {
+            width: 90%;
+            min-height: 250px;
+            border-radius: 10px;
+            border: 3px solid #06a99d;
+            background-color: #e0fffd;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            gap: 20px;
+            position: relative;
+
+            .imgContainer {
+                width: 150px;
+                height: 150px;
+                margin-inline: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+
+                img {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 10px;
+                    object-fit: cover;
+                    border: 3px solid #06a99d;
+                }
+
+                .starBox {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    font-size: 24px;
+                    font-family: pac;
+
+                    svg {
+                        color: blue;
+                        font-size: 30px;
+                        transform: translateY(2px);
+                    }
+                }
+            }
+
+            .mainPart {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-evenly;
+                gap: 20px;
+                flex-direction: column;
+                height: 100%;
+                width: 70%;
+                padding-inline: 10px;
+                padding-top: 10px;
+
+                .titleContainer {
+                    width: 100%;
+                    font-size: 26px;
+                    font-family: acm;
+                    padding-bottom: 10px;
+                    border-bottom: 2px solid gray;
+                }
+
+                .textBox {
+                    width: 100%;
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    color: #3e3e3e;
+                    font-weight: 600;
+
+                    svg {
+                        color: blue;
+                        font-size: 30px;
+                    }
+                }
+
+                .timeRow {
+                    width: 100%;
+                    text-align: center;
+                    padding-top: 10px;
+                    border-top: 2px solid gray;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    font-family: pac;
+                    font-size: 20px;
+                    color: #676767;
+                }
+            }
+
+            .statusBtn {
+                position: absolute;
+                right: 40px;
+                top: -20px;
+                height: 40px;
+                width: 120px;
+                padding: 10px 10px;
+                font-family: lemon;
+                border-radius: 5px;
+                color: #fff;
+                background-color: #008917;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+        }
+    }
+}

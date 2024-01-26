@@ -49,7 +49,7 @@ export default function Sidebar() {
                 Users
               </li>
             </Link>
-            <Link to="/admin-panel/customerOrders" className="link" onClick={clickedSidebar}>
+            <Link to="/admin-panel/reviews" className="link" onClick={clickedSidebar}>
               <li className="sidebarListItem">
                 <PermIdentityIcon className="sidebarIcon" />
                 Reviews & Ratings
