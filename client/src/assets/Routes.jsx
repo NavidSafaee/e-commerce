@@ -27,6 +27,7 @@ import UserComments from "./components/userProfile/UserComments/UserComments"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
 import Payment_status_page from "./pages/Payment_status_page"
 import SoftLand_Plus_page from "./pages/SoftLand_Plus_page"
+import UserTickets from "./components/userProfile/UserTickets/UserTickets"
 
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
@@ -56,6 +57,7 @@ const mainRoutes = [
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
     { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
+    { path: "/user/profile/ticket", element: <UserProfilePage><UserTickets /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
 ]
 
