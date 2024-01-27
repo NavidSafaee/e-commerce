@@ -5,7 +5,8 @@ import { isTokenExpired, refreshTokenHandler } from "../../../functions";
 import AuthContext from "../../../components/Context/AuthContext";
 import baseURL from "../../../baseURL";
 import { showMessage } from "../../../functions";
-import orderReceived from "../../components/orderReceived/orderReceived";
+import OrderReceived from "../../components/orderReceived/OrderReceived";
+
 // import { off } from "../../../../../../server/src/models/cartModel";
 
 export default function Orders() {
@@ -13,16 +14,16 @@ export default function Orders() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
   const [images, setImages] = useState([]);
-  const [checkBox, setcheckBox] = useState(true);
+  // const [checkBox, setcheckBox] = useState(true);
   const authContext = useContext(AuthContext);
   const [isContentReady, setIsContentReady] = useState(false);
   const [ordersData, setOrdersData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showAddProduct, setshowAddProduct] = useState(false);
+  // const [showAddProduct, setshowAddProduct] = useState(false);
 
   const getAllOrders = () => {
     const userToken = JSON.parse(localStorage.getItem("userToken"));
@@ -95,7 +96,7 @@ export default function Orders() {
               title: "Oops!",
               text: data.message,
               icon: "warning",
-            }).then((val) => {});
+            })
           }
         });
     }
@@ -117,17 +118,17 @@ export default function Orders() {
   //   const formdata = new FormData();
   //   formdata.append("files", images);
 
-  const selectFiles = (e) => {
-    setImages([]);
-    let arry = [];
-    const arrFromObj = Object.keys(e.target.files);
-    for (let x in e.target.files) {
-      if (x < arrFromObj.length) {
-        arry.push(e.target.files[x]);
-      }
-    }
-    setImages([...images, ...arry]);
-  };
+  // const selectFiles = (e) => {
+  //   setImages([]);
+  //   let arry = [];
+  //   const arrFromObj = Object.keys(e.target.files);
+  //   for (let x in e.target.files) {
+  //     if (x < arrFromObj.length) {
+  //       arry.push(e.target.files[x]);
+  //     }
+  //   }
+  //   setImages([...images, ...arry]);
+  // };
 
 
 
@@ -208,7 +209,7 @@ export default function Orders() {
             <tbody className={st.table_body}>
               {ordersData?.map((user, i) => (
                 // <tr key={user._id}>
-                <orderReceived user={user} i={i} key="i" />
+                <OrderReceived user={user} i={i} key="i" />
               ))}
             </tbody>
           </table>
