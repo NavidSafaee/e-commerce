@@ -46,8 +46,8 @@ export default function Products() {
   };
 
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    getAllProducts()
+  }, [])
 
   return (
     <>

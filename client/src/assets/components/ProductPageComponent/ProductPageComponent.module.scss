@@ -414,9 +414,10 @@
 
                 .row1 {
                     width: 90%;
-                    padding-left: 20px;
+                    padding-inline: 20px;
                     @include flex();
                     justify-content: space-between;
+                    border-bottom: 2px solid #dfdfdf;
 
                     .authorBox {
                         font-size: 22px;
@@ -434,8 +435,10 @@
                 }
 
                 .end {
-                    width: 100%;
+                    width: 50%;
                     @include flex();
+                    justify-content: flex-start;
+                    border-top: 2px solid #dfdfdf;
 
                     .time {
                         font-family: pac;
@@ -445,10 +448,11 @@
                 }
 
                 .bodyPart {
+                    width: 100%;
                     font-family: acm;
                     color: #777;
                     font-size: 18px;
-                    text-align: justify;
+                    text-align: center;
                     text-indent: 30px;
                 }
             }

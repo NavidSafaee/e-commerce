@@ -28,7 +28,7 @@ export default function UserLIst() {
           Authorization: `Bearer ${userToken.accessToken}`
         }
       }).then(res => res.json())
-        .then(data => { console.log(data); setUserDatas(data); setIsContentReady(true) })
+        .then(data => { setUserDatas(data); setIsContentReady(true) })
     }
   }
 

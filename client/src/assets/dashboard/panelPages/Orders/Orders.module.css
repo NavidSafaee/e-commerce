@@ -34,6 +34,19 @@
   cursor: pointer;
   margin-bottom: 30px;
 }
+.addProducrBtn{
+  /* width: 300px; */
+  border: none;
+  padding: 5px 8px;
+  color: #fff;
+  background-color: #009842;
+  font-size: 18px;
+  border-radius: 5px;
+  font-weight: 300;
+  cursor: pointer;
+  margin-bottom: 30px;
+
+}
 
 .modal_bg {
   position: fixed;
