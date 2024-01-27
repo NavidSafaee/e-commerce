@@ -24,8 +24,7 @@ const postOrderValidator = [
                 .isISO8601()
                 .toDate()
                 .custom((value, { req }) => {
-                    const deliveryDate = new Date(value);
-                    if (deliveryDate < Date.now()) {
+                    if (value < Date.now()) {
                         throw new Error('please enter a valid delivery date');
                     }
                     return true;

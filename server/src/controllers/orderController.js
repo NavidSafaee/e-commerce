@@ -43,7 +43,7 @@ async function httpChangeDeliveryState(req, res, next) {
 async function httpGetMyOrders(req, res, next) {
     try {
         const response = await getMyOrders(req.userId);
-        res.send(200).json(response);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }
