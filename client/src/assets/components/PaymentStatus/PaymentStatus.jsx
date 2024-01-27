@@ -1,13 +1,38 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import { showMessage } from "../../functions"
+import { isTokenExpired, refreshTokenHandler, showMessage } from "../../functions"
+import AuthContext from "../Context/AuthContext"
+import baseURL from "../../baseURL"
 
 function PaymentStatus() {
 
+    const auth = useContext(AuthContext)
     const param = useParams()
     const navigate = useNavigate()
+
+    const createOrder = () => {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (userToken && isTokenExpired(userToken.accessToken)) {
+            refreshTokenHandler()
+                .then(token => {
+                    auth.writeTokenInStorage(token)
+                    createOrder()
+                })
+        } else {
+            fetch(`${baseURL}/carts/me`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${userToken.accessToken}`
+                },
+                body: JSON.stringify({discountPercentage: 0.2})
+            }).then(res => {
+                console.log(res)
+                return res.json()
+            }).then(data => console.log(data))
+        }
+    }
     
     useEffect(() => {
         if (!(param.status === "success" || param.status === "cancel")) {
@@ -21,6 +46,7 @@ function PaymentStatus() {
                 }).then(res => {
                     navigate("/")
                 })
+                createOrder()
             } else {
                 showMessage({
                     title: "Oops!",
