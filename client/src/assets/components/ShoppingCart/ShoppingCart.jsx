@@ -77,8 +77,12 @@ function ShoppingCart() {
                 })
         } else {
             fetch(`${baseURL}/checkout/sessionId`, {
-                method: "GET",
-                headers: { Authorization: `Bearer ${userToken.accessToken}` }
+                method: "POST",
+                headers: { 
+                    Authorization: `Bearer ${userToken.accessToken}`,
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({"discount": 0.2})
             }).then(res => {
                 console.log(res)
                 return res.json()
