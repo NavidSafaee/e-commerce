@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
+import { FaEye } from "react-icons/fa"
+import { IoCloseSharp } from "react-icons/io5"
 import baseURL from "../../../baseURL";
 import AuthContext from "../../../components/Context/AuthContext";
 import { isTokenExpired, refreshTokenHandler, showMessage } from "../../../functions";
 import st from "./../../panelPages/Orders/orders.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 
-function OrderReceived({ user, i }) {
+function OrderReceived({ order, i }) {
 
   const authContext = useContext(AuthContext)
 
@@ -18,8 +20,7 @@ function OrderReceived({ user, i }) {
   const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("")
   const [quantity, setQuantity] = useState("")
   const [price, setPrice] = useState("")
-
-  console.log(user, i)
+  const [showOrderDetail, setShowOrderDetail] = useState(false)
 
   const selectFiles = (e) => {
     // setImages([]);
@@ -51,11 +52,8 @@ function OrderReceived({ user, i }) {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
-      formData.append("images", [...images]);
+      // formData.append("images", [...images]);
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:${value}`);
-      }
       fetch(`${baseURL}/products`, {
         method: "POST",
         headers: {
@@ -84,9 +82,11 @@ function OrderReceived({ user, i }) {
           }
         });
     }
-  };
+  }
 
-  console.log(user, i, "receivedOrder");
+  useEffect(() => {
+    console.log(order.isDelivered)
+  }, [])
 
   return (
     <>
@@ -160,24 +160,56 @@ function OrderReceived({ user, i }) {
           </div>
         </>
       )}
+      {
+        showOrderDetail && (
+          <div className={st.modal_bg}>
+            <div className={st.content}>
+              <div className={st.closeBtn} onClick={() => setShowOrderDetail(false)}><IoCloseSharp /></div>
+              <div className={st.createTime}>{order.createdAt.slice(0, 10)}</div>
+              <div className={st.question}>Recieved? {order.isDelivered ? <span style={{ color: "green" }}>Yes</span> : <span style={{ color: "red" }}>No</span>}</div>
+              <table className={st.table}>
+                <thead>
+                  <td>#</td>
+                  <td>title</td>
+                  <td>price</td>
+                  <td>quantity</td>
+                </thead>
+                <tbody>
+                  {
+                    order.items.map((item, i) => (
+                      <tr key={i}>
+                        <td>{i++}</td>
+                        <td>{item.product.title}</td>
+                        <td>{item.product.price}</td>
+                        <td>{item.quantity}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      }
       <tr>
         <td>
           <input type="checkbox" onChange={() => setIsSelected(pre => !pre)} />
         </td>
         <td>{i + 1}</td>
-        <td>{user.createdAt}</td>
-        <td>{user.user}</td>
-        <td>{user.updatedAt}</td>
-        <td>{user.isDelivered ? "true" : "false"}</td>
-        <td>
+        <td>{order.createdAt.slice(0, 10)}</td>
+        <td>{order.user}</td>
+        <td>{order.updatedAt.slice(0, 10)}</td>
+        <td>{order.isDelivered ? "true" : "false"}</td>
+        <td style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
           <button
             className={st.addProducrBtn}
             onClick={() => setShowAddProduct(true)}
             disabled={!isSelected}
-            style={isSelected ? {opacity: 1} : { opacity: 0.7 }}
+            style={isSelected ? { opacity: 1 } : { opacity: 0.4, cursor: "" }}
           >
             add product
           </button>
+          <FaEye style={{ cursor: "pointer", fontSize: 20 }} onClick={() => setShowOrderDetail(true)} />
         </td>
       </tr>
     </>
