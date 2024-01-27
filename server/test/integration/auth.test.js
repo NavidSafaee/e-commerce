@@ -1,7 +1,10 @@
+const crypto = require('crypto');
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const bcrypt = require('bcryptjs');
 
-
+const OTP = require('../../src/models/OTPModel');
 const app = require('../../src/app');
 const {
     createTestUser,
@@ -33,29 +36,85 @@ describe('authentication', () => {
 
     describe('Test POST /signup', () => {
         it('should signup the user successfully', async () => {
-            const response = await chai.request(app)
+
+            const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
+            let hashedRandomInt = crypto.createHash('sha512').update(randomInt).digest("hex");
+            const oneTimePassword = hashedRandomInt.slice(0, 6).toUpperCase();
+            const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
+
+            const otp1 = new OTP({
+                OTP: hashedOTP,
+                contactInfo: 'test@gmail.com'
+            });
+
+            await otp1.save();
+
+
+            const response1 = await chai.request(app)
                 .post('/signup')
                 .send({
                     username: 'test',
                     email: 'test@gmail.com',
+                    OTP: oneTimePassword,
                     password: '11111',
                     confirmPassword: '11111',
-                    phoneNumber: '09111111111'
                 });
 
-            expect(response).to.have.status(201);
-            expect(response).to.have.header('Content-type', /json/);
-            expect(response.body).to.have.property('username').a('string');
-            expect(response.body).to.have.property('email').a('string');
+            expect(response1).to.have.status(201);
+            expect(response1).to.have.header('Content-type', /json/);
+            expect(response1.body).to.have.property('username').a('string');
+            expect(response1.body).to.have.property('email').a('string');
+            expect(response1.body).to.have.property('birthDate').a('string');
+            expect(response1.body).to.have.property('address').a('string');
+
+
+            const otp2 = new OTP({
+                OTP: hashedOTP,
+                contactInfo: '09111111111'
+            });
+
+            await otp2.save();
+
+            const response2 = await chai.request(app)
+                .post('/signup')
+                .send({
+                    username: 'test',
+                    phoneNumber: '09111111111',
+                    OTP: oneTimePassword,
+                    password: '11111',
+                    confirmPassword: '11111',
+                });
+
+            expect(response1).to.have.status(201);
+            expect(response1).to.have.header('Content-type', /json/);
+            expect(response1.body).to.have.property('username').a('string');
+            expect(response1.body).to.have.property('phoneNumber').a('string');
+            expect(response1.body).to.have.property('birthDate').a('string');
+            expect(response1.body).to.have.property('address').a('string');
         });
 
         it('should catch empty username', async () => {
+            const randomInt = Date.now().toString() + crypto.randomInt(10000, 100000000).toString();
+            let hashedRandomInt = crypto.createHash('sha512').update(randomInt).digest("hex");
+            const oneTimePassword = hashedRandomInt.slice(0, 6).toUpperCase();
+            const hashedOTP = await bcrypt.hash(oneTimePassword, 12);
+
+            const otp = new OTP({
+                OTP: hashedOTP,
+                contactInfo: 'test@gmail.com'
+            });
+
+            await otp.save();
+
+
             const response = await chai.request(app)
                 .post('/signup')
                 .send({
                     username: '',
                     email: 'test@gmail.com',
-                    password: '11111'
+                    OTP: oneTimePassword,
+                    password: '11111',
+                    confirmPassword: '11111'
                 });
 
             expect(response).to.have.status(422);

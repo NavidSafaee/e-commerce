@@ -3,6 +3,12 @@ require('dotenv').config();
 const User = require('../../src/models/userModel');
 const Product = require('../../src/models/productModel');
 const Cart = require('../../src/models/cartModel');
+const OTP = require('../../src/models/OTPModel');
+const Order = require('../../src/models/orderModel');
+const Review = require('../../src/models/reviewModel');
+const RevokedToken = require('../../src/models/revokedTokenModel');
+const Ticket = require('../../src/models/ticketModel');
+const userDiscount = require('../../src/models/userDiscountModel');
 
 async function createTestUser() {
     const user = new User({
@@ -42,7 +48,12 @@ async function createTestCart(userId, productId) {
 async function clearDatabase() {
     await User.deleteMany();
     await Cart.deleteMany();
-    await Product.deleteMany();
+    await OTP.deleteMany();
+    await Order.deleteMany();
+    await Review.deleteMany();
+    await RevokedToken.deleteMany();
+    await Ticket.deleteMany();
+    await userDiscount.deleteMany();
 }
 
 module.exports = {

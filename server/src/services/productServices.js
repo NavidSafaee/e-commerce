@@ -132,8 +132,10 @@ async function createProduct(reqBody, images) {
             imageUrls,
             description,
             maxQuantityAllowedInCart,
-            discount,
-            discountExpiresAt: date
+            discount: {
+                percentage: discount,
+                expirationDate: date
+            }
         });
     }
 

@@ -28,15 +28,18 @@ async function createCheckoutSessionId(userId, discount) {
             },
             unit_amount: item.product.price * (1 - discount) * 100
         },
-        quantity: item.quantity
+        quantity: item.quantity,
+        discount: {
+            percent_off: discount
+        }
     }));
 
     const session = await stripe.checkout.sessions.create({
         mode: 'payment',
         payment_method_types: ['card'],
         line_items: lineItems,
-        success_url: `http://localhost:5173/checkout/success`,
-        cancel_url: `http://localhost:5173/checkout/cancel`
+        success_url: `http://localhost:3030/checkout/success`,
+        cancel_url: `http://localhost:3030/checkout/cancel`
     });
 
 

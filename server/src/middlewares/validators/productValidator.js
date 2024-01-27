@@ -12,13 +12,14 @@ const createOrEditProductValidator = [
         .if(body('productId').exists())
         .trim()
         .notEmpty(),
+
     body('orderId', 'order id should not be empty')
-        .if(body('productId').not().exists())
+        // .if(body('productId').not().exists())
         .trim()
         .notEmpty(),
 
     body('itemId', 'item id should not be empty')
-        .if(body('productId').not().exists())
+        // .if(body('productId').not().exists())
         .trim()
         .notEmpty(),
 

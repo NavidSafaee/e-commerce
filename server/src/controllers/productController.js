@@ -39,7 +39,9 @@ async function httpCreateProduct(req, res, next) {
         res.status(201).json(response);
         
     } catch (error) {
-        req.files.forEach(image => fs.unlink(image.path, (err) => { if (err) throw err }));
+        if (req.files) {
+            req.files.forEach(image => fs.unlink(image.path, (err) => { if (err) throw err }));
+        }
         next(error);
     }
 }
