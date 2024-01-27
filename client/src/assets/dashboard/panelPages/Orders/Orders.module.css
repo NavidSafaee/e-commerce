@@ -49,6 +49,12 @@
 
 }
 
+.formBody{
+  background-color: yellow;
+  width: max-content;
+  height: max-content;
+}
+
 .modal_bg {
   position: fixed;
   top: 0;

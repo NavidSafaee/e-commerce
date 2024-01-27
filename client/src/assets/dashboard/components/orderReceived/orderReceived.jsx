@@ -11,7 +11,7 @@ function OrderReceived({ user, i }) {
   const authContext = useContext(AuthContext)
 
   const [title, setTitle] = useState("")
-  const [showAddProduct, setShowAddProduct] = useState(true)
+  const [showAddProduct, setShowAddProduct] = useState(false)
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
   const [isSelected, setIsSelected] = useState(false)
@@ -43,15 +43,15 @@ function OrderReceived({ user, i }) {
       });
     } else {
       const formData = new FormData();
-      // formData.append("orderId", "65b398a0bb0189b2dbf726bf");
-      // formData.append("itemId", "65b398a0bb0189b2dbf726c0");
-      // formData.append("title", title);
-      // formData.append("quantity", quantity);
-      // formData.append("price", price);
-      // formData.append("category", category);
-      // formData.append("description", description);
-      // formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
-      // formData.append("images", [...images]);
+      formData.append("orderId", "65b398a0bb0189b2dbf726bf");
+      formData.append("itemId", "65b398a0bb0189b2dbf726c0");
+      formData.append("title", title);
+      formData.append("quantity", quantity);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("description", description);
+      formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
+      formData.append("images", [...images]);
 
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:${value}`);
@@ -165,10 +165,10 @@ function OrderReceived({ user, i }) {
           <input type="checkbox" onChange={() => setIsSelected(pre => !pre)} />
         </td>
         <td>{i + 1}</td>
-        {/* <td>{user.createdAt}</td>
+        <td>{user.createdAt}</td>
         <td>{user.user}</td>
         <td>{user.updatedAt}</td>
-        <td>{user.isDelivered ? "true" : "false"}</td> */}
+        <td>{user.isDelivered ? "true" : "false"}</td>
         <td>
           <button
             className={st.addProducrBtn}

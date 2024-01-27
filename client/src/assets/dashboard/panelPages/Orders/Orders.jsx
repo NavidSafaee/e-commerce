@@ -6,14 +6,16 @@ import AuthContext from "../../../components/Context/AuthContext";
 import baseURL from "../../../baseURL";
 import { showMessage } from "../../../functions";
 import OrderReceived from "../../components/orderReceived/OrderReceived";
+import AdminOrder from "../../components/adminOrder/adminOrder";
 
 // import { off } from "../../../../../../server/src/models/cartModel";
 
 export default function Orders() {
-  const [date, setDate] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [title, setTitle] = useState("");
+  // const [date, setDate] = useState("");
+  // const [price, setPrice] = useState("");
+  // const [quantity, setQuantity] = useState(0);
+  // const [title, setTitle] = useState("");
+  // const [orderCount, setorderCount] = useState("1");
   // const [description, setDescription] = useState("");
   // const [category, setCategory] = useState("");
   // const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
@@ -23,6 +25,9 @@ export default function Orders() {
   const [isContentReady, setIsContentReady] = useState(false);
   const [ordersData, setOrdersData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [addOrderModal, setaddOrderModal] = useState(0);
+  const [orderCount, setorderCount] = useState("1");
+
   // const [showAddProduct, setshowAddProduct] = useState(false);
 
   const getAllOrders = () => {
@@ -51,9 +56,9 @@ export default function Orders() {
     }
   };
   window.addEventListener("click", () => {
-    console.log(ordersData);
-  })
-  
+    // console.log(ordersData);
+  });
+
   const FormSender = (event) => {
     event.preventDefault();
     const userToken = JSON.parse(localStorage.getItem("userToken"));
@@ -96,15 +101,25 @@ export default function Orders() {
               title: "Oops!",
               text: data.message,
               icon: "warning",
-            })
+            });
           }
         });
     }
+  };
+  const NumberSender = (e) => {
+    e.preventDefault();
+    // setorderCount(e.target.children[1].children[0].value);
+
   };
 
   useEffect(() => {
     getAllOrders();
   }, []);
+
+
+  const set=(e)=>{
+
+  }
 
   ///******************************************************************************************* */
   // useEffect(() => {
@@ -130,48 +145,23 @@ export default function Orders() {
   //   setImages([...images, ...arry]);
   // };
 
-
-
   return (
     <>
       {!isContentReady && <PreLoader />}
       {isContentReady && (
         <div className={st.pageContentWrapper}>
-          
-
           {showModal && (
             <>
               <div className={st.modal_bg}>
-                <form onSubmit={FormSender} className={st.OrderForm}>
+                <form onSubmit={NumberSender} className={st.OrderForm}>
                   <h2 className={st.form_title}>New product info</h2>
                   <div className={st.formInputsRow}>
                     <input
-                      type="text"
-                      placeholder="Enter products title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <input type="text" placeholder="Enter producer name" />
-                  </div>
-                  <div className={st.formInputsRow}>
-                    <input
                       type="number"
-                      placeholder="How many products have arrived?"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="product's price "
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
-                  </div>
-                  <div className={st.formInputsRow}>
-                    <input
-                      type="date"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
+                      placeholder="Enter number of product"
+                      onChange={(e) => {
+                        setorderCount(e.target.value)
+                      }}
                     />
                   </div>
                   <div className={st.formInputsRow}>
@@ -181,13 +171,19 @@ export default function Orders() {
                       type="submit"
                     />
                     <button
-                      onClick={() => setShowModal(false)}
+                      onClick={
+                        () => {
+                          setShowModal(false)
+
+                        }}
+                      // onClick={() => set()}
                       className={st.cancelBtn}
                     >
                       Cancel
                     </button>
                   </div>
                 </form>
+                  <AdminOrder />
               </div>
             </>
           )}
