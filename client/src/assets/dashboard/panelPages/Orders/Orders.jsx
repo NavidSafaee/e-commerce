@@ -17,7 +17,7 @@ export default function Orders() {
   // const [description, setDescription] = useState("");
   // const [category, setCategory] = useState("");
   // const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
   // const [checkBox, setcheckBox] = useState(true);
   const authContext = useContext(AuthContext);
   const [isContentReady, setIsContentReady] = useState(false);
