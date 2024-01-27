@@ -21,8 +21,8 @@ function PaymentStatus() {
                     createOrder()
                 })
         } else {
-            fetch(`${baseURL}/carts/me`, {
-                method: "GET",
+            fetch(`${baseURL}/orders`, {
+                method: "POST",
                 headers: {
                     Authorization: `Bearer ${userToken.accessToken}`
                 },
@@ -39,6 +39,7 @@ function PaymentStatus() {
             navigate("/not-found")
         } else {
             if (param.status === "success") {
+                createOrder()
                 showMessage({
                     title: "Congratulations",
                     text: "The transaction was completed successfully",
@@ -46,7 +47,6 @@ function PaymentStatus() {
                 }).then(res => {
                     navigate("/")
                 })
-                createOrder()
             } else {
                 showMessage({
                     title: "Oops!",
