@@ -34,7 +34,7 @@ function ProfileSidebar() {
                 <div className={style.sidebar_header}>
                     <p className={style.message}>
                         Hi
-                        <strong className={style.username}>{authContext.userInfo?.username} Heidar gholizadeh asl</strong>
+                        <strong className={style.username}>{authContext.userInfo?.username}</strong>
                         <PiHandWavingFill style={{ fontSize: 40, margin: 10 }} />
                     </p>
                 </div>

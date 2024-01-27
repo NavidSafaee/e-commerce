@@ -317,7 +317,7 @@
         justify-content: flex-start;
         flex-direction: column;
         width: 60%;
-        min-height: 100px;
+        min-height: 200px;
         margin-top: 50px;
 
         h4 {
@@ -326,16 +326,16 @@
         }
 
         textarea {
-            width: 70%;
-            min-height: 50px;
+            width: 80%;
+            min-height: 120px;
             resize: none;
             appearance: none;
             border: none;
             outline: none;
-            background-color: #c0f9f5;
+            background-color: #e1fffd;
             border-radius: 10px;
             padding: 14px;
-            border: #06a99d 4px groove;
+            border: #06a99d 2px solid;
             font-size: 18px;
             clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
             transition: .5s;
@@ -414,9 +414,10 @@
 
                 .row1 {
                     width: 90%;
-                    padding-left: 20px;
+                    padding-inline: 20px;
                     @include flex();
                     justify-content: space-between;
+                    border-bottom: 2px solid #dfdfdf;
 
                     .authorBox {
                         font-size: 22px;
@@ -434,8 +435,10 @@
                 }
 
                 .end {
-                    width: 100%;
+                    width: 50%;
                     @include flex();
+                    justify-content: flex-start;
+                    border-top: 2px solid #dfdfdf;
 
                     .time {
                         font-family: pac;
@@ -445,10 +448,11 @@
                 }
 
                 .bodyPart {
+                    width: 100%;
                     font-family: acm;
                     color: #777;
                     font-size: 18px;
-                    text-align: justify;
+                    text-align: center;
                     text-indent: 30px;
                 }
             }

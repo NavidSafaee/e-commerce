@@ -20,7 +20,6 @@ function ProductPageComponent() {
     const otherImages = [
         "https://img.etimg.com/thumb/width-1200,height-900,imgsize-78972,resizemode-75,msid-99739108/top-trending-products/furniture/sofas/best-premium-sofa-sets-to-experience-luxurious-comfort.jpg",
         "https://cdn.barwefurniture.com/wp-content/uploads/2023/10/Mauck2070quot20Velvet20Squ-1276.jpg",
-        "https://img.etimg.com/thumb/width-1200,height-900,imgsize-78972,resizemode-75,msid-99739108/top-trending-products/furniture/sofas/best-premium-sofa-sets-to-experience-luxurious-comfort.jpg",
         "https://5.imimg.com/data5/SELLER/Default/2023/9/348287983/AW/LN/XO/115688690/l-shape-sofa-set-luxury-500x500.jpg",
     ]
     // const rate = 4  // this line is for test!
@@ -119,7 +118,8 @@ function ProductPageComponent() {
         }).then(res => {
             return res.json()
         }).then(data => {
-            setProductComments(data)
+            console.log(data)
+            setProductComments(data.filter(com => com.validationStatus !== "PENDING"))
         })
     }
 
@@ -206,7 +206,7 @@ function ProductPageComponent() {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => { // get product info
         fetch(`${baseURL}/products/${productId}`, {
             method: "GET",
             headers: { "Content-type": "application/json" }
@@ -284,7 +284,7 @@ function ProductPageComponent() {
                                         ))
                                     }
                                 </div>}
-                                <span className={ComponentStyle.review}>29 reviews {productCountInCart}</span>
+                                {productComments?.length !== 0 && <span className={ComponentStyle.review}>{productComments?.length} reviews</span>}
                             </div>
                             <div className={ComponentStyle.share_box}>
                                 <h5 className={ComponentStyle.title}>share this product</h5>
@@ -359,7 +359,7 @@ function ProductPageComponent() {
                     <button onClick={() => setCommentFlag(true)} className={ComponentStyle.showBtn}>Send</button>
                 </div>}
                 <div className={ComponentStyle.commentsWrapper}>
-                    <h3 className={ComponentStyle.commentsHeader}>Product Comments</h3>
+                    {productComments?.length ? <h3 className={ComponentStyle.commentsHeader}>Product Comments</h3> : <h3>No Comment yet!</h3>}
                     <div className={ComponentStyle.commentsContainer}>
                         {
                             productComments.map((comment, i) => (
@@ -371,26 +371,26 @@ function ProductPageComponent() {
                                                 <path d="M17.802 17.292s.077 -.055 .2 -.149c1.843 -1.425 3 -3.49 3 -5.789c0 -4.286 -4.03 -7.764 -9 -7.764c-4.97 0 -9 3.478 -9 7.764c0 4.288 4.03 7.646 9 7.646c.424 0 1.12 -.028 2.088 -.084c1.262 .82 3.104 1.493 4.716 1.493c.499 0 .734 -.41 .414 -.828c-.486 -.596 -1.156 -1.551 -1.416 -2.29z" />
                                                 <path d="M7.5 13.5c2.5 2.5 6.5 2.5 9 0" />
                                             </svg>
-                                            <strong className={ComponentStyle.authorName}>Faraz</strong>
+                                            <strong className={ComponentStyle.authorName}>{comment.user?.username}</strong>
                                         </div>
                                         <span className={ComponentStyle.commentRate}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star" width="32" height="32" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
                                             </svg>
-                                            <b>4</b>
+                                            <b>{comment.rating}</b>
                                         </span>
                                     </div>
-                                    <q className={ComponentStyle.bodyPart}>
-                                        A couch, also known as a sofa, settee, chesterfield, or davenport, is a cushioned item of furniture for seating multiple people (although it is not uncommon for a single person to use a couch alone).
-                                    </q>
+                                    <q className={ComponentStyle.bodyPart}>{comment.review}</q>
                                     <div className={ComponentStyle.end}>
-                                        <span className={ComponentStyle.time}>December 21</span>
+                                        <span className={ComponentStyle.time}>
+                                            {comment.createdAt === comment.updatedAt ? comment.createdAt.slice(0, 10) : comment.updatedAt.slice(0, 10)}
+                                        </span>
                                     </div>
                                 </div>
                             ))
                         }
-                        <div className={ComponentStyle.commentItem}>
+                        {/* <div className={ComponentStyle.commentItem}>
                             <div className={ComponentStyle.row1}>
                                 <div className={ComponentStyle.authorBox}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-hipchat" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -414,32 +414,7 @@ function ProductPageComponent() {
                             <div className={ComponentStyle.end}>
                                 <span className={ComponentStyle.time}>February 8</span>
                             </div>
-                        </div>
-                        <div className={ComponentStyle.commentItem}>
-                            <div className={ComponentStyle.row1}>
-                                <div className={ComponentStyle.authorBox}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-hipchat" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M17.802 17.292s.077 -.055 .2 -.149c1.843 -1.425 3 -3.49 3 -5.789c0 -4.286 -4.03 -7.764 -9 -7.764c-4.97 0 -9 3.478 -9 7.764c0 4.288 4.03 7.646 9 7.646c.424 0 1.12 -.028 2.088 -.084c1.262 .82 3.104 1.493 4.716 1.493c.499 0 .734 -.41 .414 -.828c-.486 -.596 -1.156 -1.551 -1.416 -2.29z" />
-                                        <path d="M7.5 13.5c2.5 2.5 6.5 2.5 9 0" />
-                                    </svg>
-                                    <strong className={ComponentStyle.authorName}>Navid</strong>
-                                </div>
-                                <span className={ComponentStyle.commentRate}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star" width="32" height="32" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-                                    </svg>
-                                    <b>3</b>
-                                </span>
-                            </div>
-                            <q className={ComponentStyle.bodyPart}>
-                                A couch, also known as a sofa, settee, chesterfield, or davenport, is a cushioned item of furniture for seating multiple people (although it is not uncommon for a single person to use a couch alone).
-                            </q>
-                            <div className={ComponentStyle.end}>
-                                <span className={ComponentStyle.time}>October 16</span>
-                            </div>
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </section>

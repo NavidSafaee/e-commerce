@@ -18,6 +18,6 @@ COPY server/ server/
 
 USER node
 
-CMD [ "npm", "start", "--prefix", "server"]
+CMD [ "npm", "run", "cluster", "--prefix", "server"]
 
 EXPOSE 3000

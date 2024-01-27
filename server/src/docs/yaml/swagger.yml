@@ -4,7 +4,7 @@ info:
   description: API documentation for SoftLand
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:3000
     description: SoftLand server
 
 

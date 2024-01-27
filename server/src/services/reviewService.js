@@ -24,7 +24,7 @@ async function addReview(reqBody, productId, userId) {
         validationStatus: 'PENDING'
     }
 
-    const reviewDoc = await Review.findOneAndUpdate({ user: userId }, reviewObj, { upsert: true, new: true });
+    const reviewDoc = await Review.findOneAndUpdate({ user: userId, product: productId }, reviewObj, { upsert: true, new: true });
     return reviewDoc;
 }
 

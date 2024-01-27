@@ -27,6 +27,8 @@ import UserComments from "./components/userProfile/UserComments/UserComments"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
 import Payment_status_page from "./pages/Payment_status_page"
 import SoftLand_Plus_page from "./pages/SoftLand_Plus_page"
+import UserTickets from "./components/userProfile/UserTickets/UserTickets"
+import Reviews from "./dashboard/panelPages/Reviews/Reviews"
 
 const mainRoutes = [
     { path: "/", element: <MainPage /> },
@@ -35,6 +37,7 @@ const mainRoutes = [
     { path: '/admin-panel/users', element: <Panel_main_page><UserList /></Panel_main_page> },
     { path: '/admin-panel/orders', element: <Panel_main_page><Orders /></Panel_main_page> },
     { path: '/admin-panel/products', element: <Panel_main_page><Products /></Panel_main_page> },
+    { path: '/admin-panel/reviews', element: <Panel_main_page><Reviews /></Panel_main_page> },
     { path: '/admin-panel/newProduct', element: <Panel_main_page><NewProduct /></Panel_main_page> },
     { path: '/admin-panel/Tickets', element: <Panel_main_page><Tickets /></Panel_main_page> },
     { path: '/admin-panel/product/:productID', element: <Panel_main_page><Product /></Panel_main_page> },
@@ -56,6 +59,7 @@ const mainRoutes = [
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
     { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
+    { path: "/user/profile/ticket", element: <UserProfilePage><UserTickets /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
 ]
 

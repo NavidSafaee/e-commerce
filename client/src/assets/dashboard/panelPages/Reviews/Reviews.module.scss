@@ -1,24 +1,13 @@
-.commentSection {
-    width: calc(100% - 300px);
-    min-height: 300px;
-    margin: 0 25px;
+.pageContentContainer {
+    width: 100%;
+    min-height: 700px;
+    background-color: #faf7f2;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     padding-top: 20px;
-
-    .emptyBox {
-        width: 100%;
-        height: 400px;
-        background-color: #dadada;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 50px;
-        font-family: lemon;
-        border-radius: 10px;
-    }
 
     .commentsContainer {
         width: 100%;
@@ -27,6 +16,7 @@
         justify-content: flex-start;
         flex-direction: column;
         gap: 40px;
+        margin-top: 50px;
 
         .commentItem {
             width: 90%;
@@ -85,7 +75,7 @@
                 width: 70%;
                 padding-inline: 10px;
                 padding-top: 10px;
-                
+
                 .titleContainer {
                     width: 100%;
                     font-size: 26px;
@@ -93,6 +83,7 @@
                     padding-bottom: 10px;
                     border-bottom: 2px solid gray;
                 }
+
                 .textBox {
                     width: 100%;
                     font-size: 18px;
@@ -108,6 +99,7 @@
                         font-size: 30px;
                     }
                 }
+
                 .timeRow {
                     width: 100%;
                     text-align: center;
@@ -123,27 +115,21 @@
                 }
             }
 
-            .status {
+            .statusBtn {
                 position: absolute;
                 right: 40px;
-                top: -10px;
-                height: 30px;
-                width: 90px;
-
-                .pending,
-                .accepted {
-                    padding: 5px 10px;
-                    font-family: lemon;
-                    border-radius: 5px;
-                    color: #fff;
-                }
-
-                .pending {
-                    background-color: orangered;
-                }
-                .accepted {
-                    background-color: green;
-                }
+                top: -20px;
+                height: 40px;
+                width: 120px;
+                padding: 10px 10px;
+                font-family: lemon;
+                border-radius: 5px;
+                color: #fff;
+                background-color: #008917;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
             }
         }
     }

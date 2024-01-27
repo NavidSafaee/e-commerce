@@ -1,15 +1,28 @@
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 const { CronJob } = require('cron');
+const ejs = require('ejs');
 
-const { sendBirthDaySms } = require('../utils/sms');
+// const { sendBirthDaySms } = require('../utils/sms');
+const nodemailer = require('nodemailer');
 
 const User = require('../models/userModel');
 const UserDiscount = require('../models/userDiscountModel');
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: true,
+    auth: {
+        user: 'softlaand@gmail.com',
+        pass: process.env.GMAIL_APP_PASSWORD
+    }
+});
+
 function scheduleTokenCleanup() {
     new CronJob(
-        '0 4 * * * 6',
+        '0 4 * * 6',
         cleanupExpiredTokens,
         null,
         true
@@ -32,7 +45,7 @@ async function cleanupExpiredTokens() {
 
 function scheduleUserDiscount() {
     new CronJob(
-        '0 0 * * * *',
+        '0 0 * * *',
         createUserDiscount,
         null,
         true
@@ -41,7 +54,7 @@ function scheduleUserDiscount() {
 
 async function createUserDiscount() {
     try {
-        const discountCode = await generateDiscountCode();
+        console.log('safehlama da sanalah');
         const todayDate = new Date();
         const month = todayDate.getMonth() + 1;
         const day = todayDate.getDate();
@@ -55,6 +68,10 @@ async function createUserDiscount() {
             }
         });
 
+        console.log(users);
+        if (users.length === 0) return;
+
+        const discountCode = await generateDiscountCode();
         const userDiscount = new UserDiscount({
             code: discountCode,
             percentage: 0.2,
@@ -66,7 +83,22 @@ async function createUserDiscount() {
         await UserDiscount.deleteMany({ expiration: { $lte: new Date() } });
 
         for (const user of users) {
-            if (user.phoneNumber) sendBirthDaySms(1234, user.phoneNumber, user.username, 20);
+            if (!user.email) continue;
+
+            const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'verification-email.ejs'));
+            const renderedHtml = ejs.render(String(htmlFile), { OTP: discountCode });
+
+            transporter.sendMail({
+                from: 'softlaand@gmail.com',
+                to: user.email,
+                subject: 'verify your new Softland account',
+                html: renderedHtml,
+                attachments: [{
+                    filename: 'pastel-green-logo.png',
+                    path: path.join(__dirname, '..', '..', 'public', 'images', 'reset-password', 'pastel-green-logo.png'),
+                    cid: 'logo'
+                }]
+            });
         }
 
     } catch (error) {
@@ -90,7 +122,7 @@ async function generateDiscountCode() {
 
 function scheduleExpiredDiscountCleanup() {
     new CronJob(
-        '0 2 * * * 6',
+        '0 2 * * 6',
         cleanupExpiredDiscountCodes,
         null,
         true
