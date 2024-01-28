@@ -45,7 +45,7 @@ async function cleanupExpiredTokens() {
 
 function scheduleUserDiscount() {
     new CronJob(
-        '0 0 * * *',
+        '1 0 * * *',
         createUserDiscount,
         null,
         true
@@ -54,7 +54,6 @@ function scheduleUserDiscount() {
 
 async function createUserDiscount() {
     try {
-        console.log('safehlama da sanalah');
         const todayDate = new Date();
         const month = todayDate.getMonth() + 1;
         const day = todayDate.getDate();
@@ -68,14 +67,12 @@ async function createUserDiscount() {
             }
         });
 
-        console.log(users);
         if (users.length === 0) return;
 
         const discountCode = await generateDiscountCode();
         const userDiscount = new UserDiscount({
             code: discountCode,
             percentage: 0.2,
-            expiration: todayDate.setDate(todayDate.getDate() + 2),
             users
         });
 

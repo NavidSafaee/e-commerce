@@ -1,0 +1,150 @@
+paths:
+  /tickets/me:
+    get:
+      summary: Returns authenticated user all tickets
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Returns all tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden"
+
+    put:
+      summary: Sends new ticket
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: ticket id is just for chat in existing ticket
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketId:
+                  type: string
+                  example: 650b1ed61882fc118a114d19
+                ticketText:
+                  type: string
+                  example: bla bla bla
+      responses:
+        "204":
+          description: Sends ticket successfully
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden"
+        "404":
+          description: when ticket not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error" 
+
+  /tickets/me/open:
+    get:
+      summary: Returns authenticated user OPEN tickets
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Returns all OPEN tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden"
+
+  /tickets/me/resolved:
+    get:
+      summary: Returns authenticated user RESOLVED tickets
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Returns all RESOLVED tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden"
+
+  /tickets/{ticketId}/reply:
+    put:
+      summary: Replies to customer ticket
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: ticketId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The ticket ID  
+      responses:
+        "200":
+          description: replies to customer ticket
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden"
+        "400":
+          $ref: '#/components/responses/badRequest'  
+
+  /tickets/{ticketId}/resolved:
+    put:
+      summary: Changes tickets status 
+      tags:
+        - tickets
+      parameters:
+        - in: path
+          name: ticketId
+          type: string
+          required: true
+          schema:
+            type: string
+            example: 650b1ed61882fc118a114d19
+          description: The ticket ID  
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: changes tickets status
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden" 

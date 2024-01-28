@@ -15,10 +15,6 @@ const ticketSchema = new Schema({
         chatText: {
             type: String,
             required: true,
-            date: {
-                type: Date,
-                required: true
-            }
         },
         date: {
             type: Date,

@@ -3,6 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Cart = require('../models/cartModel');
 
 async function createCheckoutSessionId(userId, discount) {
+    console.log(discount);
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
 
     if (!cart) {
@@ -26,12 +27,10 @@ async function createCheckoutSessionId(userId, discount) {
                 name: item.product.title,
                 images: [item.product.imageUrls[0]]
             },
-            unit_amount: item.product.price * (1 - discount) * 100
+            unit_amount: item.product.price * (1 - item.product.discount.percentage) * (1 - discount) * 100,
         },
         quantity: item.quantity,
-        discount: {
-            percent_off: discount
-        }
+
     }));
 
     const session = await stripe.checkout.sessions.create({

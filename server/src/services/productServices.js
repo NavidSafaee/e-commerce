@@ -89,12 +89,6 @@ async function createProduct(reqBody, images) {
         throw error;
     }
 
-    let date;
-    if (discount) {
-        date = new Date();
-        date.setDate(date.getDate() + 190);
-    }
-
     let product;
     let orderItem = order.items.find(item => item._id.toString() === itemId);
     if (productId) {
@@ -118,20 +112,29 @@ async function createProduct(reqBody, images) {
             return imageUrl;
         });
 
-        if (quantity !== orderItem.quantity) {
+        // console.log(typeof quantity);
+        // console.log(typeof orderItem.quantity);
+
+        if (+quantity !== orderItem.quantity) {
             const error = new Error('product quantity must be equal to order item quantity');
             error.statusCode = 400;
             throw error;
         }
 
+        let date;
+        if (discount) {
+            date = new Date();
+            date.setDate(date.getDate() + 190);
+        }
+
         product = new Product({
             title,
-            quantity,
-            price,
+            quantity: +quantity,
+            price: +price,
             category,
             imageUrls,
             description,
-            maxQuantityAllowedInCart,
+            maxQuantityAllowedInCart: +maxQuantityAllowedInCart,
             discount: {
                 percentage: discount,
                 expirationDate: date

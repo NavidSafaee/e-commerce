@@ -228,5 +228,30 @@ components:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3MDA1OTc1NDMsImV4cCI6MTcwMDU5OTM0Mywic3ViIjoiNjU1NzY5ZWYxNGI3NjdlYTlmMGNmZTZjIn0.xukyt6wPXeXRZ9iS3m2ZCrO3EW3Fhmy7qDxMEyJ7xNs 
 
+    Ticket:
+      type: object
+      properties: 
+        customer: 
+          type: string
+          example: 650b1ed61882fc118a114d19
+        chat: 
+          type: array
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                example: CUSTOMER
+              chatText:
+                type: string
+                example: bla bla bla
+              date:
+                type: date
+                example: 2024-03-28T16:33:26.500Z
+        status:
+          type: string
+          example: OPEN
+
+
 
  

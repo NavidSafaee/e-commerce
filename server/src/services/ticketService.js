@@ -32,7 +32,8 @@ async function sendTicket(userId, reqBody) {
         ticket.status = 'OPEN';
         ticket.chat.push({
             role: 'CUSTOMER',
-            chatText: ticketText
+            chatText: ticketText,
+            date: new Date()
         });
 
     } else {
@@ -40,7 +41,8 @@ async function sendTicket(userId, reqBody) {
             customer: userId,
             chat: [{
                 role: 'CUSTOMER',
-                chatText: ticketText
+                chatText: ticketText,
+                date: new Date()
             }],
             status: 'OPEN'
         });
@@ -62,7 +64,8 @@ async function replyToTicket(ticketId, ticketText) {
 
     ticket.chat.push({
         role: 'ADMIN',
-        chatText: ticketText
+        chatText: ticketText,
+        date: new Date()
     });
 
     await ticket.save();

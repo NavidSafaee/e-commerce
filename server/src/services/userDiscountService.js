@@ -9,11 +9,11 @@ async function getDiscountPercentage(discountCode) {
         throw error;  
     }
 
-    if (userDiscount.expiration < new Date()) {
-        const error = new Error('Discount expired');
-        error.statusCode = 410;
-        throw error;  
-    }
+    // if (userDiscount.expiration < new Date()) {
+    //     const error = new Error('Discount expired');
+    //     error.statusCode = 410;
+    //     throw error;  
+    // }
 
     return { discountPercentage: userDiscount.percentage };
 }
