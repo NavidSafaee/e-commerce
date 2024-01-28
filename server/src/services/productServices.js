@@ -112,8 +112,17 @@ async function createProduct(reqBody, images) {
             return imageUrl;
         });
 
-        // console.log(typeof quantity);
-        // console.log(typeof orderItem.quantity);
+        if (title !== orderItem.product.title) {
+            const error = new Error('product title must be equal to order item title');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        if (+price !== orderItem.product.price) {
+            const error = new Error('product price must be equal to order item price');
+            error.statusCode = 400;
+            throw error;
+        }
 
         if (+quantity !== orderItem.quantity) {
             const error = new Error('product quantity must be equal to order item quantity');
@@ -122,9 +131,15 @@ async function createProduct(reqBody, images) {
         }
 
         let date;
-        if (discount) {
+        let discountObj;
+        if (+discount) {
             date = new Date();
             date.setDate(date.getDate() + 190);
+
+            discountObj = {
+                percentage: discount,
+                expirationDate: date
+            }
         }
 
         product = new Product({
@@ -135,10 +150,7 @@ async function createProduct(reqBody, images) {
             imageUrls,
             description,
             maxQuantityAllowedInCart: +maxQuantityAllowedInCart,
-            discount: {
-                percentage: discount,
-                expirationDate: date
-            }
+            discount: discountObj
         });
     }
 

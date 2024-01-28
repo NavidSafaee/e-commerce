@@ -34,7 +34,6 @@ async function httpGetProductById(req, res, next) {
 async function httpCreateProduct(req, res, next) {
     try {
         validator(req);
-        console.log(req.files);
         const response = await createProduct(req.body, req.files);
         res.status(201).json(response);
         

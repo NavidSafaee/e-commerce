@@ -27,7 +27,7 @@ const productSchema = new Schema({
         required: true
     },
     discount: {
-        percentage: { type: Number, default: 0 },
+        percentage: Number ,
         expirationDate: Date
     },
     maxQuantityAllowedInCart: Number
