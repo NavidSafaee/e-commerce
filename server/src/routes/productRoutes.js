@@ -18,9 +18,9 @@ const router = express.Router();
 
 router.get('/', httpGetAllProducts);
 router.post('/', isAuth, isAdmin, multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10), createOrEditProductValidator, httpCreateProduct);
-router.get('/:productId', httpGetProductById);
-router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
 router.get('/count', isAuth, isAdmin, httpGetAllProductsCount);
 router.get('/title', httpGetAllProductsTitle);
+router.get('/:productId', httpGetProductById);
+router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
 
 module.exports = router;

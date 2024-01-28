@@ -161,10 +161,17 @@ async function getCustomerDeliveredOrdersCount() {
             }
         },
         {
-            $match: { 'user.role': 'CUSTOMER', deliveryDate: { $lte: new Date() } }
+            $match: { 'user.role': 'CUSTOMER', deliveryDate: { $lte: new Date() } },
+            
         },
-        { $count: 'count' }
+        {
+            $count: 'count'
+        }
     ]);
+
+    if (orderCount.length === 0) {
+        return { count: 0 };
+    }
 
     return orderCount[0];
 }

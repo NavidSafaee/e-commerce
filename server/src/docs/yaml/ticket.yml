@@ -148,3 +148,26 @@ paths:
           $ref: "#/components/responses/unauthorized"
         "403":
           $ref: "#/components/responses/forbidden" 
+
+  /tickets/open/count:
+    get:
+      summary: Returns open tickets count
+      tags:
+        - tickets
+      security:
+        - bearerAuth: []    
+      responses:
+        "200":
+          description: changes tickets status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 10
+        "401":
+          $ref: "#/components/responses/unauthorized"
+        "403":
+          $ref: "#/components/responses/forbidden" 

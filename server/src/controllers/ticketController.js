@@ -4,7 +4,8 @@ const {
     changeTicketStatus,
     sendTicket,
     replyToTicket,
-    getMyTickets
+    getMyTickets,
+    getOpenTicketsCount
 } = require('../services/ticketService');
 
 
@@ -69,11 +70,22 @@ async function httpReplyToTicket(req, res, next) {
 }
 
 
+async function httpGetOpenTicketsCount(req, res, next) {
+    try {
+        const response = await getOpenTicketsCount();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 module.exports = {
     httpGetMyOpenTicket,
     httpGetMyResolvedTicket,
     httpChangeTicketStatus,
     httpSendTicket,
     httpReplyToTicket,
-    httpGetMyTickets
+    httpGetMyTickets,
+    httpGetOpenTicketsCount
 }

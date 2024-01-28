@@ -72,6 +72,11 @@ async function replyToTicket(ticketId, ticketText) {
     return ticket;
 }
 
+async function getOpenTicketsCount() {
+    const count = await Ticket.countDocuments({ status: 'OPEN' });
+    return { count };
+}
+
 
 
 
@@ -82,5 +87,6 @@ module.exports = {
     getMyResolvedTicket,
     changeTicketStatus,
     sendTicket,
-    replyToTicket
+    replyToTicket,
+    getOpenTicketsCount
 }

@@ -3,7 +3,7 @@ paths:
     get:
       summary: Returns a list of products + total items.
       tags:
-        - products
+        - products  
       parameters:
         - in: query
           name: category
@@ -32,6 +32,8 @@ paths:
       summary: Creates a new product
       tags:
         - products
+      security: 
+        - bearerAuth: []  
       requestBody:
         content:
           multipart/form-data:
@@ -41,13 +43,13 @@ paths:
                 orderId:
                   type: string
                 itemId:
-                  type: integer
+                  type: string
                 title:
                   type: string
                 quantity:
-                  type: number
+                  type: string
                 price:
-                  type: number  
+                  type: string  
                 category:
                   type: string  
                 description:
@@ -141,7 +143,9 @@ paths:
     get:
       summary: Returns all products count.
       tags:
-        - products 
+        - products
+      security: 
+        - bearerAuth: []   
       responses:
         "200":
           description: returns all products count
