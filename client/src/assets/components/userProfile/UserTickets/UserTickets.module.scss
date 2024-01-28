@@ -1,6 +1,103 @@
-.profileMainSection {
-    width: calc(100% - 300px);
-    height: 300px;
-    margin: 0 25px;
-    background-color: rgb(38, 255, 0);
-}
+.modal_bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #55555583;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .OrderForm button:hover {
+    background: #8F0070;
+    color: white;
+  }
+
+  .modal_bg .OrderForm {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 900px;
+    padding: 40px;
+    background-color: #e5e5e5;
+    border-radius: 10px;
+  }
+  
+  .modal_bg .OrderForm .form_title {
+    font-family: pac;
+    font-size: 30px;
+    text-align: center;
+    width: 400px;
+    font-weight: 600;
+    cursor: default;
+    margin-bottom: 20px;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow input {
+    width: 45%;
+    background-color: #f6f6f6;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #8f0070;
+    border-radius: 4px;
+    padding-inline: 10px;
+    height: 40px;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow input::placeholder {
+    color: #a8a8a8;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow input[type="date"] {
+    width: 400px;
+    text-align: center;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow .submit_btn,
+  .modal_bg .OrderForm .formInputsRow .cancelBtn {
+    width: 120px;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 20px;
+    font-family: lemon;
+    letter-spacing: 1px;
+    border-radius: 10px;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow .submit_btn {
+    background-color: #009842;
+  }
+  
+  .modal_bg .OrderForm .formInputsRow .cancelBtn {
+    background-color: #d40000;
+  }
+  
+  .OrderForm button:hover {
+    background: #8F0070;
+    color: white;}
+
+
+
+    .modal_bg .OrderForm .form_title {
+        font-family: pac;
+        font-size: 30px;
+        text-align: center;
+        width: 400px;
+        font-weight: 600;
+        cursor: default;
+        margin-bottom: 20px;
+      }
+
