@@ -35,8 +35,7 @@
   margin-bottom: 30px;
 }
 
-.addProducrBtn{
-  /* width: 300px; */
+.addProducrBtn {
   border: none;
   padding: 5px 8px;
   color: #fff;
@@ -45,8 +44,21 @@
   border-radius: 5px;
   font-weight: 300;
   cursor: pointer;
-  margin-bottom: 30px;
+}
 
+.formBody {
+  width: max-content;
+  height: max-content;
+}
+
+.formBody .itemsRow {
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-family: lemon;
+  color: #999;
 }
 
 .modal_bg {
@@ -63,20 +75,76 @@
   justify-content: center;
 }
 
-.modal_bg .OrderForm {
+.modal_bg .OrderForm,
+.modal_bg .content {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  width: 900px;
-  padding: 40px;
+  width: 800px;
+  padding: 30px;
   background-color: #e5e5e5;
   border-radius: 10px;
 }
 
+.modal_bg .content {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.modal_bg .content .closeBtn {
+  position: absolute;
+  color: #fff;
+  background-color: #d40000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.modal_bg .content .question {
+  font-family: lemon;
+  font-size: 22px;
+}
+
+.modal_bg .content .createTime {
+  font-family: pac;
+  margin-bottom: 10px;
+  font-size: 25px;
+  color: #777;
+}
+
+.modal_bg .content .table {
+  width: 90%;
+  margin-top: 30px;
+}
+
+.modal_bg .content .table thead td {
+  text-align: center;
+  padding-block: 10px;
+  font-family: acm;
+  font-size: 18px;
+  background-color: var(--main-color);
+  color: #fff;
+}
+
+.modal_bg .content .table tbody tr td {
+  background-color: #fff;
+
+  &:nth-child(1) {
+    background-color: var(--main-color);
+  }
+}
+
 .modal_bg .OrderForm .form_title {
   font-family: pac;
-  font-size: 30px;
+  font-size: 35px;
   text-align: center;
   width: 400px;
   font-weight: 600;
@@ -93,7 +161,7 @@
 }
 
 .modal_bg .OrderForm .formInputsRow input {
-  width: 45%;
+  width: 40%;
   background-color: #f6f6f6;
   border: none;
   outline: none;
@@ -101,6 +169,8 @@
   border-radius: 4px;
   padding-inline: 10px;
   height: 40px;
+  text-align: center;
+  font-family: acm;
 }
 
 .modal_bg .OrderForm .formInputsRow input::placeholder {
@@ -114,7 +184,7 @@
 
 .modal_bg .OrderForm .formInputsRow .submit_btn,
 .modal_bg .OrderForm .formInputsRow .cancelBtn {
-  width: 120px;
+  width: 140px;
   border: none;
   color: #fff;
   font-weight: 500;
@@ -122,6 +192,11 @@
   font-family: lemon;
   letter-spacing: 1px;
   border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .modal_bg .OrderForm .formInputsRow .submit_btn {
