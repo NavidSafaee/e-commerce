@@ -1,52 +1,86 @@
-.home {
+.homePageContainer {
   flex: 4;
   background-color: #fff;
   min-height: 100vh;
 }
 
-.HomeCards {
+.homePageContainer .todaySection {
+  width: 100%;
+  height: 300px;
   display: flex;
-  background-color: #fff;
-  flex-direction: row;
-  justify-content: space-evenly;
-  height: auto;
-  width: 95%;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+  margin-block: 50px;
+}
+
+.homePageContainer .todaySection .clockCircle {
+  background: radial-gradient(#f8eec6, #d7ac00);
+  color: #fff;
+  font-family: pac;
+  font-size: 24px;
+  border-radius: 50%;
+  cursor: default;
+  box-shadow: 4px 4px 15px #ebebeb, -4px -4px 15px #ebebeb, -4px 4px 15px #ebebeb, 4px -4px 15px #ebebeb;
+}
+
+.homePageContainer .todaySection .calender {
+  background: linear-gradient(10deg, #ffea00, #ffff85, #ffffd5);
+  border-radius: 10px;
+  border: none;
+  box-shadow: 3px 3px 5px #d5d5d5;
+}
+
+.homePageContainer .HomeCards {
+  display: flex;
   flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  width: 95%;
   padding: 20px 10px;
 }
 
-.HomeCard {
-  width: 200px;
-  border: 1px solid rgb(197, 197, 197);
-  border-radius: 15px 5px 15px 5px;
-  /* margin: 20px 60px 30px 60px; */
-  background-color: #f3eada;
+.homePageContainer .HomeCards .HomeCard {
+  width: 300px;
+  height: 140px;
+  border: 1px solid #e4e3e3;
+  border-radius: 5px 15px 5px 15px;
+  background-color: #f4f2ef;
+  position: relative;
 }
 
-.HomeCardHeader {
+.homePageContainer .HomeCards .HomeCard .icon-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
   display: flex;
-  flex-direction: row;
-  justify-content: start;
-  padding: 10px;
-  border-bottom: 1px solid rgb(197, 197, 197);
-  background-color: #06a99d;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  font-weight: 400;
-}
-.HomeCardHeaderTitle {
-  margin-left: 10px;
+  font-size: 35px;
+  position: absolute;
+  left: 10px;
+  top: -20px;
+  box-shadow: 2px 2px 5px #dedede, -2px -2px 5px #dedede;
 }
 
-.HomeCardValue {
+.homePageContainer .HomeCards .HomeCard .card-title {
+  width: 70%;
+  padding: 10px;
+  text-align: right;
+  font-family: pac;
+  font-size: 25px;
+  cursor: default;
+}
+
+.homePageContainer .HomeCards .HomeCard .count {
   width: 100%;
-  padding: 10px 0px;
-}
-
-#HomeCardValue {
-  text-align: center;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  transform: scale(1.5, 1.5);
-  color: #949494;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  font-family: pac;
 }

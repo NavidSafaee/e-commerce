@@ -11,6 +11,7 @@ import { showMessage } from "../../functions"
 import { CgEditBlackPoint } from "react-icons/cg"
 import { IoIosLock } from "react-icons/io"
 import { FaTelegramPlane } from "react-icons/fa"
+import { IoCloseSharp } from "react-icons/io5"
 
 function LoginPageComponent() {
 
@@ -83,18 +84,22 @@ function LoginPageComponent() {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(formInfo)
         }).then(res => {
+            console.log(res);
             if (!res.ok) {
                 setFormFlag(false)
             }
             return res.json()
         }).then(data => {
-            if (data.message) {
-                showMessage({ title: "Oops!", text: data.message, icon: "error" })
+            if (data?.message) {
+                showMessage({ title: "Oops!", text: data?.message, icon: "error" })
+                setFormFlag(false)
+                setOTP_Flag(false)
+                setUserOTP("")
             } else if (data) {
-                authContext.login(data.user, data.accessToken, data.refreshToken)
-                if (data.user.role === "CUSTOMER") {
+                authContext.login(data?.user, data?.accessToken, data?.refreshToken)
+                if (data?.user.role === "CUSTOMER") {
                     navigate("/")
-                } else if (data.user.role === "ADMIN") {
+                } else if (data?.user.role === "ADMIN") {
                     navigate("/admin-panel")
                 }
             }
@@ -195,6 +200,11 @@ function LoginPageComponent() {
 
                 {showModal && <div className={style.otp_modal_bg}>
                     <div className={style.otp_modal}>
+                        <div className={style.closer} onClick={() => {
+                            setOTP_Flag(false)
+                            setFormFlag(false)
+                            setShowModal(false)
+                        }}><IoCloseSharp /></div>
                         <img src="/general_images/otp_icon.png" alt="password-icon" />
                         <span className={style.otp_title}>Enter OTP code</span>
                         <p className={style.check_way_text}>Please check your {(userEmail !== undefined) ? "email" : "phone"}</p>

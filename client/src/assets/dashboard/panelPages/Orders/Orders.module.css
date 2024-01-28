@@ -260,3 +260,13 @@
   background-color: var(--main-color);
   color: #fff;
 }
+
+
+
+.receivedCheckBox{
+ 
+  transform: scale(1.5);
+
+  
+
+}

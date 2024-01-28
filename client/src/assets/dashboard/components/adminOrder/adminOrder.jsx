@@ -61,10 +61,11 @@ function AdminOrder({ onClose }) {
   }, [isOrderComplete])
 
   const addProductToList = (inp) => {
+    
     let newProductInfo = {
       "product": {
         "title": inp.title,
-        "price": inp.price
+        "price": +(inp.price)
       },
       "quantity": inp.quantity
     }

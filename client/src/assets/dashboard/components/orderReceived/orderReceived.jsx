@@ -19,22 +19,32 @@ function OrderReceived({ order, i }) {
   const [isSelected, setIsSelected] = useState(false)
   const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("")
   const [quantity, setQuantity] = useState("")
+  const [images, setImages] = useState([])
+
   const [price, setPrice] = useState("")
   const [showOrderDetail, setShowOrderDetail] = useState(false)
-
+  
+  const formData = new FormData();
   const selectFiles = (e) => {
-    // setImages([]);
-    let arry = [];
-    const arrFromObj = Object.keys(e.target.files);
-    for (let x in e.target.files) {
-      if (x < arrFromObj.length) {
-        arry.push(e.target.files[x]);
-      }
+    console.log(e.target.files.length);
+    for(let i=0;i<(e.target.files.length);i++){
+      console.log(e.target.files[i]);
+      formData.append('images',e.target.files[i])
+
     }
+    // setImages[images]
+    // let arry = [];
+    // const arrFromObj = Object.keys(e.target.files);
+    // for (let x in e.target.files) {
+    //   if (x < arrFromObj.length) {
+    //     arry.push(e.target.files[x]);
+    //   }
+    // }
     // setImages([...images, ...arry]);
   }
 
   const addProductFormSender = (event) => {
+    console.log(title,((quantity)),typeof(price),category,description,maxQuantityAllowedInCart,images);
     event.preventDefault();
     const userToken = JSON.parse(localStorage.getItem("userToken"));
     if (isTokenExpired(userToken.accessToken)) {
@@ -43,16 +53,17 @@ function OrderReceived({ order, i }) {
         addProductFormSender();
       });
     } else {
-      const formData = new FormData();
-      formData.append("orderId", "65b398a0bb0189b2dbf726bf");
-      formData.append("itemId", "65b398a0bb0189b2dbf726c0");
+      formData.append("orderId", "65b69be653ab99695b0f7e44");
+      formData.append("itemId", '65b69be653ab99695b0f7e45');
       formData.append("title", title);
       formData.append("quantity", quantity);
+      formData.append("discount", "0.1");
       formData.append("price", price);
       formData.append("category", category);
       formData.append("description", description);
-      formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
-      // formData.append("images", [...images]);
+      formData.append("maxQuantityAllowedInCart", (maxQuantityAllowedInCart));
+      // formData.append("images", ...images);
+      // console.log(formData);
 
       fetch(`${baseURL}/products`, {
         method: "POST",
@@ -85,7 +96,7 @@ function OrderReceived({ order, i }) {
   }
 
   useEffect(() => {
-    console.log(order.isDelivered)
+    // console.log(order.isDelivered)
   }, [])
 
   return (
@@ -193,7 +204,7 @@ function OrderReceived({ order, i }) {
       }
       <tr>
         <td>
-          <input type="checkbox" onChange={() => setIsSelected(pre => !pre)} />
+          <input type="checkbox" className={st.receivedCheckBox} onChange={() => setIsSelected(pre => !pre)} />
         </td>
         <td>{i + 1}</td>
         <td>{order.createdAt.slice(0, 10)}</td>

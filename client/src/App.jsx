@@ -31,7 +31,7 @@ function App() {
       setProductsCountInCart(sum => sum + inp)
     } else {
       let sum = 0
-      inp.map(item => {
+      inp?.map(item => {
         sum += item.quantity
       })
       setProductsCountInCart(sum)

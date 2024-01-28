@@ -185,8 +185,8 @@ export default function Orders() {
 
           <table className={st.userListTable}>
             <thead className={st.table_header}>
-              <th>received</th>
-              <th>id</th>
+              <th >Received</th>
+              <th>Id</th>
               <th>username</th>
               <th>email</th>
               <th>birthday</th>
