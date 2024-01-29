@@ -18,6 +18,10 @@ export default function Home() {
   const authContext = useContext(AuthContext)
 
   const [users, setUsers] = useState(0)
+  const [productsCount, setProductsCount] = useState(0)
+  const [ordersCount, setOrdersCount] = useState(0)
+  const [reviewsCount, setReviewsCount] = useState(0)
+  const [ticketsCount, setTicketsCount] = useState(0)
 
   const getCusomersCount = (userToken) => {
     fetch(`${baseURL}/users/customers/count`, {
@@ -28,10 +32,13 @@ export default function Home() {
     }).then(res => res.json()).then(data => setUsers(data.count))
   }
 
-  const getProductsCount = () => {
+  const getProductsCount = (userToken) => {
     fetch(`${baseURL}/products/count`, {
       method: "GET",
-    }).then(res => res.json()).then(data => console.log(data))
+      headers: {
+        Authorization: `Bearer ${userToken.accessToken}`
+      }
+    }).then(res => res.json()).then(data => setProductsCount(data.count))
   }
 
   const getOrders = (userToken) => {
@@ -40,7 +47,25 @@ export default function Home() {
       headers: {
         Authorization: `Bearer ${userToken.accessToken}`
       }
-    }).then(res => res.json())
+    }).then(res => res.json()).then(data => setOrdersCount(data.count))
+  }
+
+  const getReviewsCount = (userToken) => {
+    fetch(`${baseURL}/reviews/pending/count`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${userToken.accessToken}`
+      }
+    }).then(res => res.json()).then(data => setReviewsCount(data.count))
+  }
+
+  const getTicketsCount = (userToken) => {
+    fetch(`${baseURL}/tickets/open/count`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${userToken.accessToken}`
+      }
+    }).then(res => res.json()).then(data => setTicketsCount(data.count))
   }
 
   const getPanelInfo = () => {
@@ -54,9 +79,13 @@ export default function Home() {
     } else {
       getCusomersCount(userToken)
 
-      getProductsCount()
+      getProductsCount(userToken)
 
       getOrders(userToken)
+
+      getReviewsCount(userToken)
+
+      getTicketsCount(userToken)
     }
   }
 
@@ -70,7 +99,7 @@ export default function Home() {
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#6C22A6" }}><FaBoxesStacked /></div>
           <h5 className="card-title">Products</h5>
-          <div className="count" style={{ color: "#6C22A6" }}></div>
+          <div className="count" style={{ color: "#6C22A6" }}>{productsCount}</div>
         </div>
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#F94A29" }}><FaUsers /></div>
@@ -80,17 +109,17 @@ export default function Home() {
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#379237" }}><FaClipboardList /></div>
           <h5 className="card-title">Orders</h5>
-          <div className="count" style={{ color: "#379237" }}></div>
+          <div className="count" style={{ color: "#379237" }}>{ordersCount}</div>
         </div>
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#FF004D" }}><FaComments /></div>
           <h5 className="card-title">Comments</h5>
-          <div className="count" style={{ color: "#FF004D" }}></div>
+          <div className="count" style={{ color: "#FF004D" }}>{reviewsCount}</div>
         </div>
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#FFA33C" }}><LuMessagesSquare /></div>
           <h5 className="card-title">Tickets</h5>
-          <div className="count" style={{ color: "#FFA33C" }}></div>
+          <div className="count" style={{ color: "#FFA33C" }}>{ticketsCount}</div>
         </div>
       </div>
       <div className="todaySection">

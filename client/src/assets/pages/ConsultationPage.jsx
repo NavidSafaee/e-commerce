@@ -13,7 +13,7 @@ function ConsultationPage() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoaded(true)
-    }, 3000)
+    }, 2000)
   }, [])
 
   return (
