@@ -1,36 +1,89 @@
 /* eslint-disable react/prop-types */
-import { FaEye } from "react-icons/fa"
-import { IoCloseSharp } from "react-icons/io5"
+import { FaEye } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
 import baseURL from "../../../baseURL";
 import AuthContext from "../../../components/Context/AuthContext";
-import { isTokenExpired, refreshTokenHandler, showMessage } from "../../../functions";
+import {
+  isTokenExpired,
+  refreshTokenHandler,
+  showMessage,
+} from "../../../functions";
 import st from "./../../panelPages/Orders/orders.module.css";
+// import OrderReceived from "../../components/orderReceived/orderReceived";
+
+// import st from "./Orders.module.css";
+
 import { useContext, useEffect, useState } from "react";
 
-
 function OrderReceived({ order, i }) {
+  const authContext = useContext(AuthContext);
 
-  const authContext = useContext(AuthContext)
+  const [title, setTitle] = useState("");
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showOrderItems, setShowOrderItems] = useState(false);
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [isSelected, setIsSelected] = useState(false);
+  const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [orderIdPut111, setorderIdPut111] = useState("");
+  const [images, setImages] = useState([]);
+  const [OrderObject, setOrderObject] = useState({});
+  const [orderFlag, setOrderFlag] = useState(false)
+  const [itemValue, setItemValue] = useState({});
+  const [orderIdPut, setOrderIdPut] = useState({
+    _id: "",
+    user: "",
+    items: [],
+    isDelivered: true,
+    deliveryDate: "",
+    createdAt: "",
+    createdAt: "",
+    isDelivered: true,
+    items: [],
+    updatedAt: "",
+    __v: "",
+  });
+  const [ordersData, setOrdersData] = useState([]);
 
-  const [title, setTitle] = useState("")
-  const [showAddProduct, setShowAddProduct] = useState(false)
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("")
-  const [isSelected, setIsSelected] = useState(false)
-  const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("")
-  const [quantity, setQuantity] = useState("")
-  const [images, setImages] = useState([])
+  const [price, setPrice] = useState("");
+  const [showOrderDetail, setShowOrderDetail] = useState(false);
+  const [isContentReady, setIsContentReady] = useState(false);
 
-  const [price, setPrice] = useState("")
-  const [showOrderDetail, setShowOrderDetail] = useState(false)
-  
+  const getAllOrders = () => {
+    const userToken = JSON.parse(localStorage.getItem("userToken"));
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler().then((token) => {
+        authContext.writeTokenInStorage(token);
+        getAllOrders();
+      });
+    } else {
+      fetch(`${baseURL}/orders/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken.accessToken}`,
+        },
+      })
+        .then((res) => {
+          // console.log(res);
+          return res.json();
+        })
+        .then((data) => {
+          // console.log(data);
+          setOrdersData(data);
+          // console.log(ordersData, "ordersDataordersDataordersDataordersData");
+          setIsContentReady(true);
+        });
+    }
+  };
+
   const formData = new FormData();
   const selectFiles = (e) => {
     console.log(e.target.files.length);
-    for(let i=0;i<(e.target.files.length);i++){
+    for (let i = 0; i < e.target.files.length; i++) {
       console.log(e.target.files[i]);
-      formData.append('images',e.target.files[i])
-
+      formData.append("images", e.target.files[i]);
     }
     // setImages[images]
     // let arry = [];
@@ -41,10 +94,18 @@ function OrderReceived({ order, i }) {
     //   }
     // }
     // setImages([...images, ...arry]);
-  }
+  };
 
   const addProductFormSender = (event) => {
-    console.log(title,((quantity)),typeof(price),category,description,maxQuantityAllowedInCart,images);
+    console.log(
+      title,
+      quantity,
+      typeof price,
+      category,
+      description,
+      maxQuantityAllowedInCart,
+      images
+    );
     event.preventDefault();
     const userToken = JSON.parse(localStorage.getItem("userToken"));
     if (isTokenExpired(userToken.accessToken)) {
@@ -53,15 +114,15 @@ function OrderReceived({ order, i }) {
         addProductFormSender();
       });
     } else {
-      formData.append("orderId", "65b69be653ab99695b0f7e44");
-      formData.append("itemId", '65b69be653ab99695b0f7e45');
-      formData.append("title", title);
-      formData.append("quantity", quantity);
-      formData.append("discount", "0.1");
+      formData.append("orderId", order._id);
+      formData.append("itemId", itemValue._id);
+      formData.append("title", itemValue.product.title);
+      formData.append("quantity", itemValue.quantity);
+      formData.append("discount", discount);
       formData.append("price", price);
       formData.append("category", category);
       formData.append("description", description);
-      formData.append("maxQuantityAllowedInCart", (maxQuantityAllowedInCart));
+      formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
       // formData.append("images", ...images);
       // console.log(formData);
 
@@ -89,19 +150,61 @@ function OrderReceived({ order, i }) {
               title: "Oops!",
               text: data.message,
               icon: "warning",
-            })
+            });
           }
         });
+    }
+  };
+
+  const getOrderId = (e) => {
+    setOrderObject(order);
+    const userToken = JSON.parse(localStorage.getItem("userToken"));
+    if (isTokenExpired(userToken.accessToken)) {
+      refreshTokenHandler().then((token) => {
+        authContext.writeTokenInStorage(token);
+        getOrderId();
+      });
+    } else {
+      console.log(orderIdPut111);
+      fetch(`${baseURL}/orders/${orderIdPut111}/delivered`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userToken.accessToken}`,
+        },
+      }).then((res) => {
+        order.isDelivered=true;
+        
+        console.log(order.isDelivered,"adaaaa");
+        console.log(res.status);
+        if (res.status === 204) {
+
+          // setShowModal(true);
+        } else {
+          return res.json();
+        }
+      });
     }
   }
 
   useEffect(() => {
-    // console.log(order.isDelivered)
+    getAllOrders();
   }, [])
+
+  useEffect(() => {
+    if (orderFlag) {
+      getOrderId()
+    }
+  }, [orderFlag])
+
+  // useEffect(() => {
+  //   console.log(order.isDelivered)
+  // }, []);
 
   return (
     <>
-      {showAddProduct && (
+      {/* ************************************************************************************************ */}
+      {showOrderItems && (
         <>
           <div className={st.modal_bg}>
             <form onSubmit={addProductFormSender} className={st.OrderForm}>
@@ -116,7 +219,8 @@ function OrderReceived({ order, i }) {
                 <input
                   type="text"
                   placeholder="Enter products title"
-                  value={title}
+                  // value={title}
+                  value={itemValue.product.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <input
@@ -125,6 +229,7 @@ function OrderReceived({ order, i }) {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 />
+                
                 <input
                   type="text"
                   placeholder="Enter producer description"
@@ -136,16 +241,21 @@ function OrderReceived({ order, i }) {
                 <input
                   type="number"
                   placeholder="How many products have arrived?"
-                  value={quantity}
+                  // value={quantity}farzCer
+                  value={itemValue.quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                 />
                 <input
                   type="number"
                   placeholder="How many products have maxQuantityAllowedInCart?"
                   value={maxQuantityAllowedInCart}
-                  onChange={(e) =>
-                    setMaxQuantityAllowedInCart(e.target.value)
-                  }
+                  onChange={(e) => setMaxQuantityAllowedInCart(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Enter producer discount"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
                 />
                 <input
                   type="text"
@@ -155,11 +265,7 @@ function OrderReceived({ order, i }) {
                 />
               </div>
               <div className={st.formInputsRow}>
-                <input
-                  className={st.submit_btn}
-                  value={"Done"}
-                  type="submit"
-                />
+                <input className={st.submit_btn} value={"Done"} type="submit" />
                 <button
                   onClick={() => setShowAddProduct(false)}
                   className={st.cancelBtn}
@@ -171,60 +277,129 @@ function OrderReceived({ order, i }) {
           </div>
         </>
       )}
-      {
-        showOrderDetail && (
-          <div className={st.modal_bg}>
-            <div className={st.content}>
-              <div className={st.closeBtn} onClick={() => setShowOrderDetail(false)}><IoCloseSharp /></div>
-              <div className={st.createTime}>{order.createdAt.slice(0, 10)}</div>
-              <div className={st.question}>Recieved? {order.isDelivered ? <span style={{ color: "green" }}>Yes</span> : <span style={{ color: "red" }}>No</span>}</div>
-              <table className={st.table}>
-                <thead>
-                  <td>#</td>
-                  <td>title</td>
-                  <td>price</td>
-                  <td>quantity</td>
-                </thead>
-                <tbody>
-                  {
-                    order.items.map((item, i) => (
-                      <tr key={i}>
-                        <td>{i++}</td>
-                        <td>{item.product.title}</td>
-                        <td>{item.product.price}</td>
-                        <td>{item.quantity}</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
+      {showOrderDetail && (
+        <div className={st.modal_bg}>
+          <div className={st.content}>
+            <div
+              className={st.closeBtn}
+              onClick={() => setShowOrderDetail(false)}
+            >
+              <IoCloseSharp />
             </div>
+            <div className={st.createTime}>{order.createdAt.slice(0, 10)}</div>
+            <div className={st.question}>
+              Recieved?{" "}
+              {order.isDelivered ? (
+                <span style={{ color: "green" }}>Yes</span>
+              ) : (
+                <span style={{ color: "red" }}>No</span>
+              )}
+            </div>
+            <table className={st.table}>
+              <thead>
+                <td>#</td>
+                <td>Title</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Action</td>
+              </thead>
+              <tbody>
+                {order.items.map((item, i) => (
+                  <tr key={i}>
+                    <td>{i++}</td>
+                    <td>{item.product.title}</td>
+                    <td>{item.product.price}</td>
+                    <td>{item.quantity}</td>
+
+                    <td
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <button
+                        className={st.addProducrBtn}
+                        onClick={() => {
+                          // console.log(item,'joduuuuun');
+                          // console.log(e.target);
+                          setItemValue(item);
+
+                          setShowOrderItems(true);
+                          setShowOrderDetail(false);
+                        }}
+                        disabled={!order.isDelivered}
+                        style={
+                          order.isDelivered
+                            ? { opacity: 1 }
+                            : { opacity: 0.4, cursor: "" }
+                        }
+                      >
+                        add product
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        )
-      }
+        </div>
+      )}
       <tr>
-        <td>
-          <input type="checkbox" className={st.receivedCheckBox} onChange={() => setIsSelected(pre => !pre)} />
-        </td>
         <td>{i + 1}</td>
         <td>{order.createdAt.slice(0, 10)}</td>
-        <td>{order.user}</td>
-        <td>{order.updatedAt.slice(0, 10)}</td>
-        <td>{order.isDelivered ? "true" : "false"}</td>
-        <td style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
+        <td>{order.deliveryDate.slice(0, 10)}</td>
+        <td>{order.items.length}</td>
+        {/* <td>{order.isDelivered ? "true" : "false"}</td> */}
+        {/* <td>{order.items[0].product.price}</td>
+        <td>{order.items[0].quantity}</td> */}
+        {/* <td>{order.user}</td> */}
+        {/* <td>{order.updatedAt.slice(0, 10)}</td> */}
+        <td>
+          <input
+            type="checkbox"
+            checked={order.isDelivered}
+            style={
+              order.isDelivered
+                ? { opacity: 0.4 }
+                : { opacity: 1, cursor: "" }
+            }
+            className={st.receivedCheckBox}
+            onChange={() => {
+              setIsSelected((pre) => !pre);
+              setorderIdPut111(order._id);
+
+              // getOrderId();
+              setOrderFlag(true)
+            }}
+          />
+        </td>
+        {/* <td
+          style={{
+            display: "flex",
+            gap: 10,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <button
             className={st.addProducrBtn}
-            onClick={() => setShowAddProduct(true)}
+            onClick={() => setShowOrderItems(true)}
             disabled={!isSelected}
             style={isSelected ? { opacity: 1 } : { opacity: 0.4, cursor: "" }}
           >
             add product
           </button>
-          <FaEye style={{ cursor: "pointer", fontSize: 20 }} onClick={() => setShowOrderDetail(true)} />
+        </td> */}
+        <td>
+          <FaEye
+            style={{ cursor: "pointer", fontSize: 20 }}
+            onClick={() => setShowOrderDetail(true)}
+          />
         </td>
       </tr>
     </>
-
   );
 }
 

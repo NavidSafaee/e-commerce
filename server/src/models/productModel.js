@@ -15,7 +15,7 @@ const productSchema = new Schema({
     },
     category: {
         type: String,
-        enum: ['CHAIR', 'SOFA', 'BENCH', 'STORAGE', 'FURNITURE', 'TABLE'],
+        enum: ['CHAIR', 'SOFA', 'TV-STAND', 'ARMCHAIR', 'LAMP', 'CABINET'],
         required: true
     },
     imageUrls: {

@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import st from "./Orders.module.css";
 import PreLoader from "../../../components/PreLoader/PreLoader";
@@ -7,25 +8,13 @@ import baseURL from "../../../baseURL";
 import OrderReceived from "../../components/orderReceived/orderReceived";
 import AdminOrder from "../../components/adminOrder/adminOrder";
 
-// import { off } from "../../../../../../server/src/models/cartModel";
-
-export default function Orders() {
-  // const [date, setDate] = useState("");
-  // const [price, setPrice] = useState("");
-  // const [quantity, setQuantity] = useState(0);
-  // const [title, setTitle] = useState("");
-  // const [orderCount, setorderCount] = useState("1");
-  // const [description, setDescription] = useState("");
-  // const [category, setCategory] = useState("");
-  // const [maxQuantityAllowedInCart, setMaxQuantityAllowedInCart] = useState("");
-  // const [images, setImages] = useState([]);
-  // const [checkBox, setcheckBox] = useState(true);
+function orderItems() {
   const authContext = useContext(AuthContext);
   const [isContentReady, setIsContentReady] = useState(false);
   const [ordersData, setOrdersData] = useState([]);
   const [showCountModal, setShowCountModal] = useState(false);
-  const [orderCount, setOrderCount] = useState(1)
-  const [showOrderDetailModal, setShowOrderDetailModal] = useState(false)
+  const [orderCount, setOrderCount] = useState(1);
+  const [showOrderDetailModal, setShowOrderDetailModal] = useState(false);
 
   // const [showAddProduct, setshowAddProduct] = useState(false);
 
@@ -50,15 +39,15 @@ export default function Orders() {
         .then((data) => {
           console.log(data);
           setOrdersData(data);
-          console.log(ordersData,'ordersDataordersDataordersDataordersData');
+          console.log(ordersData, "ordersDataordersDataordersDataordersData");
           setIsContentReady(true);
         });
     }
-  }
+  };
 
   const writeInStorage = (num) => {
-    localStorage.setItem("ordersCount", JSON.stringify({ count: num }))
-  }
+    localStorage.setItem("ordersCount", JSON.stringify({ count: num }));
+  };
 
   // const FormSender = (event) => {
   //   event.preventDefault();
@@ -109,8 +98,8 @@ export default function Orders() {
   // };
 
   useEffect(() => {
-    getAllOrders()
-  }, [])
+    getAllOrders();
+  }, []);
 
   ///******************************************************************************************* */
   // useEffect(() => {
@@ -157,13 +146,21 @@ export default function Orders() {
                   </div>
                   <div className={st.formInputsRow}>
                     <button
-                      onClick={() => { setShowCountModal(false); setOrderCount(1); setShowOrderDetailModal(true); writeInStorage(orderCount) }}
+                      onClick={() => {
+                        setShowCountModal(false);
+                        setOrderCount(1);
+                        setShowOrderDetailModal(true);
+                        writeInStorage(orderCount);
+                      }}
                       className={st.submit_btn}
                     >
                       Continue
                     </button>
                     <button
-                      onClick={() => { setShowCountModal(false); setOrderCount(1) }}
+                      onClick={() => {
+                        setShowCountModal(false);
+                        setOrderCount(1);
+                      }}
                       className={st.cancelBtn}
                     >
                       Cancel
@@ -174,31 +171,31 @@ export default function Orders() {
             </>
           )}
 
-          {showOrderDetailModal &&
-            (
-              <AdminOrder onClose={() => setShowOrderDetailModal(false)} />
-            )
-          }
+          {showOrderDetailModal && (
+            <AdminOrder onClose={() => setShowOrderDetailModal(false)} />
+          )}
 
-          <button className={st.newOrderBtn} onClick={() => setShowCountModal(true)}>
+          <button
+            className={st.newOrderBtn}
+            onClick={() => setShowCountModal(true)}
+          >
             Create new Order
           </button>
 
           <table className={st.userListTable}>
             <thead className={st.table_header}>
-              <th>#</th>
+              <th>Received</th>
+              <th>Id</th>
+              <th>Title</th>
               <th>CreatedAt</th>
-              <th>deliveryDate</th>
-              <th>ItemNumbers</th>
-              {/* <th>Quantity</th>
-              <th>isDelivered</th> */}
-              {/* <th>Action</th> */}
-              <th >Received</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>isDelivered</th>
+              <th>Action</th>
               <th>Status</th>
             </thead>
             <tbody className={st.table_body}>
               {ordersData?.reverse().map((order, i) => (
-                
                 // <tr key={order._id}>
                 <OrderReceived order={order} i={i} key={i} />
               ))}
@@ -209,3 +206,5 @@ export default function Orders() {
     </>
   );
 }
+
+export default orderItems;

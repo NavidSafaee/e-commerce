@@ -44,7 +44,7 @@ const createOrEditProductValidator = [
         .trim()
         .notEmpty()
         .custom((value, { req }) => {
-            if (!['CHAIR', 'SOFA', 'BENCH', 'STORAGE', 'FURNITURE', 'TABLE'].includes(value)) {
+            if (!['CHAIR', 'SOFA', 'TV-STAND', 'ARMCHAIR', 'LAMP', 'CABINET'].includes(value)) {
                 throw new Error('Please enter a valid category');
             }
             return true;
