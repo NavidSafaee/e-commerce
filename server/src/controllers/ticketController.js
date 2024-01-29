@@ -13,7 +13,7 @@ const {
 async function httpGetMyTickets(req, res, next) {
     try {
         const userId = req.userId;
-        await getMyTickets();
+        const response = await getMyTickets();
         res.status(200).json(response);
     } catch (error) {
         next(error);
