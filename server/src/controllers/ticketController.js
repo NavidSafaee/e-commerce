@@ -5,7 +5,8 @@ const {
     sendTicket,
     replyToTicket,
     getMyTickets,
-    getOpenTicketsCount
+    getOpenTicketsCount,
+    getOpenTickets
 } = require('../services/ticketService');
 
 
@@ -69,6 +70,15 @@ async function httpReplyToTicket(req, res, next) {
     }
 }
 
+async function httpGetOpenTickets(req, res, next) {
+    try {
+        const response = await getOpenTickets();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 async function httpGetOpenTicketsCount(req, res, next) {
     try {
@@ -87,5 +97,6 @@ module.exports = {
     httpSendTicket,
     httpReplyToTicket,
     httpGetMyTickets,
-    httpGetOpenTicketsCount
+    httpGetOpenTicketsCount,
+    httpGetOpenTickets
 }

@@ -78,6 +78,9 @@ async function getOpenTicketsCount() {
 }
 
 
+async function getOpenTickets() {
+    return await Ticket.find({ status: 'OPEN' });
+}
 
 
 
@@ -88,5 +91,6 @@ module.exports = {
     changeTicketStatus,
     sendTicket,
     replyToTicket,
-    getOpenTicketsCount
+    getOpenTicketsCount,
+    getOpenTickets
 }

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            color: #fff;
+            font-size: 20px;
+            letter-spacing: 0.4px;
+            word-spacing: 0.002px;
+            font-family: sans-serif;
+            font-weight: 300;
+            line-height: 30px;
+        }
+
+        body {
+            background-color: rgb(41, 41, 41);
+            ;
+        }
+
+        .main-container {
+            background-color: #fff;
+            width: 550px;
+            height: 88vh;
+            margin: 20px auto;
+            text-align: center;
+            border: 1.5px solid grey;
+            box-shadow: 5px 0px 15px #888888;
+            border-radius: 5px;
+            border: 1.5px solid grey;
+            box-shadow: 5px 10px 15px #888888;
+            background-color: rgb(41, 41, 41);
+            ;
+
+
+        }
+
+        tr {}
+
+        td {
+            text-align: justify;
+
+        }
+
+        .header {}
+
+        .header-logo {
+            display: flex;
+
+
+        }
+
+        .logo-img-link {
+            text-decoration: none;
+            text-align: center;
+            width: 155px;
+
+
+        }
+
+        .logo-name {
+            padding: 0px;
+            margin: 0px;
+            color: #00ff00;
+            height: fit-content;
+            line-height: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logo-img {}
+
+        img {
+            height: 60px;
+            width: auto;
+            padding: 0px 150px 0px 50px;
+            margin: 30px 0 0 0;
+        }
+
+        .h1 {
+            margin: 45px 0 20px 0;
+            padding: 0px 30px;
+            text-align: center;
+
+            width: fit-content;
+
+        }
+
+        h1 {
+            font-weight: 700;
+            line-height: 25px;
+            letter-spacing: 0.1px;
+            color: #00ff00;
+            word-spacing: 1px;
+            transform: scale(1.1, 1.2);
+            word-spacing: 0.9px;
+
+        }
+
+        .otp-text {}
+
+        .OTPtext {
+            margin: 20px 30px;
+
+        }
+
+        .otp-code {}
+
+        .h2 {
+            text-align: center;
+            padding: 20px 0px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+
+
+
+
+        }
+
+        h2 {
+            color: #00ff00;
+            letter-spacing: 5px;
+            font-weight: 900;
+            transform: scale(1.3, 1.5);
+            width: fit-content;
+
+        }
+
+        .footer {}
+
+        .footer-text {
+            margin: 20px 30px;
+
+        }
+
+        .thankyou {
+            margin: 20px 30px 30px 30px;
+        }
+
+        @media screen and (max-width:600px) {
+            * {
+                word-spacing: 0.3px;
+                letter-spacing: 0.5px;
+                line-height: 20px;
+                font-size: 18px;
+            }
+
+            .main-container {
+                width: 430px;
+                padding: 30px 0;
+            }
+
+            img {
+                padding: 0px 40px;
+            }
+
+            .OTPtext {
+                margin: 30px 30px;
+            }
+
+        }
+
+        @media screen and (max-width:450px) {
+            * {
+                word-spacing: 0.0001px;
+                letter-spacing: 0.4px;
+                font-size: 16px;
+            }
+
+            img {
+                padding: 0px 30px;
+            }
+
+            .main-container {
+                border: none;
+                box-shadow: none;
+                margin: 0px;
+                width: auto;
+                height: auto;
+            }
+
+
+
+        }
+
+
+        .hello-content {
+            /* background-color: red; */
+            padding: 40px 0px 0px 30px;
+            color: #00ff00;
+            font-weight: 600;
+
+        }
+
+        strong {
+            color: #00ff00;
+            font-weight: 900;
+            font-size: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <table class="main-container">
+        <tr class="header">
+            <td class="header-logo">
+                <a href="http://localhost:3000" class="logo-img-link">
+                    <img src="cid:logo" alt="logo-image" class="logo-image">
+                    <p class="logo-name">Soft Land</p>
+                </a>
+                <div class="h1">
+                    <h1>HAPPY BIRTHDAY</h1>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="hello-content">Hello <%= username %></td>
+        </tr>
+        <tr class="otp-text">
+            <td>
+                <p class="OTPtext">
+                    "Happy Birthday! As a special birthday treat, we're offering you a <strong>15%</strong> discount
+                    on your next purchase on our site. Use the code <strong><%= discountCode %></strong> at checkout to redeem your
+                    birthday gift. We appreciate your continued support and hope you have a wonderful day celebrating.
+                    Here's to another year of happiness and great deals! 🎈
+                </p>
+            </td>
+        </tr>
+        <tr class="thankyou">
+            <td class="thankyou">
+                <p class="thankyou">Thank you!</p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
