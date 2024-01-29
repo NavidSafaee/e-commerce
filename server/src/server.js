@@ -2,7 +2,7 @@ const http = require('http');
 
 require('dotenv').config();
 const { mongoConnect } = require('./utils/database');
-const { scheduleTokenCleanup, scheduleUserDiscount, scheduleExpiredDiscountCleanup } = require('./utils/cron');
+const { scheduleUserDiscount } = require('./utils/cron');
 const swaggerDocs = require('./docs/swagger');
 
 const app = require('./app');
@@ -14,9 +14,7 @@ const server = http.createServer(app);
 (async function startServer() {
     try {
         await mongoConnect(process.env.MONGO_URL);
-        scheduleTokenCleanup();
         scheduleUserDiscount();
-        scheduleExpiredDiscountCleanup();
         swaggerDocs(app);
         
         server.listen(PORT, () => {

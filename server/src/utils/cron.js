@@ -20,32 +20,32 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-function scheduleTokenCleanup() {
-    new CronJob(
-        '0 4 * * 6',
-        cleanupExpiredTokens,
-        null,
-        true
-    );
-}
+// function scheduleTokenCleanup() {
+//     new CronJob(
+//         '0 4 * * 6',
+//         cleanupExpiredTokens,
+//         null,
+//         true
+//     );
+// }
 
 
-async function cleanupExpiredTokens() {
-    try {
-        await User.updateMany({
-            'tokens.refreshTokenExpiration': { $lte: new Date() }
-        }, {
-            $pull: { tokens: { refreshTokenExpiration: { $lte: new Date() } } }
-        });
-    } catch (error) {
-        console.log(error);
-        console.log('an error occurred during the cleanUp operation');
-    }
-}
+// async function cleanupExpiredTokens() {
+//     try {
+//         await User.updateMany({
+//             'tokens.refreshTokenExpiration': { $lte: new Date() }
+//         }, {
+//             $pull: { tokens: { refreshTokenExpiration: { $lte: new Date() } } }
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         console.log('an error occurred during the cleanUp operation');
+//     }
+// }
 
 function scheduleUserDiscount() {
     new CronJob(
-        '1 0 * * *',
+        '51 0 * * *',
         createUserDiscount,
         null,
         true
@@ -82,8 +82,8 @@ async function createUserDiscount() {
         for (const user of users) {
             if (!user.email) continue;
 
-            const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'verification-email.ejs'));
-            const renderedHtml = ejs.render(String(htmlFile), { OTP: discountCode });
+            const htmlFile = fs.readFileSync(path.join(__dirname, '..', 'views', 'birthday.ejs'));
+            const renderedHtml = ejs.render(String(htmlFile), { username: user.username, discountCode });
 
             transporter.sendMail({
                 from: 'softlaand@gmail.com',
@@ -117,27 +117,27 @@ async function generateDiscountCode() {
 }
 
 
-function scheduleExpiredDiscountCleanup() {
-    new CronJob(
-        '0 2 * * 6',
-        cleanupExpiredDiscountCodes,
-        null,
-        true
-    );
-}
+// function scheduleExpiredDiscountCleanup() {
+//     new CronJob(
+//         '0 2 * * 6',
+//         cleanupExpiredDiscountCodes,
+//         null,
+//         true
+//     );
+// }
 
-async function cleanupExpiredDiscountCodes() {
-    try {
-        await UserDiscount.deleteMany({ expiration: { $lte: new Date() } });
-    } catch (error) {
-        console.log(error);
-        console.log('an error occurred during the cleanUp operation');
-    }
-}
+// async function cleanupExpiredDiscountCodes() {
+//     try {
+//         await UserDiscount.deleteMany({ expiration: { $lte: new Date() } });
+//     } catch (error) {
+//         console.log(error);
+//         console.log('an error occurred during the cleanUp operation');
+//     }
+// }
 
 
 module.exports = {
-    scheduleTokenCleanup,
+    // scheduleTokenCleanup,
     scheduleUserDiscount,
-    scheduleExpiredDiscountCleanup
+    // scheduleExpiredDiscountCleanup
 };
