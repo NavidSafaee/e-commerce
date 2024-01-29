@@ -118,12 +118,6 @@ async function createProduct(reqBody, images) {
             throw error;
         }
 
-        if (+price !== orderItem.product.price) {
-            const error = new Error('product price must be equal to order item price');
-            error.statusCode = 400;
-            throw error;
-        }
-
         if (+quantity !== orderItem.quantity) {
             const error = new Error('product quantity must be equal to order item quantity');
             error.statusCode = 400;
