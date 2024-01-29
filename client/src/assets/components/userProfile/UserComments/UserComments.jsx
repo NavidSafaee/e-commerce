@@ -31,7 +31,7 @@ function UserComments() {
           Authorization: `Bearer ${userToken.accessToken}`
         }
       }).then(res => res.json())
-        .then(data => { console.log(data); setMyComments(data); setIsContentReady(true) })
+        .then(data => { setMyComments(data); setIsContentReady(true) })
     }
   }
 

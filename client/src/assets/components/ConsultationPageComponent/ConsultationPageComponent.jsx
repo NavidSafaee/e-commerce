@@ -1,12 +1,14 @@
 import { useContext, useState } from "react"
 import ConsultStyle from "./ConsultationPageComponent.module.scss"
-import { refreshTokenHandler, isTokenExpired } from "./../../functions"
+import { refreshTokenHandler, isTokenExpired, showMessage } from "./../../functions"
 import AuthContext from '../Context/AuthContext'
 import baseURL from "../../baseURL"
+import { useNavigate } from "react-router-dom"
 
 function ConsultationPageComponent() {
 
     const authContext = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const [topic, setTopic] = useState("")
     const [text, setText] = useState("")
@@ -21,18 +23,35 @@ function ConsultationPageComponent() {
                 })
         } else {
             let req_body = {
-                ticketText: `${topic} -> ${text}`
+                topic,
+                ticketText: text
             }
             fetch(`${baseURL}/tickets/me`, {
                 method: "PUT",
                 headers: {
-                    Authorization: `Bearer ${userToken.accessToken}`
+                    Authorization: `Bearer ${userToken.accessToken}`,
+                    "Content-type": "application/json"
                 },
                 body: JSON.stringify(req_body)
             }).then(res => {
-                console.log(res)
-                return res.json()
-            }).then(data => console.log(data))
+                if (res.ok) {
+                    showMessage({
+                        title: 'Great!',
+                        text: "Your ticket has been successfully registered",
+                        icon: 'success'
+                        // eslint-disable-next-line no-unused-vars
+                    }).then(btn => {
+                        navigate("/user/profile/ticket")
+                    })
+                } else {
+                    showMessage({
+                        title: 'Oops!',
+                        text: "Something went wrong",
+                        icon: 'error',
+                        dangerMode: true
+                    })
+                }
+            })
         }
     }
 
