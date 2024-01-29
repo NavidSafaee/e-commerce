@@ -48,7 +48,7 @@ const mainRoutes = [
     { path: "/login", element: <LoginPage /> },
     { path: "/sign-up", element: <SignupPage /> },
     { path: "/products/:productId", element: <ProductPage /> },
-    { path: "/consultation", element: <ConsultationPage /> },
+    { path: "/user/new-ticket", element: <ConsultationPage /> },
     { path: "/forgot-pass", element: <ForgotPassPage /> },
     { path: "/reset-pass/:userToken", element: <ResetPassPage /> },
     { path: "/checkout/cart/", element: <ShoppingCartPage /> },

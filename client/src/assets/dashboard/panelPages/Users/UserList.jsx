@@ -3,7 +3,7 @@ import baseURL from '../../../baseURL'
 
 import st from './UserList.module.scss'
 import { isTokenExpired, refreshTokenHandler } from '../../../functions';
-import AuthContext from '../../../components/Context/AuthContext';
+import AuthContext from '../../../components/Context/AuthContext'
 import PreLoader from '../../../components/PreLoader/PreLoader';
 
 export default function UserLIst() {
