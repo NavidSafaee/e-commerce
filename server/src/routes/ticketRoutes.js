@@ -8,7 +8,8 @@ const {
     httpSendTicket,
     httpReplyToTicket,
     httpGetMyTickets,
-    httpGetOpenTicketsCount
+    httpGetOpenTicketsCount,
+    httpGetOpenTickets
 } = require('../controllers/ticketController');
 const { isAuth, isCustomer, isAdmin } = require('../middlewares/auth');
 const { ticketChatValidator } = require('../middlewares/validators/ticketValidator');
@@ -24,6 +25,7 @@ router.put('/me', isAuth, isCustomer, ticketChatValidator, httpSendTicket);
 router.put('/:ticketId/reply', isAuth, isAdmin, ticketChatValidator, httpReplyToTicket);
 router.patch('/:ticketId/resolved', isAuth, isAdmin, httpChangeTicketStatus);
 router.get('/open/count', isAuth, isAdmin, httpGetOpenTicketsCount);
+router.get('/open', isAuth, isAdmin, httpGetOpenTickets);
 
 
 
