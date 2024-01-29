@@ -148,6 +148,7 @@ export default function Orders() {
                   <h2 className={st.form_title}>New order count</h2>
                   <div className={st.formInputsRow}>
                     <input
+                    // id="orderCount"
                       type="number"
                       placeholder="Enter number of product"
                       onChange={(e) => setOrderCount(e.target.value)}

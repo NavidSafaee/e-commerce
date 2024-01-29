@@ -337,7 +337,7 @@ function OrderReceived({ order, i }) {
               <div className={st.btns}>
                 <input className={st.submit_btn} value={"Done"} type="submit" />
                 <button
-                  onClick={() => setShowAddProduct(false)}
+                  onClick={() => setShowOrderItems(false)}
                   className={st.cancelBtn}
                 >
                   {" "}
