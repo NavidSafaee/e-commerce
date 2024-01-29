@@ -80,6 +80,7 @@ async function httpSearchProduct(req, res, next) {
     try {
         const searchTerm = req.query.q;
         const response = await searchProduct(searchTerm);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }
