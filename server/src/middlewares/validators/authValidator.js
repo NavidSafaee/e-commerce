@@ -12,13 +12,14 @@ const emailOrPhoneNumberValidator = [
     body('phoneNumber', 'please enter a valid email or phoneNumber')
         .if(body('email').not().exists())
         .isMobilePhone()
-        .isLength({ min: 11, max: 11 })
-        .custom((value) => {
-            if (!value.startsWith('09')) {
-                throw new Error('phone number should start with 09')
-            }
-            return true;
-        })
+        .matches(/^09\d{9}/)
+        // .isLength({ min: 11, max: 11 })
+        // .custom((value) => {
+        //     if (!value.startsWith('09')) {
+        //         throw new Error('phone number should start with 09')
+        //     }
+        //     return true;
+        // })
 ];
 
 
@@ -58,9 +59,12 @@ const signupValidator = [
         .not()
         .isEmpty(),
 
-    body('password', 'The password must be at least 6 characters long')
+    body('password')
         .trim()
-        .isLength({ min: 6 }),
+        .isLength({ min: 6 })
+        .withMessage('Password must be at least 6 characters long')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+        .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
 
     body('confirmPassword')
         .trim()

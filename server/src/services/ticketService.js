@@ -52,7 +52,7 @@ async function sendTicket(userId, reqBody) {
     }
 
     await ticket.save();
-    return ticket;
+    return ticket.chat;
 }
 
 
