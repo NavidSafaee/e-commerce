@@ -26,6 +26,7 @@ function ProductPageComponent() {
     const [productInfo, setProductInfo] = useState({})
     const [imageLoaded, setImageLoaded] = useState(true)
     const [heroImage, setHeroImage] = useState()
+    const [imagesList, setImagesList] = useState([])
     const [mainImageIndex, setMainImageIndex] = useState(0)
     const [userComment, setUserComment] = useState("")
     const [productComments, setProductComments] = useState([])
@@ -214,7 +215,8 @@ function ProductPageComponent() {
         }).then(data => {
             console.log(data)
             setProductInfo(data)
-            setHeroImage(data.imageArray[0])
+            setHeroImage(data?.imageUrls[0])
+            setImagesList(data?.imageUrls)
             getComments(data._id)
         })
     }, [])
@@ -249,7 +251,7 @@ function ProductPageComponent() {
                                 {imageLoaded && productInfo.discount ? <span className={ComponentStyle.discountBadge}>{productInfo.discount.percentage * 100}%</span> : null}                                
                                 {heroImage?.length ?
                                     // <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' onError={setImageLoaded(false)} />
-                                    <img src={`${baseURL}/${heroImage.slice(0, 22)}/${heroImage.slice(22)}`} crossOrigin='false' alt={productInfo?.title} onError={() => setImageLoaded(false)} />
+                                    <img src={`${baseURL}/${heroImage?.slice(0, 22)}/${heroImage?.slice(22)}`} crossOrigin='false' alt={productInfo?.title} onError={() => setImageLoaded(false)} />
                                     :
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-off" width="44" height="44" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -262,8 +264,8 @@ function ProductPageComponent() {
                                 }
                             </div>
                             {otherImages.length ? <div className={ComponentStyle.otherImages}>
-                                {otherImages.map((item, i) => (
-                                    <img src={otherImages[i]} key={i} onClick={() => setMainImageIndex(i)} alt="product" className={i == mainImageIndex ? ComponentStyle.active : undefined} />
+                                {imagesList?.map((item, i) => (
+                                    <img src={`${baseURL}/${item?.slice(0, 22)}/${item?.slice(22)}`} key={i} crossOrigin='false' onClick={() => {setHeroImage(item); setMainImageIndex(i)}} alt="product" className={i == mainImageIndex ? ComponentStyle.active : undefined} />
                                 ))}
                             </div> : null}
                         </div>

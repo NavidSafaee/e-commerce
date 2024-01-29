@@ -8,9 +8,10 @@ import { BsCartPlus } from 'react-icons/bs'
 import baseURL from '../../baseURL'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { calcDiscountedPrice } from '../../functions'
 
 // eslint-disable-next-line react/prop-types
-function ProductCard({ _id, title, imageUrl, rate, category, status, discount, price, newPrice }) {
+function ProductCard({ _id, title, imageUrl, rate, category, status, discount, price }) {
   let coloredStars = Array.from(Array(4).keys())
   let greyStars = Array.from(Array(5 - 4).keys())
 
@@ -50,7 +51,7 @@ function ProductCard({ _id, title, imageUrl, rate, category, status, discount, p
       </div>
       <div className="end-row">
         <div className="price-part">
-          <span className='current-price'>${(newPrice !== undefined) ? newPrice : price}</span>
+          <span className='current-price'>${discount !== undefined ? calcDiscountedPrice({discount, price}) : price}</span>
           {discount !== undefined && <span className="old-price">${price}</span>}
         </div>
         {rate !== null && <div className="rate-box">
