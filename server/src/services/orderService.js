@@ -133,7 +133,7 @@ async function changeDeliveryState(userId, orderId) {
         throw error;
     }
 
-    if (order.user.toString() !== userId) {
+    if (order.user._id.toString() !== userId) {
         const error = new Error('you can\'t change another admins order');
         error.statusCode = 403;
         throw error;
