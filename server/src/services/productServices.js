@@ -202,6 +202,12 @@ async function editProduct(productId, reqBody, newImages) {
 }
 
 
+async function searchProduct(searchTerm) {
+    const searchResult = await Product.find({ title: { $regex: searchTerm, $options: 'i' } });
+    return searchResult;
+}
+
+
 // function roundToHalf(num) {
 //     return Math.round(num * 2) / 2;
 // }
@@ -212,5 +218,6 @@ module.exports = {
     createProduct,
     getAllProductsCount,
     getAllProductsTitle,
-    editProduct
+    editProduct,
+    searchProduct
 }

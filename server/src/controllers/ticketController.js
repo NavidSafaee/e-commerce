@@ -51,8 +51,8 @@ async function httpChangeTicketStatus(req, res, next) {
 
 async function httpSendTicket(req, res, next) {
     try {
-        const ticketId = req.body.ticketId;
-        await sendTicket(ticketId);
+        const userId = req.userId;
+        await sendTicket(userId, req.body);
         res.sendStatus(204);
     } catch (error) {
         next(error);

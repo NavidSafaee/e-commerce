@@ -36,6 +36,9 @@ paths:
                 ticketId:
                   type: string
                   example: 650b1ed61882fc118a114d19
+                topic:
+                  type: string
+                  example: topic
                 ticketText:
                   type: string
                   example: bla bla bla

@@ -7,7 +7,8 @@ const {
     httpGetProductById,
     httpGetAllProductsCount,
     httpEditProduct,
-    httpGetAllProductsTitle
+    httpGetAllProductsTitle,
+    httpSearchProduct
 } = require('../controllers/productController');
 const { fileFilter, fileStorage } = require('../utils/multer');
 const { isAuth, isAdmin } = require('../middlewares/auth');
@@ -22,5 +23,6 @@ router.get('/count', isAuth, isAdmin, httpGetAllProductsCount);
 router.get('/title', httpGetAllProductsTitle);
 router.get('/:productId', httpGetProductById);
 router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
+router.patch('/search', httpSearchProduct);
 
 module.exports = router;

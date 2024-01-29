@@ -6,6 +6,10 @@ const ticketSchema = new Schema({
         ref: 'User',
         required: true
     },
+    topic: {
+        type: String,
+        required: true
+    },
     chat: [{
         role: {
             type: String,

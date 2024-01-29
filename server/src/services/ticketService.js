@@ -18,7 +18,9 @@ async function changeTicketStatus(ticketId) {
 }
 
 async function sendTicket(userId, reqBody) {
-    const { ticketId, ticketText } = reqBody;
+    const ticketId = reqBody.ticketId
+    const topic = reqBody.topic
+    const ticketText = reqBody.ticketText
     let ticket;
 
     if (ticketId) {
@@ -39,6 +41,7 @@ async function sendTicket(userId, reqBody) {
     } else {
         ticket = new Ticket({
             customer: userId,
+            topic,
             chat: [{
                 role: 'CUSTOMER',
                 chatText: ticketText,

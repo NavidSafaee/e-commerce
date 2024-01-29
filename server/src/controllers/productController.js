@@ -6,7 +6,8 @@ const {
     createProduct,
     getAllProductsCount,
     getAllProductsTitle,
-    editProduct
+    editProduct,
+    searchProduct
 } = require('../services/productServices');
 const validator = require('../utils/validator');
 
@@ -75,11 +76,22 @@ async function httpEditProduct(req, res, next) {
 }
 
 
+async function httpSearchProduct(req, res, next) {
+    try {
+        const searchTerm = req.query.q;
+        const response = await searchProduct(searchTerm);
+    } catch (error) {
+        next(error);
+    }
+} 
+
+
 module.exports = {
     httpGetAllProducts,
     httpCreateProduct,
     httpGetProductById,
     httpGetAllProductsCount,
     httpGetAllProductsTitle,
-    httpEditProduct
+    httpEditProduct,
+    httpSearchProduct
 }
