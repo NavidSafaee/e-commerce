@@ -81,9 +81,11 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  width: 800px;
+  width: 1000px;
   padding: 30px;
   background-color: #e5e5e5;
+  /* background-color: #bbce11; */
+  height: 450px;
   border-radius: 10px;
 }
 
@@ -149,19 +151,20 @@
   width: 400px;
   font-weight: 600;
   cursor: default;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .modal_bg .OrderForm .formInputsRow {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   gap: 20px;
   margin-top: 20px;
 }
 
-.modal_bg .OrderForm .formInputsRow input {
+.modal_bg .OrderForm .formInputsRow .labelWithInput input {
   width: 40%;
+  width: 200px;
   background-color: #f6f6f6;
   border: none;
   outline: none;
@@ -172,18 +175,34 @@
   text-align: center;
   font-family: acm;
 }
+.modal_bg .OrderForm .formInputsRow .labelWithInput label {
+  padding: 10px;
 
-.modal_bg .OrderForm .formInputsRow input::placeholder {
+
+  font-family: acm;
+}
+.modal_bg .OrderForm .formInputsRow .labelWithInput label textarea{
+  /* margin: 10px; */
+  /* font-family: acm; */
+}
+.modal_bg .OrderForm .formInputsRow .labelWithInput  {
+  display: flex;
+  flex-direction: row;
+  justify-items: start;
+ 
+}
+
+.modal_bg .OrderForm .formInputsRow .labelWithInput input::placeholder {
   color: #a8a8a8;
 }
 
-.modal_bg .OrderForm .formInputsRow input[type="date"] {
+.modal_bg .OrderForm .formInputsRow .labelWithInput input[type="date"] {
   width: 400px;
   text-align: center;
 }
 
-.modal_bg .OrderForm .formInputsRow .submit_btn,
-.modal_bg .OrderForm .formInputsRow .cancelBtn {
+.modal_bg .OrderForm  .btns .submit_btn,
+.modal_bg .OrderForm  .btns .cancelBtn {
   width: 140px;
   border: none;
   color: #fff;
@@ -197,13 +216,24 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-top: 20px;
 }
 
-.modal_bg .OrderForm .formInputsRow .submit_btn {
+.modal_bg .OrderForm  .btns .submit_btn {
   background-color: #009842;
+  margin-right: 10px;
+}
+.modal_bg .OrderForm  .btns {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  /* background-color: #009842; */
+  justify-self: center;
+  align-self: center;
 }
 
-.modal_bg .OrderForm .formInputsRow .cancelBtn {
+.modal_bg .OrderForm  .btns .cancelBtn {
   background-color: #d40000;
 }
 

@@ -30,8 +30,10 @@ function OrderReceived({ order, i }) {
   const [orderIdPut111, setorderIdPut111] = useState("");
   const [images, setImages] = useState([]);
   const [OrderObject, setOrderObject] = useState({});
-  const [orderFlag, setOrderFlag] = useState(false)
+  const [orderFlag, setOrderFlag] = useState(false);
   const [itemValue, setItemValue] = useState({});
+  const [textArea, setTextArea] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
   const [orderIdPut, setOrderIdPut] = useState({
     _id: "",
     user: "",
@@ -96,6 +98,13 @@ function OrderReceived({ order, i }) {
     // setImages([...images, ...arry]);
   };
 
+  const handleselectedOption = (e) => {
+    console.log(e.target.value);
+    console.log(e.target);
+    setSelectedOption(e.target.value);
+    // console.log();
+  };
+
   const addProductFormSender = (event) => {
     console.log(
       title,
@@ -114,15 +123,28 @@ function OrderReceived({ order, i }) {
         addProductFormSender();
       });
     } else {
-      formData.append("orderId", order._id);
-      formData.append("itemId", itemValue._id);
-      formData.append("title", itemValue.product.title);
-      formData.append("quantity", itemValue.quantity);
-      formData.append("discount", discount);
-      formData.append("price", price);
-      formData.append("category", category);
-      formData.append("description", description);
-      formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
+      if (discount) {
+        formData.append("orderId", order._id);
+        formData.append("itemId", itemValue._id);
+        formData.append("title", itemValue.product.title);
+        formData.append("quantity", itemValue.quantity);
+        formData.append("discount", discount);
+        formData.append("price", price);
+        formData.append("category", selectedOption);
+        formData.append("description", textArea);
+        formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
+      } else {
+        formData.append("orderId", order._id);
+        formData.append("itemId", itemValue._id);
+        formData.append("title", itemValue.product.title);
+        formData.append("quantity", itemValue.quantity);
+        // formData.append("discount", discount);
+        formData.append("price", price);
+        formData.append("category", selectedOption);
+        formData.append("description", textArea);
+        formData.append("maxQuantityAllowedInCart", maxQuantityAllowedInCart);
+      }
+
       // formData.append("images", ...images);
       // console.log(formData);
 
@@ -173,29 +195,28 @@ function OrderReceived({ order, i }) {
           Authorization: `Bearer ${userToken.accessToken}`,
         },
       }).then((res) => {
-        order.isDelivered=true;
-        
-        console.log(order.isDelivered,"adaaaa");
+        order.isDelivered = true;
+
+        console.log(order.isDelivered, "adaaaa");
         console.log(res.status);
         if (res.status === 204) {
-
           // setShowModal(true);
         } else {
           return res.json();
         }
       });
     }
-  }
+  };
 
   useEffect(() => {
     getAllOrders();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (orderFlag) {
-      getOrderId()
+      getOrderId();
     }
-  }, [orderFlag])
+  }, [orderFlag]);
 
   // useEffect(() => {
   //   console.log(order.isDelivered)
@@ -210,69 +231,120 @@ function OrderReceived({ order, i }) {
             <form onSubmit={addProductFormSender} className={st.OrderForm}>
               <h2 className={st.form_title}>New product info</h2>
               <div className={st.formInputsRow}>
+                <div className={st.labelWithInput}>
+                  <label htmlFor="Title">Title</label>
+                  <input
+                    type="text"
+                    placeholder="Enter products title"
+                    // value={title}
+                    value={itemValue.product.title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className={st.labelWithInput}>
+                  <label htmlFor="Category">Category</label>
+                  <select
+                    // id="Category"
+                    // name="cars"
+                    onChange={handleselectedOption}
+                    value={selectedOption}
+                  >
+                    {/* <option value="">select a category</option> */}
+                    <option value="CHAIR">CHAIR</option>
+                    <option value="SOFA">SOFA</option>
+                    <option value="TV-STAND">TV-STAND</option>
+                    <option value="ARMCHAIR">ARMCHAIR</option>
+                    <option value="LAMP">LAMP</option>
+                    <option value="CABINET">CABINET</option>
+                  </select>
+                </div>
+
+                {/* <input
+                  type="text"
+                  placeholder="Enter producer category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                /> */}
+                <div className={st.labelWithInput}>
+                  <label htmlFor="quantity">Quantity</label>
+                  <input
+                    type="number"
+                    placeholder="How many products have arrived?"
+                    // value={quantity}farzCer
+                    value={itemValue.quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={st.formInputsRow}>
+                <div className={st.labelWithInput}>
+                  <label htmlFor="maxCount">maxCount</label>
+                  <input
+                    type="number"
+                    placeholder="How many products have maxQuantityAllowedInCart?"
+                    value={maxQuantityAllowedInCart}
+                    onChange={(e) =>
+                      setMaxQuantityAllowedInCart(e.target.value)
+                    }
+                  />
+                </div>
+                <div className={st.labelWithInput}>
+                  <label htmlFor="discount">Discount</label>
+                  <input
+                    type="text"
+                    placeholder="Enter producer discount"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
+                </div>
+
+                <div className={st.labelWithInput}>
+                  <label htmlFor="price">Price</label>
+                  <input
+                    type="text"
+                    placeholder="product's price "
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={st.formInputsRow}>
+                <div className={st.labelWithInput}>
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    name="message"
+                    rows="4"
+                    cols="50"
+                    value={textArea}
+                    onChange={(e) => setTextArea(e.target.value)}
+                  ></textarea>
+                </div>
+
+                {/* <input
+                  type="text"
+                  placeholder="Enter producer description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                /> */}
                 <input
                   type="file"
                   multiple
                   // value={images}
                   onChange={selectFiles}
                 />
-                <input
-                  type="text"
-                  placeholder="Enter products title"
-                  // value={title}
-                  value={itemValue.product.title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Enter producer category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                />
-                
-                <input
-                  type="text"
-                  placeholder="Enter producer description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
               </div>
-              <div className={st.formInputsRow}>
-                <input
-                  type="number"
-                  placeholder="How many products have arrived?"
-                  // value={quantity}farzCer
-                  value={itemValue.quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-                <input
-                  type="number"
-                  placeholder="How many products have maxQuantityAllowedInCart?"
-                  value={maxQuantityAllowedInCart}
-                  onChange={(e) => setMaxQuantityAllowedInCart(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Enter producer discount"
-                  value={discount}
-                  onChange={(e) => setDiscount(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="product's price "
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className={st.formInputsRow}>
+              {/* <div className={st.formInputsRow}> */}
+              <div className={st.btns}>
                 <input className={st.submit_btn} value={"Done"} type="submit" />
                 <button
                   onClick={() => setShowAddProduct(false)}
                   className={st.cancelBtn}
                 >
+                  {" "}
                   Cancel
                 </button>
               </div>
+              {/* </div> */}
             </form>
           </div>
         </>
@@ -361,9 +433,7 @@ function OrderReceived({ order, i }) {
             type="checkbox"
             checked={order.isDelivered}
             style={
-              order.isDelivered
-                ? { opacity: 0.4 }
-                : { opacity: 1, cursor: "" }
+              order.isDelivered ? { opacity: 0.4 } : { opacity: 1, cursor: "" }
             }
             className={st.receivedCheckBox}
             onChange={() => {
@@ -371,7 +441,7 @@ function OrderReceived({ order, i }) {
               setorderIdPut111(order._id);
 
               // getOrderId();
-              setOrderFlag(true)
+              setOrderFlag(true);
             }}
           />
         </td>
