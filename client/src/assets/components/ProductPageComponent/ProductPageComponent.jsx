@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai"
+// import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai"
 import { BiDollar } from 'react-icons/bi'
 import { MdOutlineContentCopy } from "react-icons/md"
 import { MdCheckCircle } from "react-icons/md"
@@ -22,11 +22,10 @@ function ProductPageComponent() {
         "https://cdn.barwefurniture.com/wp-content/uploads/2023/10/Mauck2070quot20Velvet20Squ-1276.jpg",
         "https://5.imimg.com/data5/SELLER/Default/2023/9/348287983/AW/LN/XO/115688690/l-shape-sofa-set-luxury-500x500.jpg",
     ]
-    // const rate = 4  // this line is for test!
 
     const [productInfo, setProductInfo] = useState({})
-    const [rate, setRate] = useState(0)
     const [imageLoaded, setImageLoaded] = useState(true)
+    const [heroImage, setHeroImage] = useState()
     const [mainImageIndex, setMainImageIndex] = useState(0)
     const [userComment, setUserComment] = useState("")
     const [productComments, setProductComments] = useState([])
@@ -213,8 +212,9 @@ function ProductPageComponent() {
         }).then(res => {
             return res.json()
         }).then(data => {
+            console.log(data)
             setProductInfo(data)
-            setRate(data.rate)
+            setHeroImage(data.imageArray[0])
             getComments(data._id)
         })
     }, [])
@@ -246,10 +246,10 @@ function ProductPageComponent() {
                     <div className={ComponentStyle.productPart}>
                         <div className={ComponentStyle.imagesWrapper}>
                             <div className={ComponentStyle.mainImgContainer}>
-                                {imageLoaded && productInfo.discount ? <span className={ComponentStyle.discountBadge}>{productInfo.discount * 100}%</span> : null}
-                                {imageLoaded ?
+                                {imageLoaded && productInfo.discount ? <span className={ComponentStyle.discountBadge}>{productInfo.discount.percentage * 100}%</span> : null}                                
+                                {heroImage?.length ?
                                     // <img src={`${baseURL}/public/${productInfo?.imageUrl}`} alt={productInfo?.title} crossOrigin='false' onError={setImageLoaded(false)} />
-                                    <img src={otherImages[mainImageIndex]} alt={productInfo?.title} onError={() => setImageLoaded(false)} />
+                                    <img src={`${baseURL}/${heroImage.slice(0, 22)}/${heroImage.slice(22)}`} crossOrigin='false' alt={productInfo?.title} onError={() => setImageLoaded(false)} />
                                     :
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-off" width="44" height="44" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -272,7 +272,7 @@ function ProductPageComponent() {
                             <h3 className={ComponentStyle.ProductTitle}>{productInfo?.title}</h3>
                             <div className={ComponentStyle.detailRow}>
                                 {productInfo?.title && <span className={ComponentStyle.price}><BiDollar />{calcDiscountedPrice(productInfo)}</span>}
-                                {rate && <div className={ComponentStyle.starsBox}>
+                                {/* {rate && <div className={ComponentStyle.starsBox}>
                                     {
                                         Array.from(Array(productInfo.rate).keys())?.map((star, i) => (
                                             <AiTwotoneStar key={i} className={ComponentStyle.coloredStar} />
@@ -283,7 +283,7 @@ function ProductPageComponent() {
                                             <AiOutlineStar key={i} className={ComponentStyle.greyStar} />
                                         ))
                                     }
-                                </div>}
+                                </div>} */}
                                 {productComments?.length !== 0 && <span className={ComponentStyle.review}>{productComments?.length} reviews</span>}
                             </div>
                             <div className={ComponentStyle.share_box}>
@@ -310,9 +310,7 @@ function ProductPageComponent() {
                                     </RedditShareButton>
                                 </div>
                             </div>
-                            <div className={ComponentStyle.description}>
-                                Your choice of seating can make a difference. For any programmer, it’s essential to find something that is both comfortable and ergonomically supportive.
-                            </div>
+                            <div className={ComponentStyle.description}>{productInfo?.description}</div>
                             <div className={ComponentStyle.btnBox}>
                                 {!productCountInCart ?
                                     <button className={ComponentStyle.addBtn} onClick={productAdder}>Add to Cart</button>
@@ -390,31 +388,6 @@ function ProductPageComponent() {
                                 </div>
                             ))
                         }
-                        {/* <div className={ComponentStyle.commentItem}>
-                            <div className={ComponentStyle.row1}>
-                                <div className={ComponentStyle.authorBox}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-hipchat" width="36" height="36" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M17.802 17.292s.077 -.055 .2 -.149c1.843 -1.425 3 -3.49 3 -5.789c0 -4.286 -4.03 -7.764 -9 -7.764c-4.97 0 -9 3.478 -9 7.764c0 4.288 4.03 7.646 9 7.646c.424 0 1.12 -.028 2.088 -.084c1.262 .82 3.104 1.493 4.716 1.493c.499 0 .734 -.41 .414 -.828c-.486 -.596 -1.156 -1.551 -1.416 -2.29z" />
-                                        <path d="M7.5 13.5c2.5 2.5 6.5 2.5 9 0" />
-                                    </svg>
-                                    <strong className={ComponentStyle.authorName}>Nasir</strong>
-                                </div>
-                                <span className={ComponentStyle.commentRate}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star" width="32" height="32" viewBox="0 0 24 24" strokeWidth="2" stroke="#06a99d" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-                                    </svg>
-                                    <b>5</b>
-                                </span>
-                            </div>
-                            <q className={ComponentStyle.bodyPart}>
-                                A couch, also known as a sofa, settee, chesterfield, or davenport, is a cushioned item of furniture for seating multiple people (although it is not uncommon for a single person to use a couch alone).
-                            </q>
-                            <div className={ComponentStyle.end}>
-                                <span className={ComponentStyle.time}>February 8</span>
-                            </div>
-                        </div>*/}
                     </div>
                 </div>
             </section>
