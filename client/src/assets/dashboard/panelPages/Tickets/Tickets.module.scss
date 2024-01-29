@@ -1,0 +1,208 @@
+.ticketsWrapper {
+  width: 100%;
+  min-height: 600px;
+
+  .ticketsList {
+    width: 90%;
+
+    thead {
+      td {
+        text-align: center;
+        padding-block: 10px;
+        background-color: var(--main-color);
+        border-right: 2px solid #fff;
+        color: #fff;
+        font-family: acm;
+        font-size: 24px;
+      }
+    }
+
+    tbody {
+      tr {
+        padding-block: 10px;
+
+        td {
+          padding-block: 10px;
+          text-align: center;
+          border-right: 2px solid #c2c2c2;
+          border-bottom: 2px solid #c2c2c2;
+          font-family: acm;
+
+          &:nth-child(1) {
+            background-color: var(--main-color);
+            color: #fff;
+            border-top: 2px solid #fff;
+          }
+
+          &:nth-last-child(1) {
+            font-size: 30px;
+            color: #0a0;
+            cursor: pointer;
+          }
+
+          &.open,
+          &.resolved {
+            color: #0a0;
+            font-family: lemon;
+            font-size: 20px;
+          }
+
+          &.resolved {
+            color: #f00;
+          }
+        }
+      }
+    }
+  }
+
+  .modal_bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ecececc2;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    .close_btn {
+      position: absolute;
+      top: 20px;
+      right: 50%;
+      transform: translateX(50%);
+      background-color: #f00;
+      color: #fff;
+      width: 120px;
+      height: 40px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: acm;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .chat_contaner {
+      width: 600px;
+      height: 500px;
+      background-color: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      padding-top: 30px;
+
+      .chat_title {
+        background-color: var(--main-color);
+        border-radius: 10px;
+        width: 80%;
+        text-align: center;
+        padding: 10px;
+        color: #fff;
+        font-family: acm;
+        font-size: 28px;
+      }
+
+      .messages_filed {
+        width: 90%;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        overflow-y: auto;
+        background-color: #b7fff1;
+        border-radius: 10px;
+
+        .chat_row {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+
+          .content {
+            min-width: 120px;
+            max-width: 70%;
+            padding: 10px;
+            font-family: acm;
+          }
+
+          &.myMessage {
+            justify-content: flex-start;
+
+            .content {
+              clip-path: polygon(100% 0, 100% 94%, 20% 94%, 0 100%, 5% 73%, 5% 0);
+              border-radius: 0 10px 10px 0;
+              background-color: #ffffff;
+              padding-left: 30px;
+            }
+          }
+
+          &.customer {
+            justify-content: flex-end;
+
+            .content {
+              background-color: #3939ff;
+              border-radius: 10px 0 0 10px;
+              clip-path: polygon(93% 6%, 100% 0, 96% 14%, 96% 100%, 0 100%, 0 6%);
+              color: #fff;
+              padding-right: 30px;
+            }
+          }
+        }
+      }
+
+      .type_box {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-top: 2px solid gray;
+        background-color: #e7e5e5;
+        border-radius: 0 0 10px 10px;
+        border: 2px solid gray;
+        border-top: none;
+
+        .input {
+          width: 80%;
+          outline: none;
+          border: 2px solid #e7e5e5;
+          font-size: 20px;
+          font-family: acm;
+          padding: 5px 10px;
+          border-radius: 10px;
+
+          &::placeholder {
+            color: #c2c2c2;
+          }
+        }
+
+        .send_btn {
+          color: #00f;
+          width: 50px;
+          height: 50px;
+          font-size: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          cursor: pointer;
+          border-radius: 50%;
+          transition: .5s;
+
+          &:hover {
+            background-color: #00f;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
