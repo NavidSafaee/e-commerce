@@ -58,7 +58,7 @@ const signupValidator = [
         .not()
         .isEmpty(),
 
-    body('password', 'The password must be at least 6 characters')
+    body('password', 'The password must be at least 6 characters long')
         .trim()
         .isLength({ min: 6 }),
 

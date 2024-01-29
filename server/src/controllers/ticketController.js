@@ -13,7 +13,7 @@ const {
 async function httpGetMyTickets(req, res, next) {
     try {
         const userId = req.userId;
-        const response = await getMyTickets();
+        const response = await getMyTickets(userId);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -22,7 +22,8 @@ async function httpGetMyTickets(req, res, next) {
 
 async function httpGetMyOpenTicket(req, res, next) {
     try {
-        const response = await getMyOpenTicket();
+        const userId = req.userId;
+        const response = await getMyOpenTicket(userId);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -31,7 +32,8 @@ async function httpGetMyOpenTicket(req, res, next) {
 
 async function httpGetMyResolvedTicket(req, res, next) {
     try {
-        const response = await getMyResolvedTicket();
+        const userId = req.userId;
+        const response = await getMyResolvedTicket(userId);
         res.status(200).json(response);
     } catch (error) {
         next(error);
