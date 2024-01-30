@@ -159,9 +159,14 @@ function OrderReceived({ order, i }) {
       })
         .then((res) => {
           console.log(res);
-          if (res.status === 204) {
+          if (res.status === 201) {
             // setShowModal(true);
-          } else {
+
+            showMessage({
+              title: "Great 😍",
+              text: "product added successfully",
+              icon: "success",
+            });          } else {
             return res.json();
           }
         })
@@ -372,7 +377,9 @@ function OrderReceived({ order, i }) {
                 <td>#</td>
                 <td>Title</td>
                 <td>Price</td>
+                <td>INStock</td>
                 <td>Quantity</td>
+                
                 <td>Action</td>
               </thead>
               <tbody>
@@ -381,6 +388,9 @@ function OrderReceived({ order, i }) {
                     <td>{i++}</td>
                     <td>{item.product.title}</td>
                     <td>{item.product.price}</td>
+                {item.isInStock ? <td>true</td> :<td>false</td>}
+
+                    
                     <td>{item.quantity}</td>
 
                     <td
@@ -397,16 +407,18 @@ function OrderReceived({ order, i }) {
                           // console.log(item,'joduuuuun');
                           // console.log(e.target);
                           setItemValue(item);
-
+                          
                           setShowOrderItems(true);
                           setShowOrderDetail(false);
-                        }}
-                        disabled={!order.isDelivered}
-                        style={
-                          order.isDelivered
-                            ? { opacity: 1 }
-                            : { opacity: 0.4, cursor: "" }
                         }
+                      }
+                      style= {item.isInStock ? { opacity:0.4}:{opacity:1}}
+                        disabled={!order.isDelivered}
+                        // style={
+                        //   order.isDelivered
+                        //     ? { opacity: 1 }
+                        //     : { opacity: 0.4, cursor: "" }
+                        // }
                       >
                         add product
                       </button>
