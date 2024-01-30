@@ -19,6 +19,7 @@ function OrderReceived({ order, i }) {
   const authContext = useContext(AuthContext);
 
   const [title, setTitle] = useState("");
+  const [deliveredCheckBox, setdeliveredCheckBox] = useState(order.isDelivered);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showOrderItems, setShowOrderItems] = useState(false);
   const [description, setDescription] = useState("");
@@ -443,14 +444,15 @@ function OrderReceived({ order, i }) {
         <td>
           <input
             type="checkbox"
-            checked={order.isDelivered}
+            checked={deliveredCheckBox}
             style={
-              order.isDelivered ? { opacity: 0.4 } : { opacity: 1, cursor: "" }
+              deliveredCheckBox ? { opacity: 0.4 } : { opacity: 1, cursor: "" }
             }
             className={st.receivedCheckBox}
             onChange={() => {
               setIsSelected((pre) => !pre);
               setorderIdPut111(order._id);
+              setdeliveredCheckBox(true)
 
               // getOrderId();
               setOrderFlag(true);
