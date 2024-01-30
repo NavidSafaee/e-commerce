@@ -10,7 +10,7 @@ const path = require('path');
 async function getAllProducts(query) {
     const { category } = query;
     const currentPage = +query.page || 1;
-    const limit = 8;
+    const limit = 25;
     let products;
 
     if (category) {

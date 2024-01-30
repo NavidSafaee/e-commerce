@@ -16,8 +16,8 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity, onChange })
 
   const [buttonPending, setButtonPending] = useState(false)
 
-  let coloredStars = Array.from(Array(rate).keys())
-  let greyStars = Array.from(Array(5 - rate).keys())
+  let coloredStars = Array.from(Array(4).keys())
+  let greyStars = Array.from(Array(5 - 4).keys())
   const authContext = useContext(AuthContext)
 
   const changeQuantity = (type) => {
@@ -80,7 +80,7 @@ function Shopping_Cart_Item({ id, img, title, rate, price, quantity, onChange })
     <div className={styles.shopping_cart_item}>
       <FaTrashCan className={styles.removeBtn} onClick={() => productRemoveHandler(id)}/>
       {/* <img src={`${baseURL}/public/${img}`} alt={title} crossOrigin='false' className={styles.image} /> */}
-      <Link to={`/products/${id}`}><img className={styles.image} src="https://www.housingunits.co.uk/media/catalog/product/cache/60968cec045f20fb06ab5f7720001507/b/3/b3b902eece620811430206db7d3ac32c.jpg" alt="" /></Link>
+      <Link to={`/products/${id}`}><img className={styles.image} src={`${baseURL}/${img.slice(0, 22)}/${img.slice(22)}`} crossOrigin="false" alt="" /></Link>
       <div className={styles.product_detail}>
         <h4 className={styles.title}>
           {title}

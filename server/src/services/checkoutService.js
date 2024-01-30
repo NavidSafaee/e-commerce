@@ -27,7 +27,7 @@ async function createCheckoutSessionId(userId, discount) {
                 name: item.product.title,
                 images: [item.product.imageUrls[0]]
             },
-            unit_amount: item.product.price * (1 - item.product.discount.percentage) * (1 - discount) * 100,
+            unit_amount: item.product.price * 100,
         },
         quantity: item.quantity,
 

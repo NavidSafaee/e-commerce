@@ -20,7 +20,8 @@ export default function Products() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setProductsDatas(data.products);
+        console.log(data);
+        setProductsDatas(data?.products);
         setIsContentReady(true);
       });
     // }
@@ -72,9 +73,10 @@ export default function Products() {
                   <td>{calcDiscountedPrice(product)}</td>
                   <td>{product.rate}</td>
                   <td>
-                    <img src={product.imageUrl} alt="image " />
+                    null
+                    {/* <img src={product.imageUrl} alt="image " /> */}
                   </td>
-                  <td>{product.discount}</td>
+                  <td>{product.discount?.percentage}</td>
                 </tr>
               ))}
             </tbody>
