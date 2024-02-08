@@ -1,17 +1,23 @@
 .chart {
-  margin: 15px;
-  padding: 20px;
+  /* margin-top: 500px; */
+  /* padding: 20px; */
   box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.95);
-  background-color: #eafdfa;
-  background-color: #eafdfa;
-  
-  /* background-color: #f3eada; */
   width: 95%;
-  width: 97%;
-  
+  width: 60%;
+  font-family: pac;
+  font-size: 12px;
+  margin: 30px 1px;
+  /* height: 400px; */
+  background-color: #f4f2ef;
+  color: red;
 }
 
 .chartTitle {
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 18px;
+  font-family: pac;
+}
+
+ResponsiveContainer {
+  height: 600px;
 }

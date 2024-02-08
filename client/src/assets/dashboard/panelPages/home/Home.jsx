@@ -95,6 +95,7 @@ export default function Home() {
 
   return (
     <div className="homePageContainer">
+      <div className="HomeCards-clock">
       <div className="HomeCards">
         <div className="HomeCard">
           <div className="icon-box" style={{ background: "#6C22A6" }}><FaBoxesStacked /></div>
@@ -122,11 +123,12 @@ export default function Home() {
           <div className="count" style={{ color: "#FFA33C" }}>{ticketsCount}</div>
         </div>
       </div>
+        {/* <AnalogClock /> */}
       <div className="todaySection">
-        <AnalogClock />
         <div className="calenderBox">
           <MyCalender />
         </div>
+      </div>
       </div>
       <Chart grid title="Month Sale" data={xAxisData} dataKey="Sale" className="chartHome" />
     </div>

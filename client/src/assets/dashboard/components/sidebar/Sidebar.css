@@ -1,17 +1,42 @@
 .sidebarWrapper {
   color: #fff;
   background: linear-gradient(to top, #005650, #08eadb);
+  /* background: linear-gradient(to top, #0a0a0a, #041b72); */
+  /* background-color: #2b2b2b  ; */
   min-height: 100vh;
   position: sticky;
-  box-shadow: 3px 3px 15px #06a99d;
-  width: 140px;
+  /* box-shadow: 3px 3px 15px #06a99d;
+  box-shadow: 3px 3px 15px #041b72; */
+  width: 265px;
   overflow-y: auto;
   transition: .6s;
 }
 
-.sidebarWrapper:hover {
-  width: 280px;
+.sidebarWrapperHover {
+  width: 120px;
 }
+
+
+.sidebarWrapperHover .sidebarItemsList .sidebarLink {
+  width: fit-content;
+}
+.sidebarWrapperHover .sidebarBrandContainer .sidebarMainTitle {
+  display: none;
+}
+
+
+.sidebarWrapperHover .sidebarItemsList .sidebarLink .sidebarListItem span {
+  display: none;
+}
+.sidebarWrapperHover .sidebarItemsList .sidebarLink .sidebarListItem .sidebarIcon {
+  font-size: 30px;
+}
+
+.sidebarWrapperHover .sidebarItemsList .sidebarLink .sidebarListItem {
+  justify-content: center;
+}
+
+
 
 .sidebarWrapper .sidebarItemsList {
   display: flex;
@@ -25,16 +50,13 @@
 .sidebarWrapper .sidebarItemsList .sidebarLink {
   text-decoration: none;
   color: #fff;
-  width: 60%;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: .6s;
 }
 
-.sidebarWrapper:hover .sidebarItemsList .sidebarLink {
-  width: 80%;
-}
 
 .sidebarWrapper .sidebarItemsList .sidebarLink .sidebarIcon {
   font-size: 24px;
@@ -51,11 +73,10 @@
   gap: 10px;
   width: 100%;
   overflow: hidden;
+  justify-content: flex-start;
+
 }
 
-.sidebarWrapper:hover .sidebarItemsList .sidebarLink .sidebarListItem {
-  justify-content: flex-start;
-}
 
 .sidebarWrapper .sidebarItemsList .sidebarLink .sidebarListItem span {
   width: 0;
@@ -63,12 +84,10 @@
   opacity: 0;
   overflow: hidden;
   transition: .6s;
-}
-
-.sidebarWrapper:hover .sidebarItemsList .sidebarLink .sidebarListItem span {
   width: 80%;
   opacity: 1;
 }
+
 
 .sidebarListItem.active {
   background: #fff;
@@ -85,26 +104,47 @@
 
 .sidebarWrapper .sidebarBrandContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 30px;
-  border-bottom: 3px solid #fff;
+  justify-content: space-between;
+  /* padding-top: 30px;
+  padding-top: 15px;
+  padding-bottom: 10px; */
+  padding: 14px 10px 13.5px 20px;
+  border-bottom: 1px solid #b6b6b6;
 }
 
 .sidebarWrapper .sidebarBrandContainer .logoContainer {
   border-radius: 50%;
   width: 60px;
-  height: 60px;
+  /* height: 60px; */
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 3px 3px 10px #fff, -3px -3px 10px #fff, -3px 3px 10px #fff, 3px -3px 10px #fff;
 }
+.sidebarWrapper .sidebarBrandContainer .topbarArrows {
+  padding: 0;
+  margin: 0;
+}
+.sidebarWrapper .sidebarBrandContainer .topbarArrows .topBarIconsArrows{
+  cursor: pointer;
+  margin: 0px 7px;
+  padding: 0;
+  font-size: 30px;
+}
+.sidebarWrapper .sidebarBrandContainer .topbarArrows .topBarIconsArrowsHidden{
+  cursor: pointer;
+  margin: 0px 7px;
+  padding: 0;
+  font-size: 30px;
+  display: none;
+}
+
 
 .sidebarWrapper .sidebarBrandContainer .sidebarMainTitle {
-  height: 60px;
   padding-top: 30px;
   font-weight: 400;
   font-size: 16px;
@@ -113,6 +153,6 @@
 }
 
 .sidebarWrapper:hover .sidebarBrandContainer .sidebarMainTitle {
-  font-size: 24px;
-  font-weight: 600;
+  /* font-size: 24px;
+  font-weight: 600; */
 }

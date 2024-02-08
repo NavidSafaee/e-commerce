@@ -1,5 +1,5 @@
 .panel-topbar {
-  height: 100px;
+  height: 70px;
   position: fixed;
   top: 0;
   right: 0;
@@ -7,9 +7,26 @@
   width: calc(100vw - 180px);
   display: flex;
   align-items: center;
-  border-bottom: 3px solid gray;
+  border-bottom: 1px solid #b6b6b6;
   z-index: 999;
   background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.topbar-left-ui {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+}
+.topbarIconsMenu {
+  margin-right: 10px;
+}
+
+.topbar-right-li {
+  margin: 0;
 }
 
 .panel-topbar .admin-name {
@@ -17,16 +34,32 @@
   text-transform: capitalize;
 }
 
-.panel-topbar .admin-logout-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 30px;
-  border: none;
-  border-radius: 10px;
-  width: 120px;
-  height: 40px;
-  font-family: lemon;
-  background-color: #df0000;
-  color: #fff;
+.admin-logout-btn {
+  /* position: absolute; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  /* right: 30px; */
+  /* border: none; */
+  /* border-radius: 10px; */
+  /* width: 120px; */
+  /* height: 40px; */
+  /* font-family: lemon; */
+  /* background-color: #df0000; */
+  color: #df0000;
+  cursor: pointer;
+}
+.topbar-ul-right-wrapper {
+}
+
+.topbar-right-ui {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  justify-content: space-between;
+  margin-right: 12px;
+}
+
+.topbarIcons {
+  font-size: 24px;
+  margin: 0px 10px;
 }
