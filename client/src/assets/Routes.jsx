@@ -1,5 +1,7 @@
 import ConsultationPage from "./pages/ConsultationPage"
 import LoginPage from "./pages/LoginPage"
+import About from "./pages/About"
+import FavoritePro from "./pages/FavoritePro"
 import MainPage from "./pages/MainPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import ProductPage from "./pages/ProductPage"
@@ -46,6 +48,8 @@ const mainRoutes = [
     { path: '/admin-panel/customers/orders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
 
     { path: "/login", element: <LoginPage /> },
+    { path: "/About", element: <About /> },
+    { path: "/FavoritePro", element: <FavoritePro /> },
     { path: "/sign-up", element: <SignupPage /> },
     { path: "/products/:productId", element: <ProductPage /> },
     { path: "/user/new-ticket", element: <ConsultationPage /> },

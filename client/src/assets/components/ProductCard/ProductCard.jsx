@@ -12,6 +12,7 @@ import { calcDiscountedPrice } from '../../functions'
 
 // eslint-disable-next-line react/prop-types
 function ProductCard({ _id, title, imageUrl, rate, category, status, discount, price }) {
+  console.log(_id,"\n", title,"\n", imageUrl,"\n", rate,"\n", category,"\n", status,"\n", discount,"\n", price );
   let coloredStars = Array.from(Array(4).keys())
   let greyStars = Array.from(Array(5 - 4).keys())
 
@@ -19,14 +20,14 @@ function ProductCard({ _id, title, imageUrl, rate, category, status, discount, p
 
   return (
     <Link to={`/products/${_id}`} className="product-card">
-      {
+      {status&&
         (status === "New") && <span className='status new-product'>New</span>
       }
-      {
+      {status&&
         (status === "Sale") && <span className='status sale'>Sale</span>
       }
       <div className="img-wrapper">
-          {
+          {imageUrl&&
             imageLoaded ?
               <img src={`${baseURL}/${imageUrl.slice(0, 22)}/${imageUrl.slice(22)}`} alt={title} crossOrigin='false' onError={() => setImageLoaded(false)} />
               :

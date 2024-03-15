@@ -10,6 +10,7 @@ function TopBar() {
     const [selectedCollection, setSelectedCollection] = useState("Sofa")
     const [selectListOpen, setSelectListOpen] = useState(false)
     const [storyIndex, setStoryIndex] = useState(null)
+    const [courseCounter, setCourseCounter] = useState(0)
 
     useEffect(() => {
         if (storyIndex) {
@@ -17,7 +18,19 @@ function TopBar() {
                 setStoryIndex(null)
             }, 5000);
         }
-    }, [storyIndex])
+
+    }, [storyIndex]
+
+    )
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setCourseCounter(pre => pre + 1)
+        }, 10)
+        if (courseCounter === 150) {
+            clearInterval(interval)
+        }
+        return () => clearInterval(interval)
+    }, [courseCounter])
 
     return (
         <>
@@ -51,6 +64,10 @@ function TopBar() {
                 </div>
 
                 <div className="stories_container">
+                    <div className='text-yellow-500 font-extrabold '>
+                        <h2>{courseCounter}</h2>
+
+                    </div>
                     <div className={`story_item ${storyIndex === 1 && "select"}`} onClick={() => setStoryIndex(1)}>
                         <img src="/general_images/story/elon.png" />
                         <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">

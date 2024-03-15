@@ -1,5 +1,7 @@
 import "./Navbar.scss"
 import { BsFilterLeft } from 'react-icons/bs'
+import { Link } from "react-router-dom";
+
 
 function Navbar() {
     return (
@@ -23,10 +25,10 @@ function Navbar() {
                 </div>
             </div>
             <div className="links-box">
-                <a href="#">HOME</a>
+                <a href="#">Home</a>
                 <a href="#">SHOP</a>
                 <a href="#">BLOG</a>
-                <a href="#">ABOUT</a>
+                <a href="/About">About</a>
                 <a href="#">CONTACT US</a>
             </div>
         </nav>
