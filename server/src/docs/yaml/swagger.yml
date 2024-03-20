@@ -4,7 +4,7 @@ info:
   description: API documentation for SoftLand
   version: 1.0.0
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:8080
     description: SoftLand server
 
 
@@ -254,6 +254,21 @@ components:
         status:
           type: string
           example: OPEN
+
+    FavoriteProduct:
+      type: object
+      properties: 
+        user: 
+          type: string
+          example: 650b1ed61882fc118a114d19
+        product: 
+          $ref: "#/components/schemas/Product"
+        createdAt:
+          type: date
+          example: 2024-03-20T11:58:28.937Z
+        updatedAt:
+          type: date
+          example: 2024-03-20T11:58:28.937Z
 
 
 

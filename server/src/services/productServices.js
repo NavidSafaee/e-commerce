@@ -1,4 +1,7 @@
 const fs = require('fs');
+
+const createError = require('http-errors');
+
 const Product = require('../models/productModel');
 const Order = require('../models/orderModel');
 
@@ -36,11 +39,7 @@ async function getAllProducts(query) {
 
 async function getProductById(productId) {
     const product = await Product.findById(productId);
-    if (!product) {
-        const error = new Error('Product Not Found');
-        error.statusCode = 404;
-        throw error;
-    }
+    if (!product) throw createError(404, 'Product not found'); 
 
     return product;
 }

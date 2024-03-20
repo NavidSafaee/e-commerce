@@ -14,6 +14,6 @@ const favoriteProductSchema = new Schema({
 }, { timestamps: true });
 
 
-module.exports = model('Favorite_products', favoriteProductSchema);
+module.exports = model('favorite products', favoriteProductSchema);
 
 
