@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', isAuth, isCustomer, favProductController.getMe);
 router.post('/', isAuth, isCustomer, favProductValidator.createValidator, favProductController.create);
-router.delete('/', isAuth, isCustomer, favProductController.remove);
+router.delete('/:productId', isAuth, isCustomer, favProductController.remove);
 
 
 module.exports = router;
