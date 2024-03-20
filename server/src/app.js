@@ -12,6 +12,7 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const checkOutRoutes = require('./routes/checkoutRoutes');
 const userDiscountRoutes = require('./routes/userDiscountRoutes');
+const favoriteProductRoutes = require('./routes/favoriteProductRoutes');
 const { errorHandler } = require('./controllers/errorController');
 
 
@@ -39,6 +40,7 @@ app.use('/reviews', reviewRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/checkout', checkOutRoutes);
 app.use('/userDiscounts', userDiscountRoutes);
+app.use('/favoriteProducts', favoriteProductRoutes);
 app.use(errorHandler);
 
 // static serve
