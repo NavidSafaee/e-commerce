@@ -25,7 +25,7 @@ function Navbar() {
                 </div>
             </div>
             <div className="links-box">
-                <a href="#">Home</a>
+                <a href="/">Home</a>
                 <a href="#">SHOP</a>
                 <a href="#">BLOG</a>
                 <a href="/About">About</a>

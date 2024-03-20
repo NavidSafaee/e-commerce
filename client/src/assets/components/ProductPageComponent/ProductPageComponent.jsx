@@ -62,7 +62,7 @@ function ProductPageComponent() {
                         Authorization: `Bearer ${userToken.accessToken}`
                     }
                 }).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if (res.ok) {
                         setProductCountInCart(1)
                         authContext.productsCountCalculator(1)
@@ -107,7 +107,7 @@ function ProductPageComponent() {
                         setCommentFlag(false)
                     }
                     return res.json()
-                }).then(data => console.log(data))
+                }).then(data => console.log())
             }
         }
     }
@@ -118,7 +118,7 @@ function ProductPageComponent() {
         }).then(res => {
             return res.json()
         }).then(data => {
-            console.log(data)
+            // console.log(data)
             setProductComments(data.filter(com => com.validationStatus !== "PENDING"))
         })
     }
@@ -213,7 +213,7 @@ function ProductPageComponent() {
         }).then(res => {
             return res.json()
         }).then(data => {
-            console.log(data)
+            // console.log(data)
             setProductInfo(data)
             setHeroImage(data?.imageUrls[0])
             setImagesList(data?.imageUrls)

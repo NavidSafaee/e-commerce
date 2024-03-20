@@ -19,6 +19,7 @@ function ProductsSection() {
             })
             .then(data => {
                 setAllProducts(data.products);
+                console.log(data.products);
             })
     }, [])
     
