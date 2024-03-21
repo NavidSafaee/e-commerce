@@ -88,6 +88,11 @@ async function postOrder(userId, reqBody, role) {
     }
 }
 
+async function getById(orderId) {
+    const order = await Order.findById(orderId);
+    if (!order) throw createError(404, 'Order not found'); 
+}
+
 async function getCustomerOrders() {
     const orders = await Order.aggregate([
         {
@@ -207,6 +212,7 @@ async function getLastMonthDeliveredOrders() {
 
 module.exports = {
     postOrder,
+    getById,
     getCustomerOrders,
     changeDeliveryState,
     getMyOrders,

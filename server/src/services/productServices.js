@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const createError = require('http-errors');
 
+const orderService = require('../services/orderService'); 
 const Product = require('../models/productModel');
 const Order = require('../models/orderModel');
 
@@ -10,10 +11,10 @@ const path = require('path');
 
 
 
-async function getAllProducts(query) {
+async function getAll(query) {
     const { category } = query;
     const currentPage = +query.page || 1;
-    const limit = 25;
+    const limit = +query.limit || 10;
     let products;
 
     if (category) {
@@ -30,6 +31,7 @@ async function getAllProducts(query) {
 
     return {
         products,
+        currentPage,
         lastPage: Math.ceil(totalItems / limit),
         totalItems
     }
@@ -37,9 +39,9 @@ async function getAllProducts(query) {
 
 
 
-async function getProductById(productId) {
+async function getById(productId) {
     const product = await Product.findById(productId);
-    if (!product) throw createError(404, 'Product not found'); 
+    if (!product) throw createError(404, 'Product not found');
 
     return product;
 }
@@ -47,7 +49,7 @@ async function getProductById(productId) {
 
 
 
-async function createProduct(reqBody, images) {
+async function create(reqBody, images) {
     const {
         orderId,
         itemId,
@@ -61,70 +63,42 @@ async function createProduct(reqBody, images) {
         maxQuantityAllowedInCart
     } = reqBody;
 
-    const order = await Order.findById(orderId);
-    if (!order) {
-        const error = new Error('No order was found with the given id');
-        error.statusCode = 404;
-        throw error;
-    }
+    const order = await orderService.getById(orderId);
 
-    if (!order.isDelivered) {
-        const error = new Error('Order not delivered yet');
-        error.statusCode = 400;
-        throw error;
-    }
+    if (!order.isDelivered) throw createError(400, 'Order not delivered yet'); 
 
     const isInOrder = order.items.some(item => item._id.toString() === itemId);
-    if (!isInOrder) {
-        const error = new Error('This product is not in specified order');
-        error.statusCode = 400;
-        throw error;
-    }
+    if (!isInOrder) throw createError(400, 'This product is not in specified order'); 
 
     const isInStock = order.items.some(item => item._id.toString() === itemId && item.isInStock);
-    if (isInStock) {
-        const error = new Error('Order item is already added to stock');
-        error.statusCode = 400;
-        throw error;
-    }
+    if (isInStock) throw createError(400, 'Order item is already added to stock'); 
 
     let product;
     let orderItem = order.items.find(item => item._id.toString() === itemId);
+
     if (productId) {
         product = await Product.findById(productId);
-        if (!product) {
-            const error = new Error('No product was found with the given id');
-            error.statusCode = 404;
-            throw error;
-        }
+        if (!product) throw createError(404, 'No product was found with the given id'); 
 
         product.quantity += orderItem.quantity;
+
     } else {
-        if (!images) {
-            const error = new Error('the product should at leas have one image');
-            error.statusCode = 400;
-            throw error;
-        }
+        if (!images) throw createError(400, 'The product should at leas have one image'); 
 
         const imageUrls = images.map(image => {
             const imageUrl = 'public/images/products' + image.filename;
             return imageUrl;
         });
 
-        if (title !== orderItem.product.title) {
-            const error = new Error('product title must be equal to order item title');
-            error.statusCode = 400;
-            throw error;
-        }
+        if (title !== orderItem.product.title) 
+            throw createError(400, 'Product title must be equal to order item title'); 
 
-        if (+quantity !== orderItem.quantity) {
-            const error = new Error('product quantity must be equal to order item quantity');
-            error.statusCode = 400;
-            throw error;
-        }
+        if (+quantity !== orderItem.quantity)
+            throw createError(400, 'Product quantity must be equal to order item quantity') 
 
         let date;
         let discountObj;
+
         if (+discount) {
             date = new Date();
             date.setDate(date.getDate() + 190);
@@ -156,13 +130,20 @@ async function createProduct(reqBody, images) {
 
 
 
-async function getAllProductsCount() {
+async function getAllCount() {
     const count = await Product.countDocuments();
     return { count };
 }
 
+async function getAllCategories() {
+    const products = await Product.find().select('category');
+    categories = products.map(product => product.category);
+    categoriesSet = [...new Set(categories)];
+    return categoriesSet;
+}
 
-async function getAllProductsTitle() {
+
+async function getAllTitle() {
     const products = await Product.find().select('title');
     productsTitle = products.map(product => product.title);
     return productsTitle;
@@ -171,14 +152,8 @@ async function getAllProductsTitle() {
 
 
 
-async function editProduct(productId, reqBody, newImages) {
-    const product = await Product.findById(productId);
-
-    if (!product) {
-        const error = new Error('Product not found!');
-        error.statusCode = 404;
-        throw error;
-    }
+async function update(productId, reqBody, newImages) {
+    const product = await getById(productId);
 
     if (newImages) {
         reqBody.imageUrls = newImages.map(newImage => {
@@ -195,9 +170,9 @@ async function editProduct(productId, reqBody, newImages) {
 }
 
 
-async function searchProduct(searchTerm) {
-    const searchResult = await Product.find({ title: { $regex: searchTerm, $options: 'i' } });
-    return searchResult;
+async function search(searchTerm, category) {
+    if (category) return Product.find({ title: { $regex: searchTerm, $options: 'i' }, category });
+    return Product.find({ title: { $regex: searchTerm, $options: 'i' } });
 }
 
 
@@ -206,11 +181,12 @@ async function searchProduct(searchTerm) {
 // }
 
 module.exports = {
-    getAllProducts,
-    getProductById,
-    createProduct,
-    getAllProductsCount,
-    getAllProductsTitle,
-    editProduct,
-    searchProduct
+    getAll,
+    getById,
+    create,
+    update,
+    getAllCount,
+    getAllCategories,
+    getAllTitle,
+    search
 }

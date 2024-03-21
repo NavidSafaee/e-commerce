@@ -9,11 +9,12 @@ const {
     editProduct,
     searchProduct
 } = require('../services/productServices');
+const productService = require('../services/productServices');
 const validator = require('../utils/validator');
 
 
 
-async function httpGetAllProducts(req, res, next) {
+async function getAll(req, res, next) {
     try {
         const result = await getAllProducts(req.query);
         res.status(200).json(result);
@@ -22,7 +23,7 @@ async function httpGetAllProducts(req, res, next) {
     }
 }
 
-async function httpGetProductById(req, res, next) {
+async function getById(req, res, next) {
     try {
         const productId = req.params.productId;
         const response = await getProductById(productId);
@@ -32,7 +33,7 @@ async function httpGetProductById(req, res, next) {
     }
 }
 
-async function httpCreateProduct(req, res, next) {
+async function create(req, res, next) {
     try {
         validator(req);
         const response = await createProduct(req.body, req.files);
@@ -46,7 +47,7 @@ async function httpCreateProduct(req, res, next) {
     }
 }
 
-async function httpGetAllProductsCount(req, res, next) {
+async function getAllCount(req, res, next) {
     try {
         const response = await getAllProductsCount();
         res.status(200).json(response);
@@ -55,7 +56,16 @@ async function httpGetAllProductsCount(req, res, next) {
     }
 }
 
-async function httpGetAllProductsTitle(req, res, next) {
+async function getAllCategories(req, res, next) {
+    try {
+        const response = await productService.getAllCategories();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function getAllTitle(req, res, next) {
     try {
         const response = await getAllProductsTitle();
         res.status(200).json(response);
@@ -64,7 +74,7 @@ async function httpGetAllProductsTitle(req, res, next) {
     }
 }
 
-async function httpEditProduct(req, res, next) {
+async function update(req, res, next) {
     try {
         validator(req);
         const productId = req.params.productId;
@@ -76,10 +86,11 @@ async function httpEditProduct(req, res, next) {
 }
 
 
-async function httpSearchProduct(req, res, next) {
+async function search(req, res, next) {
     try {
-        const searchTerm = req.query.q;
-        const response = await searchProduct(searchTerm);
+        const searchTerm = req.query.searchTerm;
+        const category = req.query.category;
+        const response = await searchProduct(searchTerm, category);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -88,11 +99,12 @@ async function httpSearchProduct(req, res, next) {
 
 
 module.exports = {
-    httpGetAllProducts,
-    httpCreateProduct,
-    httpGetProductById,
-    httpGetAllProductsCount,
-    httpGetAllProductsTitle,
-    httpEditProduct,
-    httpSearchProduct
+    getAll,
+    getById,
+    create,
+    getAllCount,
+    getAllCategories,
+    getAllTitle,
+    update,
+    search
 }

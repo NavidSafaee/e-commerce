@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 
 
-const createOrEditProductValidator = [
+const createOrEditValidator = [
     body().custom((value, { req }) => {
         console.log(req.body);
         if (req.wrongFileFormat) throw new Error('please upload files in jpg/png/jpeg formats');
@@ -77,5 +77,5 @@ const createOrEditProductValidator = [
 
 
 module.exports = {
-    createOrEditProductValidator
+    createOrEditValidator
 }

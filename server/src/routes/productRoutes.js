@@ -1,28 +1,24 @@
 const express = require('express');
 const multer = require('multer');
 
-const {
-    httpGetAllProducts,
-    httpCreateProduct,
-    httpGetProductById,
-    httpGetAllProductsCount,
-    httpEditProduct,
-    httpGetAllProductsTitle,
-    httpSearchProduct
-} = require('../controllers/productController');
-const { fileFilter, fileStorage } = require('../utils/multer');
+
+const productController = require('../controllers/productController');
+const  productValidator = require('../middlewares/validators/productValidator');
 const { isAuth, isAdmin } = require('../middlewares/auth');
-const { createOrEditProductValidator } = require('../middlewares/validators/productValidator');
+const { fileFilter, fileStorage } = require('../utils/multer');
 
 
 const router = express.Router();
 
-router.get('/', httpGetAllProducts);
-router.post('/', isAuth, isAdmin, multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10), createOrEditProductValidator, httpCreateProduct);
-router.get('/count', isAuth, isAdmin, httpGetAllProductsCount);
-router.get('/title', httpGetAllProductsTitle);
-router.get('/search', httpSearchProduct);
-router.get('/:productId', httpGetProductById);
-router.patch('/:productId', isAuth, isAdmin, createOrEditProductValidator, httpEditProduct);
+const saveImages = multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 10);
+
+router.get('/', productController.getAll);
+router.post('/', isAuth, isAdmin, saveImages, productValidator.createOrEditValidator, productController.create);
+router.get('/count', isAuth, isAdmin, productController.getAll);
+router.get('/title', productController.getAllTitle);
+router.get('/category', productController.getAllCategories);
+router.get('/search', productController.search);
+router.get('/:productId', productController.getById);
+router.patch('/:productId', isAuth, isAdmin, productValidator.createOrEditValidator, productController.update);
 
 module.exports = router;
