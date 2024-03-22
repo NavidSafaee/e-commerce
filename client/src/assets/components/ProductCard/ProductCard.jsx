@@ -12,21 +12,53 @@ import { calcDiscountedPrice } from '../../functions'
 
 // eslint-disable-next-line react/prop-types
 function ProductCard({ _id, title, imageUrl, rate, category, status, discount, price }) {
+  // console.log(_id,"\n", title,"\n", imageUrl,"\n", rate,"\n", category,"\n", status,"\n", discount,"\n", price );
   let coloredStars = Array.from(Array(4).keys())
   let greyStars = Array.from(Array(5 - 4).keys())
 
   const [imageLoaded, setImageLoaded] = useState(true)
+  const likeHandler = () => {
+    if (!authContext?.isLoggedIn) {
+        showMessage({
+            title: "😕 Sorry!!",
+            text: "To purchase a product, you must first log in to your account",
+            icon: "warning"
+        })
+    } else {
+        const userToken = JSON.parse(localStorage.getItem("userToken"))
+        if (isTokenExpired(userToken.accessToken)) {
+            refreshTokenHandler()
+                .then(token => {
+                    authContext.writeTokenInStorage(token)
+                    likeHandler()
+                })
+        } else {
+            fetch(`${baseURL}/carts/me/items/${productId}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${userToken.accessToken}`
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.ok) {
+                    setProductCountInCart(1)
+                    authContext.productsCountCalculator(1)
+                }
+            })
+        }
+    }
+}
 
   return (
     <Link to={`/products/${_id}`} className="product-card">
-      {
+      {status&&
         (status === "New") && <span className='status new-product'>New</span>
       }
-      {
+      {status&&
         (status === "Sale") && <span className='status sale'>Sale</span>
       }
       <div className="img-wrapper">
-          {
+          {imageUrl&&
             imageLoaded ?
               <img src={`${baseURL}/${imageUrl.slice(0, 22)}/${imageUrl.slice(22)}`} alt={title} crossOrigin='false' onError={() => setImageLoaded(false)} />
               :
@@ -39,7 +71,7 @@ function ProductCard({ _id, title, imageUrl, rate, category, status, discount, p
                 <path d="M3 3l18 18" />
               </svg>
           }
-        <div className="icon-wrapper"><AiOutlineHeart className='action-icon heart-icon' /></div>
+        <div className="icon-wrapper" onClick={likeHandler}><AiOutlineHeart className='action-icon heart-icon' /></div>
         <div className="icon-wrapper"><FiEye className='action-icon eye-icon' /></div>
         <div className="icon-wrapper"><BsCartPlus className='action-icon cart-icon' /></div>
       </div>

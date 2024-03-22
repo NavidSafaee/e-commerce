@@ -1,0 +1,10 @@
+.Accordion-container{
+    margin: 40px;
+}
+
+
+.accordion-button.collapsed {
+    color: white;
+    background: #06A99D;
+
+}

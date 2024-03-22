@@ -12,6 +12,8 @@ import { CgEditBlackPoint } from "react-icons/cg"
 import { IoIosLock } from "react-icons/io"
 import { FaTelegramPlane } from "react-icons/fa"
 import { IoCloseSharp } from "react-icons/io5"
+import ReCAPTCHA from "react-google-recaptcha"
+
 
 function LoginPageComponent() {
 
@@ -106,6 +108,9 @@ function LoginPageComponent() {
         })
     }
 
+    const onChangeHandler=()=>{
+        console.log('captcha');
+    }
     const verifyContact = () => {
         let formInfo = {
             email: userEmail,
@@ -191,6 +196,11 @@ function LoginPageComponent() {
                             /><i className={_style.placeHolder}>Password</i>
                         </div>
                     </div>
+                    <ReCAPTCHA
+                    className={style.recaptcha}
+                        sitekey=" 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                        onChange={onChangeHandler}
+                    />
                     <button className={style.formBtn} onClick={FormChecker}>
                         {loginWay ? "Send OTP" : "Login"}
                     </button>
@@ -214,7 +224,7 @@ function LoginPageComponent() {
                             onChange={e => setUserOTP(e.target.value)}
                             maxLength={6}
                             minLength={6}
-                            onKeyDown={e => {if (e.code === "Enter") {FormSender(1); setOTP_Flag(true)}}}
+                            onKeyDown={e => { if (e.code === "Enter") { FormSender(1); setOTP_Flag(true) } }}
                         />
                         <button
                             className={`${style.otp_verification_btn} ${(userOTP.length == 6) && style.otp_active_btn}`}

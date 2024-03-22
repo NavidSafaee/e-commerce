@@ -5,11 +5,14 @@ import { ImSearch } from 'react-icons/im'
 import { FiArrowDownCircle } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
 
-function TopBar() {
+function TopBar(data) {
 
-    const [selectedCollection, setSelectedCollection] = useState("Sofa")
+    const [selectedCollection, setSelectedCollection] = useState("All")
     const [selectListOpen, setSelectListOpen] = useState(false)
+    const [categoryProducts, setcategoryProducts] = useState("All")
+
     const [storyIndex, setStoryIndex] = useState(null)
+    const [courseCounter, setCourseCounter] = useState(0)
 
     useEffect(() => {
         if (storyIndex) {
@@ -17,7 +20,31 @@ function TopBar() {
                 setStoryIndex(null)
             }, 5000);
         }
-    }, [storyIndex])
+
+    }, [storyIndex]
+
+    )
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setCourseCounter(pre => pre + 1)
+        }, 10)
+        if (courseCounter === 150) {
+            clearInterval(interval)
+        }
+        return () => clearInterval(interval)
+    }, [courseCounter])
+
+    const setCategoryDatas= (e)=>{
+        this.setcategoryProducts((pre)=>{
+            return{
+                categoryProducts:e.target.innerHTML
+            }
+        })
+        // setcategoryProducts(e.target.innerHTML)
+        console.log(e.target.innerHTML,'hjhjhj');
+        console.log(categoryProducts,'hjhjhj');
+
+    }
 
     return (
         <>
@@ -41,16 +68,21 @@ function TopBar() {
                             onMouseLeave={() => setSelectListOpen(false)}
                             onMouseEnter={() => setSelectListOpen(true)}
                         >
-                            <li className='filter-item' onClick={() => { setSelectedCollection("Sofa"); setSelectListOpen(false) }}>Sofa</li>
-                            <li className='filter-item' onClick={() => { setSelectedCollection("Lamp"); setSelectListOpen(false) }}>Lamp</li>
-                            <li className='filter-item' onClick={() => { setSelectedCollection("TV"); setSelectListOpen(false) }}>TV</li>
-                            <li className='filter-item' onClick={() => { setSelectedCollection("Kitchen"); setSelectListOpen(false) }}>Kitchen</li>
+                            <li className='filter-item' onClick={(e) => { setSelectedCollection("All");setCategoryDatas(e); setSelectListOpen(false) ;}}>All</li>
+                            <li className='filter-item' onClick={(e) => { setSelectedCollection("Sofa");setCategoryDatas(e); setSelectListOpen(false) ;}}>Sofa</li>
+                            <li className='filter-item' onClick={(e) => { setSelectedCollection("Lamp"); setCategoryDatas(e);setSelectListOpen(false) }}>Lamp</li>
+                            <li className='filter-item' onClick={(e) => { setSelectedCollection("TV"); setCategoryDatas(e);setSelectListOpen(false) }}>TV</li>
+                            <li className='filter-item' onClick={(e) => { setSelectedCollection("Kitchen"); setCategoryDatas(e);setSelectListOpen(false) }}>Kitchen</li>
                         </ul>
                     </div>
                     <span className="search-btn"><ImSearch /></span>
                 </div>
 
                 <div className="stories_container">
+                    <div className='text-yellow-500 font-extrabold '>
+                        <h2>{courseCounter}</h2>
+
+                    </div>
                     <div className={`story_item ${storyIndex === 1 && "select"}`} onClick={() => setStoryIndex(1)}>
                         <img src="/general_images/story/elon.png" />
                         <svg style={{ "enableBackground": "new -580 439 577.9 194" }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve">

@@ -1,5 +1,6 @@
 import ConsultationPage from "./pages/ConsultationPage"
 import LoginPage from "./pages/LoginPage"
+import About from "./pages/About"
 import MainPage from "./pages/MainPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import ProductPage from "./pages/ProductPage"
@@ -24,6 +25,7 @@ import Orders from './dashboard/panelPages/Orders/Orders'
 // import NewProduct from './dashboard/panelPages/newProduct/NewProduct'
 import EditProfile from "./components/userProfile/EditProfile/EditProfile"
 import UserComments from "./components/userProfile/UserComments/UserComments"
+import UserFavorites from "./components/userProfile/UserFavorites/UserFavorites"
 import UserHelp from "./components/userProfile/UserHelp/UserHelp"
 import Payment_status_page from "./pages/Payment_status_page"
 import SoftLand_Plus_page from "./pages/SoftLand_Plus_page"
@@ -46,6 +48,7 @@ const mainRoutes = [
     { path: '/admin-panel/customers/orders', element: <Panel_main_page><CustomerOrders /></Panel_main_page> },
 
     { path: "/login", element: <LoginPage /> },
+    { path: "/About", element: <About /> },
     { path: "/sign-up", element: <SignupPage /> },
     { path: "/products/:productId", element: <ProductPage /> },
     { path: "/user/new-ticket", element: <ConsultationPage /> },
@@ -58,6 +61,7 @@ const mainRoutes = [
     { path: "/user/profile/", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/edit", element: <UserProfilePage><EditProfile /></UserProfilePage> },
     { path: "/user/profile/comments", element: <UserProfilePage><UserComments /></UserProfilePage> },
+    { path: "/user/profile/favorites", element: <UserProfilePage><UserFavorites /></UserProfilePage> },
     { path: "/user/profile/help", element: <UserProfilePage><UserHelp /></UserProfilePage> },
     { path: "/user/profile/ticket", element: <UserProfilePage><UserTickets /></UserProfilePage> },
     { path: "*", element: <NotFoundPage /> }
