@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const createError = require('http-errors');
 
-const orderService = require('../services/orderService'); 
+const orderService = require('../services/orderService');
 const Product = require('../models/productModel');
 const Order = require('../models/orderModel');
 
@@ -16,14 +16,19 @@ async function getAll(query) {
     const currentPage = +query.page || 1;
     const limit = +query.limit || 10;
     let products;
+    let totalItems;
 
     if (category) {
+        const categories = await getAllCategories();
+        if (!categories.includes(category)) throw createError(400, 'Invalid category');
+
         products = await Product.find({ category }).skip((currentPage - 1) * limit).limit(limit);
+        totalItems = await Product.find({ category }).countDocuments();
     } else {
         products = await Product.find().skip((currentPage - 1) * limit).limit(limit);
+        totalItems = await Product.find().countDocuments();
     }
 
-    const totalItems = await Product.find().countDocuments();
 
     products = products.map(product => {
         return product.restrictInfo();
@@ -31,6 +36,7 @@ async function getAll(query) {
 
     return {
         products,
+        count: products.length,
         currentPage,
         lastPage: Math.ceil(totalItems / limit),
         totalItems
@@ -65,36 +71,36 @@ async function create(reqBody, images) {
 
     const order = await orderService.getById(orderId);
 
-    if (!order.isDelivered) throw createError(400, 'Order not delivered yet'); 
+    if (!order.isDelivered) throw createError(400, 'Order not delivered yet');
 
     const isInOrder = order.items.some(item => item._id.toString() === itemId);
-    if (!isInOrder) throw createError(400, 'This product is not in specified order'); 
+    if (!isInOrder) throw createError(400, 'This product is not in specified order');
 
     const isInStock = order.items.some(item => item._id.toString() === itemId && item.isInStock);
-    if (isInStock) throw createError(400, 'Order item is already added to stock'); 
+    if (isInStock) throw createError(400, 'Order item is already added to stock');
 
     let product;
     let orderItem = order.items.find(item => item._id.toString() === itemId);
 
     if (productId) {
         product = await Product.findById(productId);
-        if (!product) throw createError(404, 'No product was found with the given id'); 
+        if (!product) throw createError(404, 'No product was found with the given id');
 
         product.quantity += orderItem.quantity;
 
     } else {
-        if (!images) throw createError(400, 'The product should at leas have one image'); 
+        if (!images) throw createError(400, 'The product should at leas have one image');
 
         const imageUrls = images.map(image => {
             const imageUrl = 'public/images/products' + image.filename;
             return imageUrl;
         });
 
-        if (title !== orderItem.product.title) 
-            throw createError(400, 'Product title must be equal to order item title'); 
+        if (title !== orderItem.product.title)
+            throw createError(400, 'Product title must be equal to order item title');
 
         if (+quantity !== orderItem.quantity)
-            throw createError(400, 'Product quantity must be equal to order item quantity') 
+            throw createError(400, 'Product quantity must be equal to order item quantity')
 
         let date;
         let discountObj;
@@ -170,9 +176,41 @@ async function update(productId, reqBody, newImages) {
 }
 
 
-async function search(searchTerm, category) {
-    if (category) return Product.find({ title: { $regex: searchTerm, $options: 'i' }, category });
-    return Product.find({ title: { $regex: searchTerm, $options: 'i' } });
+async function search({ searchTerm, category, page, limit }) {
+    console.log(searchTerm);
+    page = +page || 1;
+    limit = +limit || 10;
+    let products;
+    let totalItems;
+
+    
+    if (category) {
+        products = await Product
+            .find({ title: { $regex: searchTerm, $options: 'i' }, category })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        totalItems = await Product
+            .find({ title: { $regex: searchTerm, $options: 'i' }, category })
+            .countDocuments();
+    }
+    else {
+        products = await Product.find({ title: { $regex: searchTerm, $options: 'i' } })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        totalItems = await Product
+            .find({ title: { $regex: searchTerm, $options: 'i' } })
+            .countDocuments();
+    }
+
+    return {
+        products,
+        count: products.length,
+        currentPage: page,
+        lastPage: Math.ceil(totalItems / limit),
+        totalItems
+    }
 }
 
 

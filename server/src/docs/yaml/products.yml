@@ -10,6 +10,14 @@ paths:
           schema:
             type: string
           description: category of products   
+        - in: query
+          name: page
+          schema:
+            type: number   
+        - in: query
+          name: limit
+          schema:
+            type: number  
       responses:
         "200":
           description: A list of products + total items
@@ -28,6 +36,9 @@ paths:
                   totalItems:
                     type: number
                     example: 15      
+        "400":
+          $ref: '#/components/responses/badRequest'      
+            
     post:
       summary: Creates a new product
       tags:
@@ -92,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"  
+                $ref: "#/components/schemas/Error" 
                       
                               
   /products/{productId}:
@@ -157,3 +168,56 @@ paths:
                   count:
                     type: number
                     example: 15 
+
+  /products/category:
+    get:
+      summary: Returns all products categories.
+      tags:
+        - products
+      responses:
+        "200":
+          description: returns all products categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                - CHAIR
+                - LAMP
+                - TABLE 
+
+  /products/search:
+    get:
+      summary: Returns all products whose title includes the given text 
+      tags:
+        - products
+      parameters:
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+            description: Search for given text in products title  
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Search for given text in specified category of products   
+        - in: query
+          name: page
+          schema:
+            type: number   
+        - in: query
+          name: limit
+          schema:
+            type: number 
+      responses:
+        "200":
+          description: Returns all products whose title includes the given text
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product" 

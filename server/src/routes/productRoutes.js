@@ -14,11 +14,11 @@ const saveImages = multer({ storage: fileStorage, fileFilter: fileFilter }).arra
 
 router.get('/', productController.getAll);
 router.post('/', isAuth, isAdmin, saveImages, productValidator.createOrEditValidator, productController.create);
-router.get('/count', isAuth, isAdmin, productController.getAll);
+router.get('/count', isAuth, isAdmin, productController.getAllCount);
 router.get('/title', productController.getAllTitle);
 router.get('/category', productController.getAllCategories);
 router.get('/search', productController.search);
 router.get('/:productId', productController.getById);
-router.patch('/:productId', isAuth, isAdmin, productValidator.createOrEditValidator, productController.update);
+router. patch('/:productId', isAuth, isAdmin, productValidator.createOrEditValidator, productController.update);
 
 module.exports = router;
